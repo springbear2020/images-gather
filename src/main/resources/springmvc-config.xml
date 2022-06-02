@@ -27,5 +27,6 @@
         </property>
     </bean>
     <!-- View controller -->
+    <mvc:view-controller path="/" view-name="login"/>
     <mvc:view-controller path="/404" view-name="404"/>
 </beans>
