@@ -33,11 +33,13 @@ public class UserController {
         if (user != null) {
             return "home";
         }
+
         // Verify the username and password entered by user
         user = userService.verifyUsernameAndPassword(username, password);
         if (user == null) {
             return "login";
         }
+
         // Save user login log
         String ip = WebUtils.getIpAddress(request);
         // TODO
@@ -47,14 +49,10 @@ public class UserController {
             return "login";
         }
 
-        Record record = null;
+        Record record;
         // Create the user's upload record if the user last login date is not today
         if (!DateUtils.isToday(user.getLastLoginDate())) {
             record = new Record(null, user.getId(), user.getClassNumber(), user.getClassName(), -1, -1, -1, new Date(), "", "", "");
-            System.out.println(record);
-        }
-        // Save the user upload record
-        if (record != null) {
             if (!recordService.saveRecord(record)) {
                 return "login";
             }
@@ -66,6 +64,6 @@ public class UserController {
     @GetMapping("/user/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "login";
+        return "redirect:/";
     }
 }

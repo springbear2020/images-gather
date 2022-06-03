@@ -24,6 +24,7 @@ public class SessionDestroyListener implements HttpSessionListener {
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
         HttpSession session = httpSessionEvent.getSession();
         User user = (User) session.getAttribute("user");
+        // Spring application context
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
         UserService userService = applicationContext.getBean("userServiceImpl", UserServiceImpl.class);
         System.out.println(userService);

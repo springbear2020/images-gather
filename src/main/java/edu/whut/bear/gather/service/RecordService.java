@@ -5,6 +5,8 @@ import edu.whut.bear.gather.pojo.Record;
 import edu.whut.bear.gather.pojo.Upload;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * @author Spring-_-Bear
  * @datetime 6/3/2022 12:58 AM
@@ -34,4 +36,24 @@ public interface RecordService {
      * @return true - Save successfully
      */
     boolean saveRecord(Record record);
+
+    /**
+     * Get the upload record of user, limit the time is today
+     *
+     * @param userId Id of user
+     * @param date   Date
+     * @return Record or null
+     */
+    Record getUserRecordToday(Integer userId, Date date);
+
+    /**
+     * Update the upload record, update the info below,
+     * healthUploadId,healthImageUrl,
+     * scheduleUploadId,scheduleImageUrl,
+     * closedUploadId,closedImageUrl
+     *
+     * @param record Record
+     * @return true - Update successfully
+     */
+    boolean updateRecordState(Record record);
 }

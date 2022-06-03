@@ -24,4 +24,24 @@ public class RecordDaoTest {
     public void saveRecord() {
         System.out.println(recordDao.saveRecord(new Record(null, 1, 1, "软件zy1901", -1, -1, -1, new Date(), "", "", "")));
     }
+
+    @Test
+    public void getUserRecordByDate() {
+        System.out.println(recordDao.getUserRecordByDate(108, new Date()));
+    }
+
+    @Test
+    public void updateRecordState() {
+        Record record = new Record();
+        record.setId(31);
+        record.setHealthUploadId(2);
+        record.setHealthImageUrl("2");
+
+        record.setScheduleUploadId(2);
+        record.setScheduleImageUrl("2");
+
+        record.setClosedUploadId(2);
+        record.setClosedImageUrl("2");
+        System.out.println(recordDao.updateRecordState(record));
+    }
 }

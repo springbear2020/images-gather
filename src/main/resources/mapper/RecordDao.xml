@@ -7,8 +7,39 @@
     <insert id="saveRecord">
         insert into t_record(id, user_id, class_number, class_name, health_upload_id, schedule_upload_id,
                              closed_upload_id, upload_date, health_image_url, schedule_image_url, closed_image_url)
-        VALUES (null, #{userId}, #{classNumber}, #{className}, #{healthUploadId}, #{scheduleUploadId}, #{closedUploadId},
+        VALUES (null, #{userId}, #{classNumber}, #{className}, #{healthUploadId}, #{scheduleUploadId},
+                #{closedUploadId},
                 #{uploadDate}, #{healthImageUrl}, #{scheduleImageUrl}, #{closedImageUrl})
     </insert>
+
+    <!-- Record getUserRecordByDate(@Param("userId") Integer userId, @Param("date") Date date); -->
+    <select id="getUserRecordByDate" resultType="Record">
+        select id,
+               user_id,
+               class_number,
+               class_name,
+               health_upload_id,
+               schedule_upload_id,
+               closed_upload_id,
+               upload_date,
+               health_image_url,
+               schedule_image_url,
+               closed_image_url
+        from t_record
+        where user_id = #{userId}
+          and upload_date = #{date,jdbcType=DATE}
+    </select>
+
+    <!-- int updateRecordState(Record record); -->
+    <update id="updateRecordState">
+        update t_record
+        set health_upload_id   = #{healthUploadId},
+            health_image_url   = #{healthImageUrl},
+            schedule_upload_id = #{scheduleUploadId},
+            schedule_image_url = #{scheduleImageUrl},
+            closed_upload_id   = #{closedUploadId},
+            closed_image_url   = #{closedImageUrl}
+        where id = #{id}
+    </update>
 </mapper>
 

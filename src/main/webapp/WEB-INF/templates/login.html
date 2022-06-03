@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,24 +20,25 @@
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script th:src="@{/static/js/html5shiv.min.js}" charset="utf-8"></script>
-      <script th:src="@{/static/js/respond.min.js}" charset="utf-8"></script>
+    <script th:src="@{/static/js/html5shiv.min.js}" charset="utf-8"></script>
+    <script th:src="@{/static/js/respond.min.js}" charset="utf-8"></script>
     <![endif]-->
-  </head>
+</head>
 
-  <body>
-    <div class="container">
-      <form class="form-signin" method="get" th:action="@{/user}">
+<body>
+<div class="container">
+    <form class="form-signin" method="get" th:action="@{/user}">
         <h2 class="form-signin-heading text-center">欢迎登录</h2>
         <label for="inputUsername" class="sr-only">用户名</label>
-        <input type="text" id="inputUsername" name="username" class="form-control" placeholder="请输入用户名" required autofocus>
+        <input type="text" id="inputUsername" name="username" class="form-control" placeholder="请输入用户名" required
+               autofocus>
         <label for="inputPassword" class="sr-only">密码</label>
-        <input type="password" id="inputPassword" name="password"  class="form-control" placeholder="请输入密码" required>
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="请输入密码" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</button>
-      </form>
-    </div> <!-- /container -->
+    </form>
+</div> <!-- /container -->
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script th:src="@{/static/js/ie10-viewport-bug-workaround.js}" charset="utf-8"></script>
-  </body>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script th:src="@{/static/js/ie10-viewport-bug-workaround.js}" charset="utf-8"></script>
+</body>
 </html>

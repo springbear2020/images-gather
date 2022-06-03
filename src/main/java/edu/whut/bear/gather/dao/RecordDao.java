@@ -1,7 +1,10 @@
 package edu.whut.bear.gather.dao;
 
 import edu.whut.bear.gather.pojo.Record;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Date;
 
 
 /**
@@ -17,4 +20,24 @@ public interface RecordDao {
      * @return 1 - Save successfully
      */
     int saveRecord(Record record);
+
+    /**
+     * Get the user's upload by limit time
+     *
+     * @param userId Id of user
+     * @param date   Date
+     * @return Record or null
+     */
+    Record getUserRecordByDate(@Param("userId") Integer userId, @Param("date") Date date);
+
+    /**
+     * Update the upload record, update the info below,
+     * healthUploadId,healthImageUrl,
+     * scheduleUploadId,scheduleImageUrl,
+     * closedUploadId,closedImageUrl
+     *
+     * @param record Record
+     * @return 1 - Update successfully
+     */
+    int updateRecordState(Record record);
 }

@@ -17,7 +17,7 @@ public class TransferServiceImpl implements TransferService {
     private PropertyUtils propertyUtils;
 
     @Override
-    public String[] getFileUploadToken(String key, Integer fileType) {
+    public String[] getFileUploadToken(String key) {
         StringMap putPolicy = new StringMap();
         // Limit the file type uploaded by user
         putPolicy.put("mimeLimit", "image/*");

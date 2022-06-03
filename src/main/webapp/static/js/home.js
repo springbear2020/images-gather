@@ -83,6 +83,7 @@ $(function () {
             shouldUseQiniuFileName: false,
             region: qiniu.region.z2,
             forceDirect: true,
+            useCdnDomain: true,
         };
 
         const options = {
@@ -114,9 +115,12 @@ $(function () {
     };
 
     // Get qiniu upload token from the server
-    function getUploadToken(fileType, file, requestErrorMsg, uploadErrorMsg, uploadSuccessMsg) {
+    function getUploadToken(requestUrl, fileType, file, requestErrorMsg, uploadErrorMsg, uploadSuccessMsg) {
+        // TODO
+        console.log(contextPath)
+        console.log(contextPath + requestUrl)
         $.ajax({
-            url: contextPath + "transfer/upload/" + fileType,
+            url: contextPath + requestUrl,
             dataType: "json",
             type: "post",
             async: false,
@@ -161,8 +165,8 @@ $(function () {
             return false;
         }
 
-        getUploadToken(1, HEALTH_IMAGE, "请求上传健康码失败", "健康码文件上传失败", "健康码文件上传成功");
-        getUploadToken(2, SCHEDULE_IMAGE, "请求上传行程卡失败", "行程卡文件上传失败", "行程卡文件上传成功");
-        getUploadToken(3, CLOSED_IMAGE, "请求上传密接查失败", "密接查文件上传失败", "今日【两码一查】已完成");
+        getUploadToken("transfer/upload/health", 1, HEALTH_IMAGE, "请求上传健康码失败", "健康码文件上传失败", "健康码文件上传成功");
+        getUploadToken("transfer/upload/schedule", 2, SCHEDULE_IMAGE, "请求上传行程卡失败", "行程卡文件上传失败", "行程卡文件上传成功");
+        getUploadToken("transfer/upload/closed", 3, CLOSED_IMAGE, "请求上传密接查失败", "密接查文件上传失败", "今日【两码一查】已完成");
     });
 })
