@@ -1100,6 +1100,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Comment>上传记录 ID</Comment>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
     </column>
     <column id="298" parent="287" name="user_id">
       <Position>2</Position>

@@ -19,4 +19,20 @@ public class Upload {
     private String bucket;
     private String domain;
     private String key;
+
+    public static final int HEALTH_IMAGE = 1;
+    public static final int SCHEDULE_IMAGE = 2;
+    public static final int CLOSED_IMAGE = 3;
+
+    public Upload() {
+    }
+
+    public Upload(Integer userId, Integer fileType, Date uploadTime, String bucket, String domain, String key) {
+        this.userId = userId;
+        this.fileType = fileType;
+        this.uploadTime = uploadTime;
+        this.bucket = bucket;
+        this.domain = domain;
+        this.key = key;
+    }
 }

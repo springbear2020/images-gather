@@ -2,7 +2,7 @@ package edu.whut.bear.gather.controller;
 
 import edu.whut.bear.gather.pojo.Login;
 import edu.whut.bear.gather.pojo.User;
-import edu.whut.bear.gather.service.LoginService;
+import edu.whut.bear.gather.service.RecordService;
 import edu.whut.bear.gather.service.UserService;
 import edu.whut.bear.gather.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private LoginService loginService;
+    private RecordService recordService;
 
     @GetMapping("/user")
     public String login(String username, String password, HttpServletRequest request, HttpSession session) {
@@ -38,21 +38,13 @@ public class UserController {
         }
         // Save user login log
         String ip = WebUtils.getIpAddress(request);
-        String location = WebUtils.parseIp(ip);
-        if (!loginService.saveLogin(new Login(user.getId(), ip, location, new Date()))) {
+        // TODO
+        // String location = WebUtils.parseIp(ip);
+        String location = "湖北省武汉市";
+        if (!recordService.saveLogin(new Login(user.getId(), ip, location, new Date()))) {
             return "login";
         }
         session.setAttribute("user", user);
         return "redirect:/home";
-    }
-
-    @GetMapping("/home")
-    public String home(HttpSession session) {
-        // User must login before go to the home page
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return "login";
-        }
-        return "home";
     }
 }

@@ -1,22 +1,31 @@
 package edu.whut.bear.gather.service.impl;
 
 import edu.whut.bear.gather.dao.LoginDao;
+import edu.whut.bear.gather.dao.UploadDao;
 import edu.whut.bear.gather.pojo.Login;
-import edu.whut.bear.gather.service.LoginService;
+import edu.whut.bear.gather.pojo.Upload;
+import edu.whut.bear.gather.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
  * @author Spring-_-Bear
- * @datetime 6/3/2022 12:02 AM
+ * @datetime 6/3/2022 12:59 AM
  */
 @Service
-public class LoginServiceImpl implements LoginService {
+public class RecordServiceImpl implements RecordService {
+    @Autowired
+    private UploadDao uploadDao;
     @Autowired
     private LoginDao loginDao;
 
     @Override
     public boolean saveLogin(Login login) {
         return loginDao.saveLogin(login) == 1;
+    }
+
+    @Override
+    public boolean saveUpload(Upload upload) {
+        return uploadDao.saveUpload(upload) == 1;
     }
 }

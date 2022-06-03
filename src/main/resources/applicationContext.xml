@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
     <!-- Component scan -->
     <context:component-scan base-package="edu.whut.bear.gather.pojo,edu.whut.bear.gather.dao,
-    edu.whut.bear.gather.service"/>
+    edu.whut.bear.gather.service,edu.whut.bear.gather.util"/>
 
     <!-- Data Source-->
     <context:property-placeholder location="classpath:jdbc.properties"/>

@@ -105,6 +105,13 @@
             <version>1.18.20</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- QiNiu file service-->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>7.8.0</version>
+        </dependency>
     </dependencies>
 
 </project>

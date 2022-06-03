@@ -144,7 +144,3 @@ body {
 .choose-image {
     margin-top: 30px;
 }
-
-.img-thumbnail {
-    max-height: 500px;!important;
-}
