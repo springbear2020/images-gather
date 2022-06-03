@@ -4,9 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.whut.bear.gather.dao.UploadDao">
     <!-- int saveUpload(Upload upload); -->
-    <insert id="saveUpload">
-        insert into t_upload(user_id, file_type, upload_time, bucket, domain, `key`)
-        VALUES (#{userId}, #{fileType}, #{uploadTime}, #{bucket}, #{domain}, #{key})
+    <insert id="saveUpload" useGeneratedKeys="true" keyProperty="id">
+        insert into t_upload(id, user_id, file_type, upload_time, bucket, domain, `key`)
+        VALUES (null, #{userId}, #{fileType}, #{uploadTime}, #{bucket}, #{domain}, #{key})
     </insert>
 </mapper>
 

@@ -21,7 +21,8 @@ public class Login {
     public Login() {
     }
 
-    public Login(Integer userId, String ip, String location, Date loginTime) {
+    public Login(Integer id, Integer userId, String ip, String location, Date loginTime) {
+        this.id = id;
         this.userId = userId;
         this.ip = ip;
         this.location = location;

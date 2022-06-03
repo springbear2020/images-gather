@@ -1,9 +1,11 @@
 package edu.whut.bear.gather.controller;
 
 import edu.whut.bear.gather.pojo.Login;
+import edu.whut.bear.gather.pojo.Record;
 import edu.whut.bear.gather.pojo.User;
 import edu.whut.bear.gather.service.RecordService;
 import edu.whut.bear.gather.service.UserService;
+import edu.whut.bear.gather.util.DateUtils;
 import edu.whut.bear.gather.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,10 +43,29 @@ public class UserController {
         // TODO
         // String location = WebUtils.parseIp(ip);
         String location = "湖北省武汉市";
-        if (!recordService.saveLogin(new Login(user.getId(), ip, location, new Date()))) {
+        if (!recordService.saveLogin(new Login(null, user.getId(), ip, location, new Date()))) {
             return "login";
+        }
+
+        Record record = null;
+        // Create the user's upload record if the user last login date is not today
+        if (!DateUtils.isToday(user.getLastLoginDate())) {
+            record = new Record(null, user.getId(), user.getClassNumber(), user.getClassName(), -1, -1, -1, new Date(), "", "", "");
+            System.out.println(record);
+        }
+        // Save the user upload record
+        if (record != null) {
+            if (!recordService.saveRecord(record)) {
+                return "login";
+            }
         }
         session.setAttribute("user", user);
         return "redirect:/home";
+    }
+
+    @GetMapping("/user/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "login";
     }
 }

@@ -5,8 +5,8 @@
 <mapper namespace="edu.whut.bear.gather.dao.LoginDao">
     <!-- int saveLogin(Login login); -->
     <insert id="saveLogin">
-        insert into t_login (user_id, ip, location, login_time)
-        VALUES (#{userId}, #{ip}, #{location}, #{loginTime})
+        insert into t_login (id, user_id, ip, location, login_time)
+        VALUES (null, #{userId}, #{ip}, #{location}, #{loginTime})
     </insert>
 </mapper>
 

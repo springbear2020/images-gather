@@ -1,8 +1,10 @@
 package edu.whut.bear.gather.service.impl;
 
 import edu.whut.bear.gather.dao.LoginDao;
+import edu.whut.bear.gather.dao.RecordDao;
 import edu.whut.bear.gather.dao.UploadDao;
 import edu.whut.bear.gather.pojo.Login;
+import edu.whut.bear.gather.pojo.Record;
 import edu.whut.bear.gather.pojo.Upload;
 import edu.whut.bear.gather.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ public class RecordServiceImpl implements RecordService {
     private UploadDao uploadDao;
     @Autowired
     private LoginDao loginDao;
+    @Autowired
+    private RecordDao recordDao;
 
     @Override
     public boolean saveLogin(Login login) {
@@ -27,5 +31,10 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public boolean saveUpload(Upload upload) {
         return uploadDao.saveUpload(upload) == 1;
+    }
+
+    @Override
+    public boolean saveRecord(Record record) {
+        return recordDao.saveRecord(record) == 1;
     }
 }

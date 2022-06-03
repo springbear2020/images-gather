@@ -1,6 +1,7 @@
 package edu.whut.bear.gather.service;
 
 import edu.whut.bear.gather.pojo.Login;
+import edu.whut.bear.gather.pojo.Record;
 import edu.whut.bear.gather.pojo.Upload;
 import org.springframework.stereotype.Service;
 
@@ -25,4 +26,12 @@ public interface RecordService {
      * @return true - Save successfully
      */
     boolean saveUpload(Upload upload);
+
+    /**
+     * Save the user's upload record
+     *
+     * @param record Record
+     * @return true - Save successfully
+     */
+    boolean saveRecord(Record record);
 }

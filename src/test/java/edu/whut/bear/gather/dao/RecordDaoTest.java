@@ -1,6 +1,6 @@
 package edu.whut.bear.gather.dao;
 
-import edu.whut.bear.gather.pojo.Login;
+import edu.whut.bear.gather.pojo.Record;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +12,16 @@ import java.util.Date;
 
 /**
  * @author Spring-_-Bear
- * @datetime 6/2/2022 11:55 PM
+ * @datetime 6/3/2022 12:36 PM
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext.xml")
-public class LoginDaoTest {
+public class RecordDaoTest {
     @Autowired
-    private LoginDao loginDao;
+    private RecordDao recordDao;
 
     @Test
-    public void saveLogin() {
-        System.out.println(loginDao.saveLogin(new Login(null, 1, "192.168.43.225", "湖北省武汉市", new Date())));
+    public void saveRecord() {
+        System.out.println(recordDao.saveRecord(new Record(null, 1, 1, "软件zy1901", -1, -1, -1, new Date(), "", "", "")));
     }
 }

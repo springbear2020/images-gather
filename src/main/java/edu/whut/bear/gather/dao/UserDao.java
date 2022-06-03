@@ -4,6 +4,8 @@ import edu.whut.bear.gather.pojo.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 
 /**
  * @author Spring-_-Bear
@@ -19,4 +21,13 @@ public interface UserDao {
      * @return User or null
      */
     User getUserByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+
+    /**
+     * Update the user's last login date by user id
+     *
+     * @param date   New login Date
+     * @param userId Id of user
+     * @return 1 - Update successfully
+     */
+    int updateLastLoginDateById(@Param("newDate") Date date, @Param("id") Integer userId);
 }

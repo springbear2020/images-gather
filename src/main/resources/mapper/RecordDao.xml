@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.whut.bear.gather.dao.RecordDao">
+    <!-- int saveRecord(Record record); -->
+    <insert id="saveRecord">
+        insert into t_record(id, user_id, class_number, class_name, health_upload_id, schedule_upload_id,
+                             closed_upload_id, upload_date, health_image_url, schedule_image_url, closed_image_url)
+        VALUES (null, #{userId}, #{classNumber}, #{className}, #{healthUploadId}, #{scheduleUploadId}, #{closedUploadId},
+                #{uploadDate}, #{healthImageUrl}, #{scheduleImageUrl}, #{closedImageUrl})
+    </insert>
+</mapper>
+

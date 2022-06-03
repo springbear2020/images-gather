@@ -60,6 +60,14 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <listener>
+        <listener-class>edu.whut.bear.gather.listener.SessionDestroyListener</listener-class>
+    </listener>
+
+    <session-config>
+        <session-timeout>5</session-timeout>
+    </session-config>
+
     <!-- Error page -->
     <error-page>
         <error-code>404</error-code>

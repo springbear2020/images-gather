@@ -5,8 +5,16 @@
 <mapper namespace="edu.whut.bear.gather.dao.UserDao">
     <!-- User getUserByUsernameAndPassword(@Param("username") String username, @Param("password") String password); -->
     <select id="getUserByUsernameAndPassword" resultType="User">
-            select *
-            from t_user
-            where username = #{username} and password = #{password}
-        </select>
+        select *
+        from t_user
+        where username = #{username}
+          and password = #{password}
+    </select>
+
+    <!-- int updateLastLoginDateById(@Param("newDate") Date date, @Param("id") Integer userId); -->
+    <update id="updateLastLoginDateById">
+        update t_user
+        set last_login_date = #{newDate}
+        where id = #{id}
+    </update>
 </mapper>

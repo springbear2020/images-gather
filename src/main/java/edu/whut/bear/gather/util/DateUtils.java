@@ -18,4 +18,16 @@ public class DateUtils {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(date);
     }
+
+    /**
+     * Judge the date whether it is today date
+     *
+     * @param date Specified date
+     * @return true - Yes, it is today
+     */
+    public static boolean isToday(Date date) {
+        String specifiedDate = parseDate(date);
+        String today = parseDate(new Date());
+        return specifiedDate.equals(today);
+    }
 }
