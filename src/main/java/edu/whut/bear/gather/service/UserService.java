@@ -1,6 +1,7 @@
 package edu.whut.bear.gather.service;
 
 import edu.whut.bear.gather.pojo.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -28,4 +29,13 @@ public interface UserService {
      * @return 1 - Update successfully
      */
     int updateLastLoginDate(Date newDate, Integer userId);
+
+    /**
+     * Update the user's password
+     *
+     * @param newPassword New password
+     * @param id          Id of user
+     * @return true - Update successfully
+     */
+    boolean updatePasswordById(@Param("newPassword") String newPassword, @Param("id") Integer id);
 }

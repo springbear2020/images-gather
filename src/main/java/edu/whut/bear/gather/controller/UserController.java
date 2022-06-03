@@ -2,6 +2,7 @@ package edu.whut.bear.gather.controller;
 
 import edu.whut.bear.gather.pojo.Login;
 import edu.whut.bear.gather.pojo.Record;
+import edu.whut.bear.gather.pojo.Response;
 import edu.whut.bear.gather.pojo.User;
 import edu.whut.bear.gather.service.RecordService;
 import edu.whut.bear.gather.service.UserService;
@@ -10,6 +11,8 @@ import edu.whut.bear.gather.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -52,7 +55,7 @@ public class UserController {
         Record record;
         // Create the user's upload record if the user last login date is not today
         if (!DateUtils.isToday(user.getLastLoginDate())) {
-            record = new Record(null, user.getId(), user.getClassNumber(), user.getClassName(), -1, -1, -1, new Date(), "", "", "");
+            record = new Record(null, user.getId(), user.getClassNumber(), user.getClassName(), -1, -1, -1, new Date(), "null", "null", "null");
             if (!recordService.saveRecord(record)) {
                 return "login";
             }
@@ -65,5 +68,26 @@ public class UserController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/";
+    }
+
+    @ResponseBody
+    @PutMapping("/user")
+    public Response updatePassword(HttpSession session, String oldPassword, String newPassword) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return Response.info("登录后方可修改密码");
+        }
+
+        // Verify the correctness of the old password entered by user
+        User verifyUser = userService.verifyUsernameAndPassword(user.getUsername(), oldPassword);
+        if (verifyUser == null) {
+            return Response.error("原密码错误，请重新输入");
+        }
+
+        // Update the password of user
+        if (!userService.updatePasswordById(newPassword, user.getId())) {
+            return Response.error("密码更新失败");
+        }
+        return Response.success("密码修改成功");
     }
 }

@@ -30,4 +30,13 @@ public interface UserDao {
      * @return 1 - Update successfully
      */
     int updateLastLoginDateById(@Param("newDate") Date date, @Param("id") Integer userId);
+
+    /**
+     * Update the user's password
+     *
+     * @param newPassword New password
+     * @param id          Id of user
+     * @return 1 - Update successfully
+     */
+    int updatePasswordById(@Param("newPassword") String newPassword, @Param("id") Integer id);
 }

@@ -17,4 +17,11 @@
         set last_login_date = #{newDate}
         where id = #{id}
     </update>
+
+    <!-- int updatePasswordById(@Param("newPassword") String newPassword, @Param("id") Integer id); -->
+    <update id="updatePasswordById">
+        update t_user
+        set password = #{newPassword}
+        where id = #{id}
+    </update>
 </mapper>

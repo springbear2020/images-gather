@@ -144,3 +144,7 @@ body {
 .choose-image {
     margin-top: 30px;
 }
+
+.welcome-user {
+    line-height: 50px;
+}

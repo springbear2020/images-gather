@@ -8,6 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -43,5 +44,13 @@ public class RecordDaoTest {
         record.setClosedUploadId(2);
         record.setClosedImageUrl("2");
         System.out.println(recordDao.updateRecordState(record));
+    }
+
+    @Test
+    public void getClassUploadByDate() {
+        List<Record> recordList = recordDao.getClassUploadByDate(1, new Date());
+        for (Record record : recordList) {
+            System.out.println(record);
+        }
     }
 }

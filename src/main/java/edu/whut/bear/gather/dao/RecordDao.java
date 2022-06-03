@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -40,4 +41,13 @@ public interface RecordDao {
      * @return 1 - Update successfully
      */
     int updateRecordState(Record record);
+
+    /**
+     * Get the upload record of the class number
+     *
+     * @param classNumber Number of class
+     * @param date        Date
+     * @return Record list or null
+     */
+    List<Record> getClassUploadByDate(@Param("classNumber") Integer classNumber, @Param("date") Date date);
 }

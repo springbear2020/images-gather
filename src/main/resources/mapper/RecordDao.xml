@@ -41,5 +41,23 @@
             closed_image_url   = #{closedImageUrl}
         where id = #{id}
     </update>
+
+    <!-- List<Record> getClassUploadByDate(@Param("classNumber") Integer classNumber, @Param("date") Date date); -->
+    <select id="getClassUploadByDate" resultType="Record">
+        select id,
+               user_id,
+               class_number,
+               class_name,
+               health_upload_id,
+               schedule_upload_id,
+               closed_upload_id,
+               upload_date,
+               health_image_url,
+               schedule_image_url,
+               closed_image_url
+        from t_record
+        where class_number = #{classNumber}
+          and upload_date = #{date,jdbcType=DATE}
+    </select>
 </mapper>
 

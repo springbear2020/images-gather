@@ -26,4 +26,9 @@ public class UserServiceImpl implements UserService {
     public int updateLastLoginDate(Date newDate, Integer userId) {
         return userDao.updateLastLoginDateById(newDate, userId);
     }
+
+    @Override
+    public boolean updatePasswordById(String newPassword, Integer id) {
+        return userDao.updatePasswordById(newPassword, id) == 1;
+    }
 }

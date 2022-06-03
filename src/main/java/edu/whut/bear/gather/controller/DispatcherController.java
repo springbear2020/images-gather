@@ -15,10 +15,10 @@ public class DispatcherController {
     @GetMapping("/home")
     public String home(HttpSession session) {
         // User must login before go to the home page
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return "login";
-        }
+        // User user = (User) session.getAttribute("user");
+        // if (user == null) {
+        //     return "login";
+        // }
         return "home";
     }
 }

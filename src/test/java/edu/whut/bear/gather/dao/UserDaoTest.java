@@ -27,4 +27,9 @@ public class UserDaoTest {
     public void updateLastLoginDateById() {
         System.out.println(userDao.updateLastLoginDateById(new Date(), 108));
     }
+
+    @Test
+    public void updatePasswordById() {
+        System.out.println(userDao.updatePasswordById("bear", 108));
+    }
 }

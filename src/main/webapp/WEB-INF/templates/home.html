@@ -30,13 +30,45 @@
     <!-- Get the context path dynamically -->
     <script th:inline="javascript" type="text/javascript" charset="UTF-8">
         var contextPath = /*[[@{/}]]*/'';
-        //TODO
-        console.log(contextPath);
         $("#span-context-path").val(contextPath);
     </script>
 </head>
 <!-- Context path -->
 <span id="span-context-path" style="display: none;opacity: 100%"></span>
+
+<!-- Password update modal -->
+<div class="modal fade" id="modal-update-password" tabindex="-1" role="dialog" aria-labelledby="modal-update-password">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <!-- Title -->
+            <div class="modal-header text-center">
+                <button type="button" class="close modal-update-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><strong>修改密码</strong></h4>
+            </div>
+            <div class="modal-body">
+                <form id="form-update-password">
+                    <!-- Old password -->
+                    <div class="form-group has-feedback">
+                        <label for="input-old-password" class="control-label sr-only"></label>
+                        <input type="password" id="input-old-password" class="form-control" name="oldPassword" required autofocus placeholder="请输入原密码">
+                    </div>
+                    <!-- New password -->
+                    <div class="form-group has-feedback">
+                        <label for="input-new-password" class="control-label sr-only"></label>
+                        <input type="password" id="input-new-password" class="form-control" name="newPassword" required placeholder="请输入新密码">
+                    </div>
+                    <!-- New password again -->
+                    <div class="form-group has-feedback">
+                        <label for="input-new-password-again" class="control-label sr-only"></label>
+                        <input type="password" id="input-new-password-again" class="form-control" required placeholder="请再次输入新密码">
+                    </div>
+                    <button type="submit" id="btn-update-password" class="btn btn-primary btn-block">确认</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Notice modal -->
 <div class="modal fade" id="div-notice-modal" tabindex="-1" role="dialog" aria-labelledby="modal-notice"
@@ -66,20 +98,14 @@
                     <a class="navbar-brand" th:href="@{/home}">两码一查</a>
                 </div>
                 <!-- Navbar -->
-                <div id="navbar" class="navbar-collapse collapse">
+                <div id="navbar" class="navbar-collapse collapse text-center">
+                    <span class="welcome-user" th:text="${'欢迎您，'+session.user.realName}"></span>
                     <ul class="nav navbar-nav">
-                        <!--                        <li><a th:href="@{/home}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 主页</a></li>-->
-                        <li><a th:href="@{/home}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 上传记录</a>
-                        </li>
-                        <li><a th:href="@{/home}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 登录记录</a>
-                        </li>
-                        <li><a th:href="@{/home}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 个人资料</a>
-                        </li>
-                        <li><a th:href="@{/user/logout}"><span class="glyphicon glyphicon-home"
-                                                               aria-hidden="true"></span> 注销登录</a></li>
+                        <li class="text-center"><a th:href="@{/home}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 主页</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><span th:text="${session.user.realName}"></span></li>
+                        <li class="text-center link-update-password"><a role="button"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 改密</a></li>
+                        <li class="text-center"><a th:href="@{/user/logout}"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</a></li>
                     </ul>
                 </div>
             </div>
@@ -94,15 +120,15 @@
             <div class="col-lg-4">
                 <img class="img-thumbnail" th:src="@{/static/img/1.png}" alt="请选择您的健康码" width="300" height="500">
                 <label>
-                    <p><a class="btn btn-success choose-image" role="button">请选择您的健康码 &raquo;</a></p>
+                    <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的健康码</a></p>
                     <input class="true-choose-image health-image" type="file" accept="image/png,image/jpeg"
                            style="display: none;">
                 </label>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
-                <img class="img-thumbnail" th:src="@{/static/img/2.png}" alt="请选择您的行程码" width="300" height="500">
+                <img class="img-thumbnail" th:src="@{/static/img/2.png}" alt="请选择您的行程卡" width="300" height="500">
                 <label>
-                    <p><a class="btn btn-success choose-image" role="button">请选择您的行程码 &raquo;</a></p>
+                    <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的行程卡</a></p>
                     <input class="true-choose-image schedule-image" type="file" accept="image/png,image/jpeg"
                            style="display: none;">
                 </label>
@@ -110,13 +136,13 @@
             <div class="col-lg-4">
                 <img class="img-thumbnail" th:src="@{/static/img/3.png}" alt="请选择您的同行密接人员自查" width="300" height="500">
                 <label>
-                    <p><a class="btn btn-success choose-image" role="button">请选择您的密接查 &raquo;</a></p>
+                    <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>请选择您的密接查</a></p>
                     <input class="true-choose-image closed-image" type="file" accept="image/png,image/jpeg"
                            style="display: none;">
                 </label>
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
-        <input class="btn btn-primary btn-lg btn-block image-submit" type="button" value="Submit">
+        <input class="btn btn-primary btn-lg btn-block image-submit" type="button" value="提交">
     </div><!-- /.container -->
 </form>
 
