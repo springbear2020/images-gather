@@ -98,6 +98,10 @@ body {
     text-align: center;
 }
 
+.placeholders h2 {
+    text-align: left;
+}
+
 .placeholders h4 {
     margin-bottom: 0;
 }
@@ -109,4 +113,24 @@ body {
 .placeholder img {
     display: inline-block;
     border-radius: 50%;
+}
+
+.btn-next-student {
+    margin-top: 20px;
+}
+
+.special-text-center {
+    text-align: left;
+}
+
+.placeholders th {
+    text-align: center;
+}
+
+.choose-date {
+    margin-bottom: 20px;
+}
+
+.main input {
+    text-align: left;
 }

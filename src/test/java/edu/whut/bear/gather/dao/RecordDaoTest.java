@@ -1,6 +1,7 @@
 package edu.whut.bear.gather.dao;
 
 import edu.whut.bear.gather.pojo.Record;
+import edu.whut.bear.gather.service.RecordService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,12 @@ import java.util.List;
 public class RecordDaoTest {
     @Autowired
     private RecordDao recordDao;
+    @Autowired
+    private RecordService recordService;
 
     @Test
     public void saveRecord() {
-        System.out.println(recordDao.saveRecord(new Record(null, 1, 1, "软件zy1901", -1, -1, -1, new Date(), "", "", "")));
+        System.out.println(recordDao.saveRecord(new Record(null, 1, "李春雄", 1, "软件zy1901", -1, -1, -1, new Date(), "", "", "")));
     }
 
     @Test
@@ -46,11 +49,10 @@ public class RecordDaoTest {
         System.out.println(recordDao.updateRecordState(record));
     }
 
+
     @Test
-    public void getClassUploadByDate() {
-        List<Record> recordList = recordDao.getClassUploadByDate(1, new Date());
-        for (Record record : recordList) {
-            System.out.println(record);
-        }
+    public void getAdminClassRecordByDate() {
+        List<Record> recordList = recordDao.getAdminClassRecordByDate(4, new Date());
+        System.out.println(recordService.processRecordList(recordList));
     }
 }

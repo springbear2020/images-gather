@@ -11,10 +11,7 @@ import edu.whut.bear.gather.util.PropertyUtils;
 import edu.whut.bear.gather.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -34,7 +31,7 @@ public class UserController {
     private PropertyUtils propertyUtils;
 
     @PostMapping("/user")
-    public String login(String username, String password, HttpServletRequest request, HttpSession session) {
+    public String login(@RequestParam String username, @RequestParam String password, HttpServletRequest request, HttpSession session) {
         // User has login before, go to the home page
         User user = (User) session.getAttribute("user");
         if (user != null) {
@@ -49,7 +46,7 @@ public class UserController {
 
         // Save user login log
         String ip = WebUtils.getIpAddress(request);
-        // TODO
+        // TODO Update the ip
         String location = WebUtils.parseIp(ip);
         // String location = "湖北省武汉市";
         if (!recordService.saveLogin(new Login(null, user.getId(), ip, location, new Date()))) {
@@ -58,8 +55,8 @@ public class UserController {
 
         Record record;
         // Create the user's upload record if the user last login date is not today
-        if (!DateUtils.isToday(user.getLastLoginDate())) {
-            record = new Record(null, user.getId(), user.getClassNumber(), user.getClassName(), -1, -1, -1, new Date(), "null", "null", "null");
+        if (!DateUtils.isToday(user.getLastRecordCreateDate())) {
+            record = new Record(null, user.getId(), user.getRealName(), user.getClassNumber(), user.getClassName(), -1, -1, -1, new Date(), "null", "null", "null");
             if (!recordService.saveRecord(record)) {
                 return "login";
             }
@@ -80,7 +77,7 @@ public class UserController {
 
     @ResponseBody
     @PutMapping("/user")
-    public Response updatePassword(HttpSession session, String oldPassword, String newPassword) {
+    public Response updatePassword(HttpSession session, @RequestParam String oldPassword, @RequestParam String newPassword) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return Response.info("登录后方可修改密码");
@@ -97,5 +94,22 @@ public class UserController {
             return Response.error("密码更新失败");
         }
         return Response.success("密码修改成功");
+    }
+
+    @ResponseBody
+    @GetMapping("/record/{date}")
+    public Response record(@PathVariable("date") String date, HttpSession session) {
+        // User must login before go to the home page
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return Response.info("登录后方可查看用户上传记录");
+        }
+
+        if (user.getUserType() == User.COMMON) {
+            return Response.info("您暂无权限查看用户上传记录");
+        }
+
+        // Get the upload record of the admin class
+        return recordService.processRecordList(recordService.getClassRecord(user.getClassNumber(), DateUtils.parseString(date)));
     }
 }

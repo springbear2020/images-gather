@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * @author Spring-_-Bear
@@ -38,12 +39,13 @@ public class DispatcherController {
     }
 
     @GetMapping("/record")
-    public String adminViewRecord(HttpSession session) {
+    public String record(HttpSession session, Map<String, Object> map) {
         // User must login before go to the home page
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:" + propertyUtils.getContextUrl();
         }
+
         return user.getUserType() == User.COMMON ? "home" : "record";
     }
 }

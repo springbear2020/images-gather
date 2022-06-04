@@ -31,13 +31,15 @@
             closed_image_url   = #{closedImageUrl}
         where id = #{id}
     </update>
-
-    <!-- List<Record> getClassUploadByDate(@Param("classNumber") Integer classNumber, @Param("date") Date date); -->
-    <select id="getClassUploadByDate" resultType="Record">
-        select *
-        from t_record
-        where class_number = #{classNumber}
-          and upload_date = #{date,jdbcType=DATE}
+    <!-- List<Record> getAdminClassRecordByDate(@Param("classNumber") Integer classNumber, @Param("date") Date date); -->
+    <select id="getAdminClassRecordByDate" resultType="Record">
+        SELECT t_user.username, t_record.*
+        FROM t_user
+                 LEFT JOIN t_record
+                           ON t_user.id = t_record.user_id
+        WHERE t_user.class_number = #{classNumber}
+          AND t_record.upload_date = #{date,jdbcType=DATE}
+        ORDER BY t_record.user_id;
     </select>
 </mapper>
 

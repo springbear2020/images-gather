@@ -43,11 +43,11 @@ public interface RecordDao {
     int updateRecordState(Record record);
 
     /**
-     * Get the upload record of the class number
+     * Get the record of the admin class by the specified day
      *
-     * @param classNumber Number of class
+     * @param classNumber Number of the admin class
      * @param date        Date
      * @return Record list or null
      */
-    List<Record> getClassUploadByDate(@Param("classNumber") Integer classNumber, @Param("date") Date date);
+    List<Record> getAdminClassRecordByDate(@Param("classNumber") Integer classNumber, @Param("date") Date date);
 }

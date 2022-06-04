@@ -2,10 +2,12 @@ package edu.whut.bear.gather.service;
 
 import edu.whut.bear.gather.pojo.Login;
 import edu.whut.bear.gather.pojo.Record;
+import edu.whut.bear.gather.pojo.Response;
 import edu.whut.bear.gather.pojo.Upload;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Spring-_-Bear
@@ -56,4 +58,21 @@ public interface RecordService {
      * @return true - Update successfully
      */
     boolean updateRecordState(Record record);
+
+    /**
+     * Get the record of the class
+     *
+     * @param classNumber Number of class
+     * @param date        Date
+     * @return Record list or null
+     */
+    List<Record> getClassRecord(Integer classNumber, Date date);
+
+    /**
+     * Process with the record list of the class
+     *
+     * @param recordList List of record
+     * @return Response
+     */
+    Response processRecordList(List<Record> recordList);
 }

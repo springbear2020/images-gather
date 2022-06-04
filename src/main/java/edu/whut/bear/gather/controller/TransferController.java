@@ -35,7 +35,8 @@ public class TransferController {
         }
 
         // Give a new file name like 2022-06-03/软件zy1901/李春雄-健康码-0121910870705.png
-        String key = DateUtils.parseDate(new Date()) + "/" + user.getClassName() + "/" + user.getRealName() + "-" + "健康码" + "-" + user.getUsername() + ".png";
+        String key = user.getClassName() + "/" + DateUtils.parseDate(new Date()) + "/" +
+                user.getRealName() + "-" + "健康码" + "-" + user.getUsername() + "-" + DateUtils.parseDate(new Date()) + ".png";
 
         // token[0]:domain    token[1]:bucket   token[2]:uploadToken
         String[] token = transferService.getFileUploadToken(key);
@@ -63,8 +64,9 @@ public class TransferController {
             return Response.info("登录后方可上传行程卡图片文件");
         }
 
-        // Give a new file name like 2022-06-03/软件zy1901/李春雄-行程卡-0121910870705.png
-        String key = DateUtils.parseDate(new Date()) + "/" + user.getClassName() + "/" + user.getRealName() + "-" + "行程卡" + "-" + user.getUsername() + ".png";
+        // Give a new file name like 软件zy1901/2022-06-03/李春雄-行程卡-0121910870705-2022-06-04.png
+        String key = user.getClassName() + "/" + DateUtils.parseDate(new Date()) + "/" +
+                user.getRealName() + "-" + "行程卡" + "-" + user.getUsername() + "-" + DateUtils.parseDate(new Date()) + ".png";
 
         // token[0]:domain    token[1]:bucket   token[2]:uploadToken
         String[] token = transferService.getFileUploadToken(key);
@@ -93,7 +95,8 @@ public class TransferController {
         }
 
         // Give a new file name like 2022-06-03/软件zy1901/李春雄-密接查-0121910870705.png
-        String key = DateUtils.parseDate(new Date()) + "/" + user.getClassName() + "/" + user.getRealName() + "-" + "密接查" + "-" + user.getUsername() + ".png";
+        String key = user.getClassName() + "/" + DateUtils.parseDate(new Date()) + "/" +
+                user.getRealName() + "-" + "密接查" + "-" + user.getUsername() + "-" + DateUtils.parseDate(new Date()) + ".png";
 
         // token[0]:domain    token[1]:bucket   token[2]:uploadToken
         String[] token = transferService.getFileUploadToken(key);

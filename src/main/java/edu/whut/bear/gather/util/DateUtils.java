@@ -1,5 +1,7 @@
 package edu.whut.bear.gather.util;
 
+import javax.swing.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,5 +31,21 @@ public class DateUtils {
         String specifiedDate = parseDate(date);
         String today = parseDate(new Date());
         return specifiedDate.equals(today);
+    }
+
+    /**
+     * Convert String type date to java.util.Date
+     *
+     * @param date Date in string format
+     * @return Date
+     */
+    public static Date parseString(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return new Date();
+        }
     }
 }

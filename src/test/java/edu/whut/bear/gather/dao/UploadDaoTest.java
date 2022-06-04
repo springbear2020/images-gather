@@ -22,6 +22,6 @@ public class UploadDaoTest {
 
     @Test
     public void saveUpload() {
-        System.out.println(uploadDao.saveUpload(new Upload(1, Upload.HEALTH_IMAGE, new Date(), "whut-gather-images", "http://whut.springbear2020.cn/", "1.png")));
+        System.out.println(uploadDao.saveUpload(new Upload(1, Upload.HEALTH_IMAGE, new Date(), "whut-gather-images", "http://whut.springbear2020.cn/", "2.png")));
     }
 }

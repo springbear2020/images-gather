@@ -22,7 +22,7 @@ public class User {
     private String className;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date lastLoginDate;
+    private Date lastRecordCreateDate;
     private Integer userType;
 
     public static final int COMMON = 0;

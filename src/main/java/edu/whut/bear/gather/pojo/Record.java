@@ -16,24 +16,31 @@ import java.util.Date;
 public class Record {
     private Integer id;
     private Integer userId;
+    private String username;
+    private String realName;
     private Integer classNumber;
     private String className;
-    private Integer healthUploadId;
-    private Integer scheduleUploadId;
-    private Integer closedUploadId;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date uploadDate;
+    private Integer healthUploadId;
+    private Integer scheduleUploadId;
+    private Integer closedUploadId;
     private String healthImageUrl;
     private String scheduleImageUrl;
     private String closedImageUrl;
+    private int uploaded;
+
+    public static final int YES = 0;
+    public static final int NO = 1;
 
     public Record() {
     }
 
-    public Record(Integer id, Integer userId, Integer classNumber, String className, Integer healthUploadId, Integer scheduleUploadId, Integer closedUploadId, Date uploadDate, String healthImageUrl, String scheduleImageUrl, String closedImageUrl) {
+    public Record(Integer id, Integer userId, String realName, Integer classNumber, String className, Integer healthUploadId, Integer scheduleUploadId, Integer closedUploadId, Date uploadDate, String healthImageUrl, String scheduleImageUrl, String closedImageUrl) {
         this.id = id;
         this.userId = userId;
+        this.realName = realName;
         this.classNumber = classNumber;
         this.className = className;
         this.healthUploadId = healthUploadId;

@@ -25,8 +25,19 @@
     <script charset="UTF-8" th:src="@{/static/js/respond.min.js}"></script>
     <![endif]-->
 </head>
+<!-- Context path -->
+<span id="span-context-path" style="display: none;opacity: 100%"></span>
 
-<body>
+<!-- Notice modal -->
+<div class="modal fade" id="div-notice-modal" tabindex="-1" role="dialog" aria-labelledby="modal-notice"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-header text-center">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h5 class="modal-title" id="h-notice-content"></h5>
+        </div>
+    </div>
+</div>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
@@ -40,15 +51,15 @@
             </button>
             <a class="navbar-brand" href="#">两码一查</a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">退出</a></li>
+        <div id="navbar" class="navbar-collapse collapse text-center">
+            <ul class="nav navbar-nav navbar-left">
+                <li class="text-center"><a th:href="@{/admin}"><span class="glyphicon glyphicon-home"
+                                                                     aria-hidden="true"></span> 主页</a></li>
             </ul>
-            <form class="navbar-form navbar-right">
-                <label>
-                    <input type="text" class="form-control" placeholder="Search...">
-                </label>
-            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="text-center"><a th:href="@{/user/logout}"><span class="glyphicon glyphicon-log-out"
+                                                                           aria-hidden="true"></span> 退出</a></li>
+            </ul>
         </div>
     </div>
 </nav>
@@ -57,61 +68,14 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">今日记录 <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Reports</a></li>
-                <li><a href="#">Analytics</a></li>
-                <li><a href="#">Export</a></li>
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li><a href="">Nav item</a></li>
-                <li><a href="">Nav item again</a></li>
-                <li><a href="">One more nav</a></li>
-                <li><a href="">Another nav item</a></li>
-                <li><a href="">More navigation</a></li>
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li><a href="">Nav item again</a></li>
-                <li><a href="">One more nav</a></li>
-                <li><a href="">Another nav item</a></li>
+                <li class="active"><a href="#">上传记录 <span class="sr-only">(current)</span></a></li>
             </ul>
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-
-            <div class="row placeholders">
-                <h2 class="sub-header">上传记录</h2>
-                <div class="table-responsive center-block">
-                    <table class="table table-striped text-left">
-                        <thead>
-                        <tr>
-                            <th>学号</th>
-                            <th>姓名</th>
-                            <th>日期</th>
-                            <th>已完成</th>
-                            <th>健康码</th>
-                            <th>行程码</th>
-                            <th>密接查</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>0121910870705</td>
-                            <td>李春雄</td>
-                            <td>2022-06-04</td>
-                            <td>是</td>
-                            <td><a target="_blank"
-                                   href="http://wut.springbear2020.cn/2022-06-04/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD1902/%E6%9D%8E%E5%B2%B3-%E5%81%A5%E5%BA%B7%E7%A0%81-0121910900228.png"><span
-                                    class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 查看</a></td>
-                            <td><a target="_blank"
-                                   href="http://wut.springbear2020.cn/2022-06-04/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD1902/%E6%9D%8E%E5%B2%B3-%E5%81%A5%E5%BA%B7%E7%A0%81-0121910900228.png"><span
-                                    class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 查看</a></td>
-                            <td><a target="_blank"
-                                   href="http://wut.springbear2020.cn/2022-06-04/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD1902/%E6%9D%8E%E5%B2%B3-%E5%81%A5%E5%BA%B7%E7%A0%81-0121910900228.png"><span
-                                    class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 查看</a></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main text-center">
+            <!-- Upload record list, create the content though the JavaScript-->
+            <div class="row placeholders container-record-list"></div>
+            <!-- Image preview, create the content though the JavaScript -->
+            <div class="container-image-preview"></div>
         </div>
     </div>
 </div>
@@ -124,5 +88,13 @@
 <script charset="UTF-8" th:src="@{/static/js/bootstrap.min.js}"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script charset="UTF-8" th:src="@{/static/js/ie10-viewport-bug-workaround.js}"></script>
+
+<!-- Customize JavaScript -->
+<script charset="UTF-8" th:src="@{/static/js/record.js}"></script>
+<!-- Get the context path dynamically -->
+<script th:inline="javascript" type="text/javascript" charset="UTF-8">
+    var contextPath = /*[[@{/}]]*/'';
+    $("#span-context-path").val(contextPath);
+</script>
 </body>
 </html>

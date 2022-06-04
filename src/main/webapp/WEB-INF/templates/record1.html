@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../static/img/favicon.ico">
+
+    <title>上传记录 - 两码一查</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../../static/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../static/css/dashboard.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="../../static/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../../static/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+    <script src="../../static/js/respond.min.js"></script>
+    <![endif]-->
+
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">两码一查</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse text-center">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 主页</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="#">上传记录 <span class="sr-only">(current)</span></a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main text-center">
+            <input type="date" class="choose-date">
+
+            <div class="container-image-preview">
+                <h2 class="page-header">李春雄</h2>
+
+                <div class="row center-block placeholders">
+                    <img src="http://wut.springbear2020.cn/2022-06-04/软件zy1901/火兴涛-健康码-0121910870303.png"
+                         width="100" height="150" alt="健康码" class="img-thumbnail">
+                    <img src="http://wut.springbear2020.cn/2022-06-04/软件zy1901/火兴涛-行程卡-0121910870303.png"
+                         width="100" height="150" alt="行程卡" class="img-thumbnail">
+                    <img src="http://wut.springbear2020.cn/2022-06-04/软件zy1901/火兴涛-密接查-0121910870303.png"
+                         width="100" height="150" alt="密接查" class="img-thumbnail">
+                    <br/>
+                    <button class="btn btn-primary btn-lg btn-next-student">下一位</button>
+                </div>
+            </div>
+
+            <div class="row placeholders">
+                <h2 class="page-header">上传记录</h2>
+                <div class="table-responsive center-block">
+                    <table class="table table-striped text-center table-hover">
+                        <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>学号</th>
+                            <th>姓名</th>
+                            <th>已完成</th>
+                            <th colspan="3">两码一查</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>2022-06-04</td>
+                            <td>0121910870705</td>
+                            <td>李春雄</td>
+                            <td>是</td>
+                            <td><a target="_blank"
+                                   href="http://wut.springbear2020.cn/2022-06-04/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD1902/%E6%9D%8E%E5%B2%B3-%E5%81%A5%E5%BA%B7%E7%A0%81-0121910900228.png"><span
+                                    class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 健康码</a></td>
+                            <td><a target="_blank"
+                                   href="http://wut.springbear2020.cn/2022-06-04/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD1902/%E6%9D%8E%E5%B2%B3-%E5%81%A5%E5%BA%B7%E7%A0%81-0121910900228.png"><span
+                                    class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 行程码</a></td>
+                            <td><a target="_blank"
+                                   href="http://wut.springbear2020.cn/2022-06-04/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD1902/%E6%9D%8E%E5%B2%B3-%E5%81%A5%E5%BA%B7%E7%A0%81-0121910900228.png"><span
+                                    class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 密接查</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../../static/js/jquery-1.12.4.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../static/js/jquery.min.js"><\/script>')</script>
+<script src="../../static/js/bootstrap.min.js"></script>
+<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+<script src="../../static/js/holder.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../../static/js/ie10-viewport-bug-workaround.js"></script>
+
+<script src="../../static/js/record.js"></script>
+
+</body>
+</html>
