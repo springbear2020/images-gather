@@ -52,7 +52,7 @@ public class TransferController {
         record.setHealthImageUrl(upload.getDomain() + upload.getKey());
         session.setAttribute("record", record);
 
-        return Response.success("Get token successfully").put("key", key).put("token", token[2]);
+        return Response.success("健康码文件上传成功").put("key", key).put("token", token[2]);
     }
 
     @ResponseBody
@@ -81,7 +81,7 @@ public class TransferController {
         record.setScheduleImageUrl(upload.getDomain() + upload.getKey());
         session.setAttribute("record", record);
 
-        return Response.success("Get token successfully").put("key", key).put("token", token[2]);
+        return Response.success("行程卡文件上传成功").put("key", key).put("token", token[2]);
     }
 
     @ResponseBody
@@ -113,8 +113,8 @@ public class TransferController {
         record.setId(userRecordToday.getId());
         // Update the healthUploadId,healthImageUrl,scheduleUploadId,scheduleImageUrl,closedUploadId,closedImageUrl
         if (!recordService.updateRecordState(record)) {
-            return Response.error("两码一查上传记录更新失败");
+            return Response.info("【两码一查】文件上传成功，待管理员审核");
         }
-        return Response.success("Get token successfully").put("key", key).put("token", token[2]);
+        return Response.success("今日【两码一查】已完成").put("key", key).put("token", token[2]);
     }
 }

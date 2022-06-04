@@ -23,4 +23,8 @@ public class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date lastLoginDate;
+    private Integer userType;
+
+    public static final int COMMON = 0;
+    public static final int ADMIN = 1;
 }

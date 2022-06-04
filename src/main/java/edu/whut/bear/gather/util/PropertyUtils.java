@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@PropertySource("classpath:qiniu.properties")
+@PropertySource("classpath:gather.properties")
 public class PropertyUtils {
     /**
      * Qiniu config data
@@ -24,6 +24,9 @@ public class PropertyUtils {
     private String bucket;
     @Value("${qiniu.domain}")
     private String domain;
-    @Value(("${qiniu.maxFileSize}"))
+    @Value("${qiniu.maxFileSize}")
     private Integer maxFileSize;
+
+    @Value("${gather.domain}")
+    private String contextUrl;
 }

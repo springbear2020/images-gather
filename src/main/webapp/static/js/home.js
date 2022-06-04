@@ -126,7 +126,7 @@ $(function () {
             async: false,
             success: function (response) {
                 if (SUCCESS_CODE === response.code) {
-                    uploadFileToQiniuServer(fileType, file, response.resultMap.key, response.resultMap.token, "image/*", uploadErrorMsg, uploadSuccessMsg);
+                    uploadFileToQiniuServer(fileType, file, response.resultMap.key, response.resultMap.token, "image/*", response.msg, response.msg);
                 } else {
                     showNoticeModal(response.code, response.msg);
                 }

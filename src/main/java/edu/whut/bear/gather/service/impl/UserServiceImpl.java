@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateLastLoginDate(Date newDate, Integer userId) {
-        return userDao.updateLastLoginDateById(newDate, userId);
+    public boolean updateLastLoginDate(Date newDate, Integer userId) {
+        return userDao.updateLastLoginDateById(newDate, userId) == 1;
     }
 
     @Override

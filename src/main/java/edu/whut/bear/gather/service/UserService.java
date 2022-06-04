@@ -26,9 +26,9 @@ public interface UserService {
      *
      * @param newDate New login date
      * @param userId      Id of user
-     * @return 1 - Update successfully
+     * @return true - Update successfully
      */
-    int updateLastLoginDate(Date newDate, Integer userId);
+    boolean updateLastLoginDate(Date newDate, Integer userId);
 
     /**
      * Update the user's password
