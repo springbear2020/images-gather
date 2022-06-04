@@ -46,7 +46,6 @@ public class UserController {
 
         // Save user login log
         String ip = WebUtils.getIpAddress(request);
-        // TODO Update the ip
         String location = WebUtils.parseIp(ip);
         // String location = "湖北省武汉市";
         if (!recordService.saveLogin(new Login(null, user.getId(), ip, location, new Date()))) {
@@ -56,7 +55,11 @@ public class UserController {
         Record record;
         // Create the user's upload record if the user last login date is not today
         if (!DateUtils.isToday(user.getLastRecordCreateDate())) {
-            record = new Record(null, user.getId(), user.getRealName(), user.getClassNumber(), user.getClassName(), -1, -1, -1, new Date(), "null", "null", "null");
+            int defaultNum = -1;
+            String defaultImage = propertyUtils.getContextUrl() + "static/img/4.png";
+                // public Record(Integer id, Integer userId, String realName, Integer classNumber, String className, Integer healthUploadId, Integer scheduleUploadId, Integer closedUploadId, Date uploadDate, String healthImageUrl, String scheduleImageUrl, String closedImageUrl) {
+
+                record = new Record(null, user.getId(), user.getRealName(), user.getClassNumber(), user.getClassName(), defaultNum, defaultNum, defaultNum, new Date(), defaultImage, defaultImage, defaultImage);
             if (!recordService.saveRecord(record)) {
                 return "login";
             }

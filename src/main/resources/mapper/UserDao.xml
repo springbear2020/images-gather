@@ -14,7 +14,7 @@
     <!-- int updateLastLoginDateById(@Param("newDate") Date date, @Param("id") Integer userId); -->
     <update id="updateLastLoginDateById">
         update t_user
-        set last_login_date = #{newDate}
+        set last_record_create_date = #{newDate}
         where id = #{id}
     </update>
 

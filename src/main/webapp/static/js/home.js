@@ -76,7 +76,7 @@ $(function () {
 
 
     // Upload the image file to the Qiniu server
-    function uploadFileToQiniuServer(fileType, file, key, token, mimeType, uploadErrorMsg, uploadSuccessMsg) {
+    function uploadFileToQiniuServer(file, key, token, mimeType, msg) {
         var putExtra = {
             fname: {key},
             params: {},
@@ -93,6 +93,7 @@ $(function () {
             quality: 0.92,
             noCompressIfLarger: true
         }
+
         qiniu.compressImage(file, options).then(data => {
             const observable = qiniu.upload(data.dist, key, token, putExtra, config)
             // Print the upload message
@@ -102,14 +103,12 @@ $(function () {
                     // console.log(rate.substring(0, rate.indexOf(".") + 3));
                 },
                 error(err) {
-                    console.log(err);
-                    showNoticeModal(ERROR_CODE, uploadErrorMsg);
+                    // console.log(err);
+                    showNoticeModal(ERROR_CODE, msg);
                 },
                 complete(res) {
                     // console.log(res)
-                    if (3 === fileType) {
-                        showNoticeModal(SUCCESS_CODE, uploadSuccessMsg);
-                    }
+                    showNoticeModal(SUCCESS_CODE, msg);
                 }
             }
             // Upload start
@@ -118,7 +117,7 @@ $(function () {
     };
 
     // Get qiniu upload token from the server
-    function getUploadToken(requestUrl, fileType, file, requestErrorMsg, uploadErrorMsg, uploadSuccessMsg) {
+    function getUploadToken(requestUrl, file, requestErrorMsg) {
         $.ajax({
             url: contextPath + requestUrl,
             dataType: "json",
@@ -126,7 +125,7 @@ $(function () {
             async: false,
             success: function (response) {
                 if (SUCCESS_CODE === response.code) {
-                    uploadFileToQiniuServer(fileType, file, response.resultMap.key, response.resultMap.token, "image/*", response.msg, response.msg);
+                    uploadFileToQiniuServer(file, response.resultMap.key, response.resultMap.token, "image/*", response.msg);
                 } else {
                     showNoticeModal(response.code, response.msg);
                 }
@@ -166,9 +165,9 @@ $(function () {
         // }
 
         $(this).attr("disabled", "disabled");
-        getUploadToken("transfer/upload/health", 1, HEALTH_IMAGE, "请求上传健康码失败", "健康码文件上传失败", "健康码文件上传成功");
-        getUploadToken("transfer/upload/schedule", 2, SCHEDULE_IMAGE, "请求上传行程卡失败", "行程卡文件上传失败", "行程卡文件上传成功");
-        getUploadToken("transfer/upload/closed", 3, CLOSED_IMAGE, "请求上传密接查失败", "密接查文件上传失败", "今日【两码一查】已完成");
+        getUploadToken("transfer/upload/health", HEALTH_IMAGE, "请求上传健康码失败");
+        getUploadToken("transfer/upload/schedule", SCHEDULE_IMAGE, "请求上传行程卡失败");
+        getUploadToken("transfer/upload/closed", CLOSED_IMAGE, "请求上传密接查失败");
     });
 
     /* =================================================== Password update ========================================== */
