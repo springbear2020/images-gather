@@ -43,15 +43,6 @@ public interface RecordDao {
     int updateRecordState(Record record);
 
     /**
-     * Get the record of the admin class by the specified day
-     *
-     * @param classNumber Number of the admin class
-     * @param date        Date
-     * @return Record list or null
-     */
-    List<Record> getAdminClassRecordByDate(@Param("classNumber") Integer classNumber, @Param("date") Date date);
-
-    /**
      * Get the user list the user login but not upload the images
      *
      * @param classNumber Number of class

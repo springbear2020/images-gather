@@ -57,11 +57,6 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public List<Record> getClassRecord(Integer classNumber, Date date) {
-        return recordDao.getAdminClassRecordByDate(classNumber, date);
-    }
-
-    @Override
     public Response processRecordList(Integer classNumber, Date date) {
         List<Record> recordList = new ArrayList<>();
         // Get user not login list
@@ -93,17 +88,5 @@ public class RecordServiceImpl implements RecordService {
             recordList.add(record);
         }
         return Response.success("Get record list successfully").put("notLoginUserList", notLoginUserList).put("notUploadedUserList", notUploadedUserList).put("recordList", recordList);
-    }
-
-    /**
-     * Generate the record list according to the user list
-     *
-     * @param userList User list
-     * @return Record list or null
-     */
-    private List<Record> createRecordListByUserList(List<User> userList) {
-        List<Record> recordList = new ArrayList<>();
-
-        return recordList;
     }
 }

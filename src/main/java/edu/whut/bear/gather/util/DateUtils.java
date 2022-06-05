@@ -48,4 +48,15 @@ public class DateUtils {
             return new Date();
         }
     }
+
+    /**
+     * Parse the java.util.date to datetime in chinese format
+     *
+     * @param date Date
+     * @return Datetime
+     */
+    public static String parseDateToDatetime(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(date);
+    }
 }

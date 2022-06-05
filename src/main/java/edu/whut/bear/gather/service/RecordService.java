@@ -60,15 +60,6 @@ public interface RecordService {
     boolean updateRecordState(Record record);
 
     /**
-     * Get the record of the class
-     *
-     * @param classNumber Number of class
-     * @param date        Date
-     * @return Record list or null
-     */
-    List<Record> getClassRecord(Integer classNumber, Date date);
-
-    /**
      * Process with the upload record list of the class
      *
      * @param classNumber Number of class

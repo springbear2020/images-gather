@@ -45,7 +45,6 @@ public class DispatcherController {
         if (user == null) {
             return "redirect:" + propertyUtils.getContextUrl();
         }
-
         return user.getUserType() == User.COMMON ? "home" : "record";
     }
 }

@@ -150,19 +150,6 @@ $(function () {
             showNoticeModal(WARNING_CODE, "请选择您的密接查");
             return false;
         }
-        // if (!(".jpg" === HEALTH_SUFFIX || ".png" === HEALTH_SUFFIX)) {
-        //     console.log(HEALTH_SUFFIX)
-        //     showNoticeModal(WARNING_CODE, "请选择 .jpg 或 .png 图片文件");
-        //     return false;
-        // }
-        // if (!(".jpg" === SCHEDULE_SUFFIX || ".png" === SCHEDULE_SUFFIX)) {
-        //     showNoticeModal(WARNING_CODE, "请选择 .jpg 或 .png 图片文件");
-        //     return false;
-        // }
-        // if (!(".jpg" === CLOSED_SUFFIX || ".png" === CLOSED_SUFFIX)) {
-        //     showNoticeModal(WARNING_CODE, "请选择 .jpg 或 .png 图片文件");
-        //     return false;
-        // }
 
         $(this).attr("disabled", "disabled");
         getUploadToken("transfer/upload/health", HEALTH_IMAGE, "请求上传健康码失败");

@@ -44,6 +44,7 @@ public class UserController {
             return "login";
         }
 
+        // TODO Update the method of get user login ip address
         // Save user login log
         String ip = WebUtils.getIpAddress(request);
         String location = WebUtils.parseIp(ip);

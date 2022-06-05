@@ -60,22 +60,6 @@ $(function () {
         // The <br/>
         $("<br/>").appendTo($parent);
         $parent.appendTo($ancestor);
-
-        // The next user button
-        // $("<button></button>").addClass("btn btn-primary btn-lg btn-next-student").append("上一位").appendTo($parent);
-        // $("<button></button>").addClass("btn btn-primary btn-lg btn-next-student").append("下一位").appendTo($parent);
-        // // Next student button click event
-        // $(".btn-next-student").click(function () {
-        //     curListIndex++;
-        //     $(".title-real-name").text(RECORD_LIST[curListIndex].realName);
-        //     $(".first-image").attr("src", RECORD_LIST[curListIndex].healthImageUrl);
-        //     $(".second-image").attr("src", RECORD_LIST[curListIndex].scheduleImageUrl);
-        //     $(".third-image").attr("src", RECORD_LIST[curListIndex].closedImageUrl);
-        //     if (curListIndex >= LIST_LENGTH) {
-        //         curListIndex = 0;
-        //         showNoticeModal(INFO_CODE, "所有记录已预览完毕");
-        //     }
-        // });
     }
 
     function buildNotUploadedUserList(notLoginUserList, notUploadedUserList) {
@@ -127,8 +111,6 @@ $(function () {
         $("<th></th>").append("学号").appendTo($theadTr);
         $("<th></th>").append("姓名").appendTo($theadTr);
         $("<th></th>").append("完成").appendTo($theadTr);
-        // $("<th></th>").append("日期").appendTo($theadTr);
-        // $("<th></th>").append("图片查看").attr("colspan", 3).appendTo($theadTr);
 
         // Table body
         var $tbody = $("<tbody></tbody>").appendTo($table);
@@ -145,39 +127,6 @@ $(function () {
             // Is uploaded
             var isUploaded = item.uploaded == 0 ? "是" : "否";
             $("<td></td>").append(isUploaded).appendTo($tbodyTr);
-
-            // Date
-            // $("<td></td>").append(item.uploadDate).appendTo($tbodyTr);
-            // // Health image
-            // var healthUploadId = item.healthUploadId;
-            // if (healthUploadId == -1) {
-            //     $("<td></td>").append("未上传").appendTo($tbodyTr);
-            // } else {
-            //     var $td = $("<td></td>").appendTo($tbodyTr);
-            //     var $link = $("<a></a>").attr("href", item.healthImageUrl).attr("target", "_blank");
-            //     var $span = $("<span></span>").addClass("glyphicon glyphicon-eye-open").attr("aria-hidden", "true").appendTo($link);
-            //     $link.append(" 健康码").appendTo($td);
-            // }
-            // // Schedule image
-            // var scheduleUploadId = item.scheduleUploadId;
-            // if (scheduleUploadId == -1) {
-            //     $("<td></td>").append("未上传").appendTo($tbodyTr);
-            // } else {
-            //     var $td = $("<td></td>").appendTo($tbodyTr);
-            //     var $link = $("<a></a>").attr("href", item.scheduleImageUrl).attr("target", "_blank");
-            //     var $span = $("<span></span>").addClass("glyphicon glyphicon-eye-open").attr("aria-hidden", "true").appendTo($link);
-            //     $link.append(" 行程码").appendTo($td);
-            // }
-            // // Closed image
-            // var closedUploadId = item.closedUploadId;
-            // if (closedUploadId == -1) {
-            //     $("<td></td>").append("未上传").appendTo($tbodyTr);
-            // } else {
-            //     var $td = $("<td></td>").appendTo($tbodyTr);
-            //     var $link = $("<a></a>").attr("href", item.closedImageUrl).attr("target", "_blank");
-            //     var $span = $("<span></span>").addClass("glyphicon glyphicon-eye-open").attr("aria-hidden", "true").appendTo($link);
-            //     $link.append(" 密接查").appendTo($td);
-            // }
         });
 
         // Build the images preview
