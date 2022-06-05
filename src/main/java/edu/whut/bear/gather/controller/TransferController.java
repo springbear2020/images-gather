@@ -107,17 +107,22 @@ public class TransferController {
             return Response.error("密接查上传记录保存失败");
         }
 
-        // Get the user's record of today
-        Record userRecordToday = recordService.getUserRecordToday(user.getId(), new Date());
-        // Add the schedule upload info to the record
-        Record record = (Record) session.getAttribute("record");
-        record.setClosedUploadId(upload.getId());
-        record.setClosedImageUrl(upload.getDomain() + upload.getKey());
-        record.setId(userRecordToday.getId());
-        // Update the healthUploadId,healthImageUrl,scheduleUploadId,scheduleImageUrl,closedUploadId,closedImageUrl
-        if (!recordService.updateRecordState(record)) {
+        try {
+            // Get the user's record of today
+            Record userRecordToday = recordService.getUserRecordToday(user.getId(), new Date());
+            // Add the schedule upload info to the record
+            Record record = (Record) session.getAttribute("record");
+            record.setClosedUploadId(upload.getId());
+            record.setClosedImageUrl(upload.getDomain() + upload.getKey());
+            record.setId(userRecordToday.getId());
+            // Update the healthUploadId,healthImageUrl,scheduleUploadId,scheduleImageUrl,closedUploadId,closedImageUrl
+            if (!recordService.updateRecordState(record)) {
+                return Response.info("【两码一查】上传记录更新失败");
+            }
+        } catch (Exception e) {
             return Response.info("【两码一查】文件上传成功，待管理员审核");
         }
+
         return Response.success("今日【两码一查】已完成").put("key", key).put("token", token[2]);
     }
 }

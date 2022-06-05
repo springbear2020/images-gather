@@ -35,7 +35,7 @@ public class UserController {
         // User has login before, go to the home page
         User user = (User) session.getAttribute("user");
         if (user != null) {
-            return "home";
+            return user.getUserType() == User.COMMON ? "redirect:" + propertyUtils.getContextUrl() + "home" : "redirect:" + propertyUtils.getContextUrl() + "admin";
         }
 
         // Verify the username and password entered by user
@@ -57,9 +57,7 @@ public class UserController {
         if (!DateUtils.isToday(user.getLastRecordCreateDate())) {
             int defaultNum = -1;
             String defaultImage = propertyUtils.getContextUrl() + "static/img/4.png";
-                // public Record(Integer id, Integer userId, String realName, Integer classNumber, String className, Integer healthUploadId, Integer scheduleUploadId, Integer closedUploadId, Date uploadDate, String healthImageUrl, String scheduleImageUrl, String closedImageUrl) {
-
-                record = new Record(null, user.getId(), user.getRealName(), user.getClassNumber(), user.getClassName(), defaultNum, defaultNum, defaultNum, new Date(), defaultImage, defaultImage, defaultImage);
+            record = new Record(null, user.getId(), user.getUsername(), user.getRealName(), user.getClassNumber(), user.getClassName(), defaultNum, defaultNum, defaultNum, new Date(), defaultImage, defaultImage, defaultImage);
             if (!recordService.saveRecord(record)) {
                 return "login";
             }
@@ -113,6 +111,6 @@ public class UserController {
         }
 
         // Get the upload record of the admin class
-        return recordService.processRecordList(recordService.getClassRecord(user.getClassNumber(), DateUtils.parseString(date)));
+        return recordService.processRecordList(user.getClassNumber(), DateUtils.parseString(date));
     }
 }

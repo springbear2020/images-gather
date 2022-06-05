@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -39,4 +40,13 @@ public interface UserDao {
      * @return 1 - Update successfully
      */
     int updatePasswordById(@Param("newPassword") String newPassword, @Param("id") Integer id);
+
+    /**
+     * Get the user that not created the upload record
+     *
+     * @param classNumber Number of class
+     * @param date        Date
+     * @return User list or null
+     */
+    List<User> getUserRecordNotCreated(@Param("classNumber") Integer classNumber, @Param("date") Date date);
 }

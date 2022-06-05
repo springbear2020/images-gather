@@ -2,6 +2,7 @@ package edu.whut.bear.gather.dao;
 
 import edu.whut.bear.gather.pojo.Record;
 import edu.whut.bear.gather.service.RecordService;
+import edu.whut.bear.gather.util.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class RecordDaoTest {
 
     @Test
     public void saveRecord() {
-        System.out.println(recordDao.saveRecord(new Record(null, 1, "李春雄", 1, "软件zy1901", -1, -1, -1, new Date(), "", "", "")));
+        System.out.println(recordDao.saveRecord(new Record(null, 1, "1", "李春雄", 1, "软件zy1901", -1, -1, -1, new Date(), "", "", "")));
     }
 
     @Test
@@ -52,7 +53,16 @@ public class RecordDaoTest {
 
     @Test
     public void getAdminClassRecordByDate() {
-        List<Record> recordList = recordDao.getAdminClassRecordByDate(4, new Date());
-        System.out.println(recordService.processRecordList(recordList));
+        System.out.println(recordService.processRecordList(4, new Date()));
+    }
+
+    @Test
+    public void getLoginByNotUploaded() {
+        System.out.println(recordDao.getLoginByNotUploaded(4, new Date()));
+    }
+
+    @Test
+    public void getRecordUploaded() {
+        System.out.println(recordDao.getRecordUploaded(4, DateUtils.parseString("2022-06-04")));
     }
 }

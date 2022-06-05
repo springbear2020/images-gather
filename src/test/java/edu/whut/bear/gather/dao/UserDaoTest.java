@@ -32,4 +32,9 @@ public class UserDaoTest {
     public void updatePasswordById() {
         System.out.println(userDao.updatePasswordById("bear", 108));
     }
+
+    @Test
+    public void getUserRecordNotCreated() {
+        System.out.println(userDao.getUserRecordNotCreated(4, new Date()));
+    }
 }

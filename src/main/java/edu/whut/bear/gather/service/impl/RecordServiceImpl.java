@@ -3,14 +3,14 @@ package edu.whut.bear.gather.service.impl;
 import edu.whut.bear.gather.dao.LoginDao;
 import edu.whut.bear.gather.dao.RecordDao;
 import edu.whut.bear.gather.dao.UploadDao;
-import edu.whut.bear.gather.pojo.Login;
-import edu.whut.bear.gather.pojo.Record;
-import edu.whut.bear.gather.pojo.Response;
-import edu.whut.bear.gather.pojo.Upload;
+import edu.whut.bear.gather.dao.UserDao;
+import edu.whut.bear.gather.pojo.*;
 import edu.whut.bear.gather.service.RecordService;
+import edu.whut.bear.gather.util.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +26,10 @@ public class RecordServiceImpl implements RecordService {
     private LoginDao loginDao;
     @Autowired
     private RecordDao recordDao;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private PropertyUtils propertyUtils;
 
     @Override
     public boolean saveLogin(Login login) {
@@ -58,22 +62,48 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public Response processRecordList(List<Record> recordList) {
-        if (recordList == null || recordList.size() == 0) {
-            return Response.info("暂无用户上传记录");
+    public Response processRecordList(Integer classNumber, Date date) {
+        List<Record> recordList = new ArrayList<>();
+        // Get user not login list
+        List<User> recordNotCreatedUserList = userDao.getUserRecordNotCreated(classNumber, date);
+        List<String> notLoginUserList = new ArrayList<>();
+        for (User user : recordNotCreatedUserList) {
+            // public Record(Integer id, Integer userId, String realName, Integer classNumber, String className, Integer healthUploadId, Integer scheduleUploadId, Integer closedUploadId, Date uploadDate, String healthImageUrl, String scheduleImageUrl, String closedImageUrl) {
+            int defaultNum = -1;
+            String defaultImage = propertyUtils.getContextUrl() + "static/img/5.png";
+            Record record = new Record(null, user.getId(), user.getUsername(), user.getRealName(), user.getClassNumber(), user.getClassName(), defaultNum, defaultNum, defaultNum, null, defaultImage, defaultImage, defaultImage);
+            record.setUploaded(Record.NO);
+            recordList.add(record);
+            notLoginUserList.add(user.getRealName());
         }
 
-        Response response = Response.success("Get record successfully").put("size", recordList.size());
-        // Set the upload state of the record
-        for (Record record : recordList) {
-            if (record.getHealthUploadId() == null || record.getHealthUploadId() == -1 ||
-                    record.getScheduleUploadId() == null || record.getScheduleUploadId() == -1 ||
-                    record.getClosedUploadId() == null || record.getClosedUploadId() == -1) {
-                record.setUploaded(Record.NO);
-            } else {
-                record.setUploaded(Record.YES);
-            }
+        // Get user login but don't upload the images
+        List<Record> notUploadedList = recordDao.getLoginByNotUploaded(classNumber, date);
+        List<String> notUploadedUserList = new ArrayList<>();
+        for (Record record : notUploadedList) {
+            record.setUploaded(Record.NO);
+            recordList.add(record);
+            notUploadedUserList.add(record.getRealName());
         }
-        return response.put("recordList", recordList);
+
+        // Get record uploaded successfully
+        List<Record> uploadedList = recordDao.getRecordUploaded(classNumber, date);
+        for (Record record : uploadedList) {
+            record.setUploaded(Record.YES);
+            recordList.add(record);
+        }
+        return Response.success("Get record list successfully").put("notLoginUserList", notLoginUserList).put("notUploadedUserList", notUploadedUserList).put("recordList", recordList);
+    }
+
+    /**
+     * Generate the record list according to the user list
+     *
+     * @param userList User list
+     * @return Record list or null
+     */
+    private List<Record> createRecordListByUserList(List<User> userList) {
+        List<Record> recordList = new ArrayList<>();
+
+        return recordList;
     }
 }

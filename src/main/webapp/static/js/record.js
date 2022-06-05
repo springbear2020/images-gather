@@ -47,11 +47,6 @@ $(function () {
 
     var DATE = parseDate();
 
-    // Response record list data from server
-    // var RECORD_LIST;
-    // var LIST_LENGTH;
-    // var curListIndex = 0;
-
     function buildImagePreview(realName, firstImage, secondImage, thirdImage) {
         var $ancestor = $(".container-image-preview");
         // Title
@@ -64,11 +59,11 @@ $(function () {
         $("<img/>").addClass("img-thumbnail third-image").attr("width", "100").attr("height", "150").attr("src", thirdImage).attr("alt", "密接查").appendTo($parent);
         // The <br/>
         $("<br/>").appendTo($parent);
+        $parent.appendTo($ancestor);
+
         // The next user button
         // $("<button></button>").addClass("btn btn-primary btn-lg btn-next-student").append("上一位").appendTo($parent);
         // $("<button></button>").addClass("btn btn-primary btn-lg btn-next-student").append("下一位").appendTo($parent);
-        $parent.appendTo($ancestor);
-
         // // Next student button click event
         // $(".btn-next-student").click(function () {
         //     curListIndex++;
@@ -83,43 +78,41 @@ $(function () {
         // });
     }
 
-    var IS_ALL_UPLOADED = true;
+    function buildNotUploadedUserList(notLoginUserList, notUploadedUserList) {
+        var $ancestor = $(".container-record-list");
+
+        var notLoginNumbers = notLoginUserList.length;
+        var notUploadedNumbers = notUploadedUserList.length;
+        var totalNotCompleteNumbers = notLoginNumbers + notUploadedNumbers;
+        // Build the not uploaded user list
+        if (notLoginNumbers <= 0 && notUploadedNumbers <= 0) {
+            $("<div></div>").addClass("alert alert-success").append("今日【两码一查】所有人已完成").attr("role", "alert").appendTo($ancestor);
+        } else {
+            var $unUploaded = $("<div></div>").addClass("alert alert-danger").append("未完成人员名单【" + totalNotCompleteNumbers + "】：").attr("role", "alert").appendTo($ancestor);
+
+            // Not login user list
+            $.each(notLoginUserList, function (index, item) {
+                $unUploaded.append(item + " ");
+            });
+            // Not uploaded user list
+            $.each(notUploadedUserList, function (index, item) {
+                $unUploaded.append(item + " ");
+            });
+        }
+    }
 
     function buildRecordContentTable(response) {
         var recordList = response.resultMap.recordList;
-        var size = response.resultMap.size;
-        // RECORD_LIST = recordList;
-        // LIST_LENGTH = RECORD_LIST.length;
+        var notLoginUserList = response.resultMap.notLoginUserList;
+        var notUploadedUserList = response.resultMap.notUploadedUserList;
 
         var $ancestor = $(".container-record-list");
 
         // Title
         $("<h2></h2>").addClass("page-header").append(DATE).appendTo($ancestor);
 
-        // Build the images preview and judge whether all users upload the three images
-        $.each(recordList, function (index, item) {
-            // Build the images preview
-            buildImagePreview(item.realName, item.healthImageUrl, item.scheduleImageUrl, item.closedImageUrl);
-            var isUploaded = item.uploaded;
-            if (isUploaded == 1) {
-                IS_ALL_UPLOADED = false;
-            }
-        });
-
-        // Build the not uploaded user list
-        if (IS_ALL_UPLOADED) {
-            $("<div></div>").addClass("alert alert-success").append("今日【两码一查】所有人已完成").attr("role", "alert").appendTo($ancestor);
-        } else {
-            // Not uploaded user list
-            var $unUploaded = $("<div></div>").addClass("alert alert-danger").append("未上传人员名单：").attr("role", "alert").appendTo($ancestor);
-            $.each(recordList, function (index, item) {
-                var isUploaded = item.uploaded;
-                if (isUploaded == 1) {
-                    IS_ALL_UPLOADED = false;
-                    $unUploaded.append(item.realName + " ");
-                }
-            });
-        }
+        // Build the record not uploaded list at first
+        buildNotUploadedUserList(notLoginUserList, notUploadedUserList);
 
         // Parent
         var $parent = $("<div></div>").addClass("table-responsive center-block").appendTo($ancestor);
@@ -146,12 +139,13 @@ $(function () {
             // Number
             $("<td></td>").append(index + 1).appendTo($tbodyTr);
             // Student number
-            $("<td></td>").append(item.username).appendTo($tbodyTr);
+            $("<td></td>").append(item.studentNumber).appendTo($tbodyTr);
             // Real name
             $("<td></td>").append(item.realName).appendTo($tbodyTr);
             // Is uploaded
             var isUploaded = item.uploaded == 0 ? "是" : "否";
             $("<td></td>").append(isUploaded).appendTo($tbodyTr);
+
             // Date
             // $("<td></td>").append(item.uploadDate).appendTo($tbodyTr);
             // // Health image
@@ -185,6 +179,11 @@ $(function () {
             //     $link.append(" 密接查").appendTo($td);
             // }
         });
+
+        // Build the images preview
+        $.each(recordList, function (index, item) {
+            buildImagePreview(item.realName, item.healthImageUrl, item.scheduleImageUrl, item.closedImageUrl);
+        });
     }
 
     // After page loaded, get data from server then build element to display it
@@ -193,11 +192,7 @@ $(function () {
         type: "get",
         dataType: "json",
         success: function (response) {
-            if (SUCCESS_CODE === response.code) {
-                buildRecordContentTable(response);
-            } else {
-                showNoticeModal(response.code, response.msg);
-            }
+            buildRecordContentTable(response);
         },
         error: function () {
             showNoticeModal(WARNING_CODE, "请求用户上传记录数据失败");

@@ -148,3 +148,7 @@ body {
 .welcome-user {
     line-height: 50px;
 }
+
+.alert-danger {
+    text-align: center;
+}

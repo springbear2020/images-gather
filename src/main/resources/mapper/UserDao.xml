@@ -24,4 +24,12 @@
         set password = #{newPassword}
         where id = #{id}
     </update>
+
+    <!-- List<User> getUserRecordNotCreated(@Param("classNumber") Integer classNumber, @Param("date") Date date); -->
+    <select id="getUserRecordNotCreated" resultType="User">
+        SELECT id, username, real_name, class_number, class_name
+        FROM t_user
+        WHERE class_number = #{classNumber}
+          AND id NOT IN (SELECT user_id FROM t_record WHERE upload_date = #{date,jdbcType=DATE});
+    </select>
 </mapper>

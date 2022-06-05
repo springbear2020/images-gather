@@ -50,4 +50,22 @@ public interface RecordDao {
      * @return Record list or null
      */
     List<Record> getAdminClassRecordByDate(@Param("classNumber") Integer classNumber, @Param("date") Date date);
+
+    /**
+     * Get the user list the user login but not upload the images
+     *
+     * @param classNumber Number of class
+     * @param date        Date
+     * @return Record list or null
+     */
+    List<Record> getLoginByNotUploaded(@Param("classNumber") Integer classNumber, @Param("date") Date date);
+
+    /**
+     * Get the user list that record uploaded already
+     *
+     * @param classNumber Number of class
+     * @param date        Date
+     * @return Record list or null
+     */
+    List<Record> getRecordUploaded(@Param("classNumber") Integer classNumber, @Param("date") Date date);
 }

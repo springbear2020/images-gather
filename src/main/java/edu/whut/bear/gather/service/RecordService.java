@@ -69,10 +69,11 @@ public interface RecordService {
     List<Record> getClassRecord(Integer classNumber, Date date);
 
     /**
-     * Process with the record list of the class
+     * Process with the upload record list of the class
      *
-     * @param recordList List of record
+     * @param classNumber Number of class
+     * @param date        Date
      * @return Response
      */
-    Response processRecordList(List<Record> recordList);
+    Response processRecordList(Integer classNumber, Date date);
 }
