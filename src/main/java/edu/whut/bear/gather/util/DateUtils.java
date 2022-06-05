@@ -56,7 +56,7 @@ public class DateUtils {
      * @return Datetime
      */
     public static String parseDateToDatetime(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         return dateFormat.format(date);
     }
 }

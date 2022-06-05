@@ -34,9 +34,9 @@ public class TransferController {
             return Response.info("登录后方可上传健康码图片文件");
         }
 
-        // Give a new file name like 2022-06-03/软件zy1901/李春雄-健康码-0121910870705.png
+        // Give a new file name like 2022-06-03/软件zy1901/李春雄-健康码-0121910870705-20220223123232.png
         String key = user.getClassName() + "/" + DateUtils.parseDate(new Date()) + "/" +
-                user.getRealName() + "-" + "健康码" + "-" + user.getUsername() + "-" + DateUtils.parseDate(new Date()) + ".png";
+                user.getRealName() + "-" + "健康码" + "-" + user.getUsername() + "-" + DateUtils.parseDateToDatetime(new Date()) + ".png";
 
         // token[0]:domain    token[1]:bucket   token[2]:uploadToken
         String[] token = transferService.getFileUploadToken(key);
@@ -64,9 +64,9 @@ public class TransferController {
             return Response.info("登录后方可上传行程卡图片文件");
         }
 
-        // Give a new file name like 软件zy1901/2022-06-03/李春雄-行程卡-0121910870705-2022-06-04.png
+        // Give a new file name like 软件zy1901/2022-06-03/李春雄-行程卡-0121910870705-20220606111111.png
         String key = user.getClassName() + "/" + DateUtils.parseDate(new Date()) + "/" +
-                user.getRealName() + "-" + "行程卡" + "-" + user.getUsername() + "-" + DateUtils.parseDate(new Date()) + ".png";
+                user.getRealName() + "-" + "行程卡" + "-" + user.getUsername() + "-" + DateUtils.parseDateToDatetime(new Date()) + ".png";
 
         // token[0]:domain    token[1]:bucket   token[2]:uploadToken
         String[] token = transferService.getFileUploadToken(key);
@@ -94,9 +94,9 @@ public class TransferController {
             return Response.info("登录后方可上传密接查图片文件");
         }
 
-        // Give a new file name like 2022-06-03/软件zy1901/李春雄-密接查-0121910870705.png
+        // Give a new file name like 2022-06-03/软件zy1901/李春雄-密接查-0121910870705-20220505122334.png
         String key = user.getClassName() + "/" + DateUtils.parseDate(new Date()) + "/" +
-                user.getRealName() + "-" + "密接查" + "-" + user.getUsername() + "-" + DateUtils.parseDate(new Date()) + ".png";
+                user.getRealName() + "-" + "密接查" + "-" + user.getUsername() + "-" + DateUtils.parseDateToDatetime(new Date()) + ".png";
 
         // token[0]:domain    token[1]:bucket   token[2]:uploadToken
         String[] token = transferService.getFileUploadToken(key);
@@ -121,6 +121,8 @@ public class TransferController {
             }
         } catch (Exception e) {
             return Response.info("【两码一查】文件上传成功，待管理员审核");
+        } finally {
+            session.removeAttribute("record");
         }
 
         return Response.success("今日【两码一查】已完成").put("key", key).put("token", token[2]);

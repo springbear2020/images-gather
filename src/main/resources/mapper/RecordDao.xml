@@ -5,9 +5,11 @@
 <mapper namespace="edu.whut.bear.gather.dao.RecordDao">
     <!-- int saveRecord(Record record); -->
     <insert id="saveRecord">
-        insert into t_record(id, user_id, real_name, class_number, class_name, health_upload_id, schedule_upload_id,
+        insert into t_record(id, user_id, student_number, real_name, class_number, class_name, health_upload_id,
+                             schedule_upload_id,
                              closed_upload_id, upload_date, health_image_url, schedule_image_url, closed_image_url)
-        VALUES (null, #{userId}, #{realName}, #{classNumber}, #{className}, #{healthUploadId}, #{scheduleUploadId},
+        VALUES (null, #{userId}, #{studentNumber}, #{realName}, #{classNumber}, #{className}, #{healthUploadId},
+                #{scheduleUploadId},
                 #{closedUploadId},
                 #{uploadDate}, #{healthImageUrl}, #{scheduleImageUrl}, #{closedImageUrl})
     </insert>

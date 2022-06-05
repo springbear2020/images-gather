@@ -76,7 +76,7 @@ $(function () {
 
 
     // Upload the image file to the Qiniu server
-    function uploadFileToQiniuServer(file, key, token, mimeType, msg) {
+    function uploadFileToQiniuServer(fileType, file, key, token, mimeType, msg) {
         var putExtra = {
             fname: {key},
             params: {},
@@ -108,7 +108,9 @@ $(function () {
                 },
                 complete(res) {
                     // console.log(res)
-                    showNoticeModal(SUCCESS_CODE, msg);
+                    if (fileType == 3) {
+                        showNoticeModal(SUCCESS_CODE, msg);
+                    }
                 }
             }
             // Upload start
@@ -117,7 +119,7 @@ $(function () {
     };
 
     // Get qiniu upload token from the server
-    function getUploadToken(requestUrl, file, requestErrorMsg) {
+    function getUploadToken(fileType, requestUrl, file, requestErrorMsg) {
         $.ajax({
             url: contextPath + requestUrl,
             dataType: "json",
@@ -125,7 +127,7 @@ $(function () {
             async: false,
             success: function (response) {
                 if (SUCCESS_CODE === response.code) {
-                    uploadFileToQiniuServer(file, response.resultMap.key, response.resultMap.token, "image/*", response.msg);
+                    uploadFileToQiniuServer(fileType, file, response.resultMap.key, response.resultMap.token, "image/*", response.msg);
                 } else {
                     showNoticeModal(response.code, response.msg);
                 }
@@ -152,9 +154,9 @@ $(function () {
         }
 
         $(this).attr("disabled", "disabled");
-        getUploadToken("transfer/upload/health", HEALTH_IMAGE, "请求上传健康码失败");
-        getUploadToken("transfer/upload/schedule", SCHEDULE_IMAGE, "请求上传行程卡失败");
-        getUploadToken("transfer/upload/closed", CLOSED_IMAGE, "请求上传密接查失败");
+        getUploadToken(1, "transfer/upload/health", HEALTH_IMAGE, "请求上传健康码失败");
+        getUploadToken(2, "transfer/upload/schedule", SCHEDULE_IMAGE, "请求上传行程卡失败");
+        getUploadToken(3, "transfer/upload/closed", CLOSED_IMAGE, "请求上传密接查失败");
     });
 
     /* =================================================== Password update ========================================== */
