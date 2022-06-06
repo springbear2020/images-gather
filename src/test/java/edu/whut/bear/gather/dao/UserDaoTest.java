@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Date;
+
 /**
  * @author Spring-_-Bear
  * @datetime 6/6/2022 1:06 PM
@@ -24,5 +26,10 @@ public class UserDaoTest {
     @Test
     public void updateUserPasswordById() {
         System.out.println(userDao.updateUserPasswordById("b", 108));
+    }
+
+    @Test
+    public void updateLastRecordCreatedDate() {
+        System.out.println(userDao.updateLastRecordCreatedDate(new Date(), 1));
     }
 }

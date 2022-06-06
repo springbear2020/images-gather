@@ -1,10 +1,12 @@
 package edu.whut.bear.gather.controller;
 
 import edu.whut.bear.gather.pojo.Login;
+import edu.whut.bear.gather.pojo.Record;
 import edu.whut.bear.gather.pojo.Response;
 import edu.whut.bear.gather.pojo.User;
 import edu.whut.bear.gather.service.RecordService;
 import edu.whut.bear.gather.service.UserService;
+import edu.whut.bear.gather.util.DateUtils;
 import edu.whut.bear.gather.util.PropertyUtils;
 import edu.whut.bear.gather.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,27 @@ public class UserController {
         if (!recordService.saveLogin(login)) {
             modelMap.addAttribute("loginErrorMsg", "登录记录保存失败");
             return "index";
+        }
+
+        Record record;
+        // 判断用户上次系统登入时间是否是今天
+        if (!DateUtils.isToday(user.getLastRecordCreateDate())) {
+            // 用户登录但未上传图片默认图片 URL
+            String unUploadImageUrl = propertyUtils.getContextPath() + "static/img/unUpload.png";
+            // 今日用户尚未登入系统，创建今日记录并保存
+            record = new Record(user.getId(), user.getUsername(), user.getRealName(), user.getClassNumber(), user.getClassName(),
+                    Record.UN_UPLOADED, Record.UN_UPLOADED, Record.UN_UPLOADED, new Date(), unUploadImageUrl, unUploadImageUrl, unUploadImageUrl);
+
+            if (!recordService.saveRecord(record)) {
+                modelMap.addAttribute("loginErrorMsg", "今日记录创建保存失败");
+                return "index";
+            }
+
+            // 更新用户上次记录创建时间为今天
+            if (!userService.updateRecordCreateDate(new Date(), user.getId())) {
+                modelMap.addAttribute("loginErrorMsg", "更新上次登录日期失败");
+                return "index";
+            }
         }
 
         // 根据用户类型跳转到不同的页面

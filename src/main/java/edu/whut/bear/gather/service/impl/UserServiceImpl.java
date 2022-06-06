@@ -6,6 +6,8 @@ import edu.whut.bear.gather.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * @author Spring-_-Bear
  * @datetime 6/6/2022 1:09 PM
@@ -23,5 +25,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updateUserPassword(String newPassword, Integer id) {
         return userDao.updateUserPasswordById(newPassword, id) == 1;
+    }
+
+    @Override
+    public boolean updateRecordCreateDate(Date newDate, Integer userId) {
+        return userDao.updateLastRecordCreatedDate(newDate, userId) == 1;
     }
 }

@@ -4,6 +4,8 @@ import edu.whut.bear.gather.pojo.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 /**
  * @author Spring-_-Bear
  * @datetime 6/6/2022 12:36 PM
@@ -27,4 +29,13 @@ public interface UserDao {
      * @return 1 - 修改成功
      */
     int updateUserPasswordById(@Param("newPassword") String newPassword, @Param("id") Integer id);
+
+    /**
+     * 更新用户上次记录上传时间
+     *
+     * @param date   java.util.Date
+     * @param userId 用户 ID
+     * @return 1 - 更新成功
+     */
+    int updateLastRecordCreatedDate(@Param("newDate") Date date, @Param("userId") Integer userId);
 }

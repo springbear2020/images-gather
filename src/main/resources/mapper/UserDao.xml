@@ -17,4 +17,11 @@
         set password = #{newPassword}
         where id = #{id}
     </update>
+
+    <!-- int updateLastRecordCreatedDate(@Param("newDate") Date date, @Param("userId") Integer userId); -->
+    <update id="updateLastRecordCreatedDate">
+        update t_user
+        set last_record_create_date = #{newDate}
+        where id = #{userId}
+    </update>
 </mapper>

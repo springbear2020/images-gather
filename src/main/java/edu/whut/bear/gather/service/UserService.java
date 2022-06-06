@@ -3,6 +3,8 @@ package edu.whut.bear.gather.service;
 import edu.whut.bear.gather.pojo.User;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * @author Spring-_-Bear
  * @datetime 6/6/2022 1:07 PM
@@ -26,4 +28,13 @@ public interface UserService {
      * @return 1 - 修改成功
      */
     boolean updateUserPassword(String newPassword, Integer id);
+
+    /**
+     * 更新用户上次记录创建时间
+     *
+     * @param newDate 新的时间
+     * @param userId  用户 ID
+     * @return true - 更新成功
+     */
+    boolean updateRecordCreateDate(Date newDate, Integer userId);
 }
