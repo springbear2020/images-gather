@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 组件扫描 -->
+    <context:component-scan base-package="edu.whut.bear.gather.pojo,edu.whut.bear.gather.dao,
+                                          edu.whut.bear.gather.service,edu.whut.bear.gather.util"/>
+    <!-- 引入数据库连接配置文件 -->
+    <context:property-placeholder location="classpath:properties/jdbc.properties"/>
+
+    <!-- 数据源 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${jdbc.driverClass}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!-- MyBatis SQL 会话工厂实例  -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- MyBatis 核心配置文件路径 -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!-- MyBatis Mapper.xml 文件路径 -->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+    </bean>
+    <!-- MyBatis Mapper.xml 对应接口的包路径 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="edu.whut.bear.gather.dao"/>
+    </bean>
+</beans>

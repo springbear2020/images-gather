@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="普通用户主页">
+    <meta name="author" content="Spring-_-Bear">
+    <link rel="icon" th:href="@{/static/img/WHUT.png}">
+
+    <title>主页 - 两码一查</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link th:href="@{/static/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script th:src="@{/static/js/html5shiv.min.js}" charset="utf-8"></script>
+    <script th:src="@{/static/js/respond.min.js}" charset="utf-8"></script>
+    <![endif]-->
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/static/css/carousel.css}" rel="stylesheet">
+</head>
+<!-- 通过此完全透明的 span 文本内容存放工程上下文路径供 JavaScript 使用 -->
+<span id="span-context-path" style="display: none;opacity: 100%"></span>
+
+<!-- 密码修改模态框 -->
+<div class="modal fade" id="modal-update-password" tabindex="-1" role="dialog" aria-labelledby="modal-update-password">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <!-- 标题 -->
+            <div class="modal-header text-center">
+                <button type="button" class="close modal-update-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><strong>修改密码</strong></h4>
+            </div>
+            <div class="modal-body">
+                <form id="form-update-password">
+                    <!-- 原密码 -->
+                    <div class="form-group has-feedback">
+                        <label for="input-old-password" class="control-label sr-only"></label>
+                        <input type="password" id="input-old-password" class="form-control" name="oldPassword" required autofocus placeholder="原密码">
+                    </div>
+                    <!-- 新密码 -->
+                    <div class="form-group has-feedback">
+                        <label for="input-new-password" class="control-label sr-only"></label>
+                        <input type="password" id="input-new-password" class="form-control" name="newPassword" required placeholder="新密码">
+                    </div>
+                    <!-- 确认密码 -->
+                    <div class="form-group has-feedback">
+                        <label for="input-new-password-again" class="control-label sr-only"></label>
+                        <input type="password" id="input-new-password-again" class="form-control" required placeholder="确认新密码">
+                    </div>
+                    <!-- 确认按钮 -->
+                    <button type="submit" id="btn-update-password" class="btn btn-primary btn-block">确认</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 通知消息模态框 -->
+<div class="modal fade" id="div-notice-modal" tabindex="-1" role="dialog" aria-labelledby="modal-notice" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-header text-center">
+            <!-- 模态框关闭按钮 -->
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <!-- 文本显示内容 -->
+            <h5 class="modal-title" id="h-notice-content"></h5>
+        </div>
+    </div>
+</div>
+
+<body>
+<!-- 顶部标题栏 -->
+<div class="navbar-wrapper">
+    <div class="container">
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <!-- Logo -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" th:href="@{/admin/home}">两码一查</a>
+                </div>
+                <!-- 标题菜单项 -->
+                <div id="navbar" class="navbar-collapse collapse text-center">
+                    <!-- 欢迎语 -->
+                    <span class="welcome-user" th:text="${'欢迎【'+session.admin.realName}+'】管理员'"></span>
+                    <!-- 标题右侧菜单项 -->
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="text-center link-update-password"><a role="button"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 改密</a></li>
+                        <li class="text-center"><a th:href="@{/user/logout}"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<!-- 两码一查图片文件上传表单 -->
+<form class="center-block">
+    <div class="container marketing">
+        <!-- 健康码、行程码、密接查容器 -->
+        <div class="row">
+            <!-- 健康码 -->
+            <div class="col-lg-4">
+                <label>
+                    <!-- 选择健康码按钮 -->
+                    <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的健康码</a></p>
+                    <input class="true-choose-image health-image" type="file" accept="image/png,image/jpeg" style="display: none;">
+                </label>
+                <!-- 健康码图片 -->
+                <img class="img-thumbnail" th:src="@{/static/img/healthDefault.png}" alt="健康码" width="300" height="500">
+            </div>
+            <!-- 行程码 -->
+            <div class="col-lg-4">
+                <label>
+                    <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的行程码</a></p>
+                    <input class="true-choose-image schedule-image" type="file" accept="image/png,image/jpeg" style="display: none;">
+                </label>
+                <img class="img-thumbnail" th:src="@{/static/img/scheduleDefault.png}" alt="行程码" width="300" height="500">
+            </div>
+            <!-- 密接查 -->
+            <div class="col-lg-4">
+                <label>
+                    <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的密接查</a></p>
+                    <input class="true-choose-image closed-image" type="file" accept="image/png,image/jpeg" style="display: none;">
+                </label>
+                <img class="img-thumbnail" th:src="@{/static/img/closedDefault.png}" alt="密接查" width="300" height="500">
+            </div>
+        </div>
+        <!-- 提交上传按钮 -->
+        <input class="btn btn-primary btn-lg btn-block image-submit" type="button" value="提交">
+    </div><!-- /.container -->
+</form>
+
+<!-- Bootstrap core JavaScript
+  ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script th:src="@{/static/js/jquery-1.12.4.min.js}" charset="utf-8"></script>
+<script>window.jQuery || document.write('<script th:src="@{/static/js/jquery.min.js}" charset="utf-8"><\/script>')</script>
+<script th:src="@{/static/js/bootstrap.min.js}" charset="utf-8"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script th:src="@{/static/js/ie10-viewport-bug-workaround.js}"> charset = "utf-8"</script>
+
+<!-- 动态获取工程上下文路径 -->
+<script th:inline="javascript" type="text/javascript" charset="UTF-8">
+    var contextPath = /*[[@{/}]]*/'';
+    $("#span-context-path").val(contextPath);
+</script>
+<!-- 自定义的 JavaScript -->
+<script th:src="@{/static/js/home.js}" charset="utf-8"></script>
+<!-- 七牛云平台 SDK -->
+<script th:src="@{/static/js/qiniu.min.js}" charset="utf-8"></script>
+
+</body>
+
+</html>
