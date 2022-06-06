@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="普通用户主页">
+    <meta name="description" content="管理员主页">
     <meta name="author" content="Spring-_-Bear">
     <link rel="icon" th:href="@{/static/img/WHUT.png}">
 
@@ -96,6 +96,11 @@
                 <div id="navbar" class="navbar-collapse collapse text-center">
                     <!-- 欢迎语 -->
                     <span class="welcome-user" th:text="${'欢迎【'+session.admin.realName}+'】管理员'"></span>
+                    <!-- 标题左侧菜单栏 -->
+                    <ul class="nav navbar-nav">
+                        <li class="text-center"><a th:href="@{/admin/home}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 主页</a></li>
+                        <li class="text-center"><a th:href="@{/admin/record}"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> 记录</a></li>
+                    </ul>
                     <!-- 标题右侧菜单项 -->
                     <ul class="nav navbar-nav navbar-right">
                         <li class="text-center link-update-password"><a role="button"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 改密</a></li>
@@ -107,42 +112,46 @@
     </div>
 </div>
 
-<!-- 两码一查图片文件上传表单 -->
-<form class="center-block">
-    <div class="container marketing">
-        <!-- 健康码、行程码、密接查容器 -->
-        <div class="row">
-            <!-- 健康码 -->
-            <div class="col-lg-4">
-                <label>
-                    <!-- 选择健康码按钮 -->
-                    <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的健康码</a></p>
-                    <input class="true-choose-image health-image" type="file" accept="image/png,image/jpeg" style="display: none;">
-                </label>
-                <!-- 健康码图片 -->
-                <img class="img-thumbnail" th:src="@{/static/img/healthDefault.png}" alt="健康码" width="300" height="500">
-            </div>
-            <!-- 行程码 -->
-            <div class="col-lg-4">
-                <label>
-                    <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的行程码</a></p>
-                    <input class="true-choose-image schedule-image" type="file" accept="image/png,image/jpeg" style="display: none;">
-                </label>
-                <img class="img-thumbnail" th:src="@{/static/img/scheduleDefault.png}" alt="行程码" width="300" height="500">
-            </div>
-            <!-- 密接查 -->
-            <div class="col-lg-4">
-                <label>
-                    <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的密接查</a></p>
-                    <input class="true-choose-image closed-image" type="file" accept="image/png,image/jpeg" style="display: none;">
-                </label>
-                <img class="img-thumbnail" th:src="@{/static/img/closedDefault.png}" alt="密接查" width="300" height="500">
-            </div>
+<!-- 健康码、行程码、密接查容器 -->
+<div class="container marketing">
+    <!-- 两码一查图片文件上传表单 -->
+    <form class="center-block">
+    <div class="row">
+        <!-- 健康码 -->
+        <div class="col-lg-4">
+            <!-- 健康码图片 -->
+            <img class="img-thumbnail" th:src="@{/static/img/healthDefault.png}" alt="健康码" width="300" height="500">
+            <label>
+                <!-- 选择健康码按钮 -->
+                <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的健康码</a></p>
+                <input class="true-choose-image health-image" type="file" accept="image/png,image/jpeg" style="display: none;">
+            </label>
         </div>
-        <!-- 提交上传按钮 -->
-        <input class="btn btn-primary btn-lg btn-block image-submit" type="button" value="提交">
-    </div><!-- /.container -->
-</form>
+        <!-- 行程码 -->
+        <div class="col-lg-4">
+            <img class="img-thumbnail" th:src="@{/static/img/scheduleDefault.png}" alt="行程码" width="300" height="500">
+            <label>
+                <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的行程码</a></p>
+                <input class="true-choose-image schedule-image" type="file" accept="image/png,image/jpeg" style="display: none;">
+            </label>
+        </div>
+        <!-- 密接查 -->
+        <div class="col-lg-4">
+            <img class="img-thumbnail" th:src="@{/static/img/closedDefault.png}" alt="密接查" width="300" height="500">
+            <label>
+                <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的密接查</a></p>
+                <input class="true-choose-image closed-image" type="file" accept="image/png,image/jpeg" style="display: none;">
+            </label>
+        </div>
+    </div>
+    <!-- 提交上传按钮 -->
+    <input class="btn btn-primary btn-lg btn-block image-submit" type="button" value="提交">
+    </form>
+    <!-- 底栏 -->
+    <footer class="footer-link text-center">
+        <p>&copy; 2022 Spring-_-Bear</p>
+    </footer>
+</div>
 
 <!-- Bootstrap core JavaScript
   ================================================== -->

@@ -2,9 +2,11 @@ package edu.whut.bear.gather.controller;
 
 import edu.whut.bear.gather.pojo.User;
 import edu.whut.bear.gather.service.UserService;
+import edu.whut.bear.gather.util.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,10 +20,9 @@ import javax.servlet.http.HttpSession;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private PropertyUtils propertyUtils;
 
-    /**
-     * 用户登录：理论上本应使用 get 方法，此处采用 post 方法以隐藏地址栏敏感信息
-     */
     @PostMapping("/user")
     public String login(@RequestParam("username") String username, @RequestParam("password") String password,
                         ModelMap modelMap, HttpSession session) {
@@ -50,5 +51,13 @@ public class UserController {
                 modelMap.addAttribute("loginErrorMsg", "用户类型不存在");
                 return "index";
         }
+    }
+
+    @GetMapping("/user/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        session.removeAttribute("admin");
+        session.invalidate();
+        return "redirect:" + propertyUtils.getContextPath();
     }
 }

@@ -107,42 +107,46 @@
     </div>
 </div>
 
-<!-- 两码一查图片文件上传表单 -->
-<form class="center-block">
-    <div class="container marketing">
-        <!-- 健康码、行程码、密接查容器 -->
+<!-- 健康码、行程码、密接查容器 -->
+<div class="container marketing">
+    <!-- 两码一查图片文件上传表单 -->
+    <form class="center-block">
         <div class="row">
             <!-- 健康码 -->
             <div class="col-lg-4">
+                <!-- 健康码图片 -->
+                <img class="img-thumbnail" th:src="@{/static/img/healthDefault.png}" alt="健康码" width="300" height="500">
                 <label>
                     <!-- 选择健康码按钮 -->
                     <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的健康码</a></p>
                     <input class="true-choose-image health-image" type="file" accept="image/png,image/jpeg" style="display: none;">
                 </label>
-                <!-- 健康码图片 -->
-                <img class="img-thumbnail" th:src="@{/static/img/healthDefault.png}" alt="健康码" width="300" height="500">
             </div>
             <!-- 行程码 -->
             <div class="col-lg-4">
+                <img class="img-thumbnail" th:src="@{/static/img/scheduleDefault.png}" alt="行程码" width="300" height="500">
                 <label>
                     <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的行程码</a></p>
                     <input class="true-choose-image schedule-image" type="file" accept="image/png,image/jpeg" style="display: none;">
                 </label>
-                <img class="img-thumbnail" th:src="@{/static/img/scheduleDefault.png}" alt="行程码" width="300" height="500">
             </div>
             <!-- 密接查 -->
             <div class="col-lg-4">
+                <img class="img-thumbnail" th:src="@{/static/img/closedDefault.png}" alt="密接查" width="300" height="500">
                 <label>
                     <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的密接查</a></p>
                     <input class="true-choose-image closed-image" type="file" accept="image/png,image/jpeg" style="display: none;">
                 </label>
-                <img class="img-thumbnail" th:src="@{/static/img/closedDefault.png}" alt="密接查" width="300" height="500">
             </div>
         </div>
         <!-- 提交上传按钮 -->
         <input class="btn btn-primary btn-lg btn-block image-submit" type="button" value="提交">
-    </div><!-- /.container -->
-</form>
+    </form>
+    <!-- 底栏 -->
+    <footer class="footer-link text-center">
+        <p>&copy; 2022 Spring-_-Bear</p>
+    </footer>
+</div>
 
 <!-- Bootstrap core JavaScript
   ================================================== -->
