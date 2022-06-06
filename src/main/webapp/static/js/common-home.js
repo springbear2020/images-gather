@@ -1,7 +1,7 @@
 $(function () {
     /* ============================================================================================================== */
-    // 工程上下文路径
-    var contextPath = $("#span-context-path").text();
+    // TODO 更新前台工程上下文路径
+    var contextPath = "http://localhost:8080/gather/";
     // 与服务器约定的响应码
     var SUCCESS_CODE = 0;
     var ERROR_CODE = 1;
@@ -82,7 +82,7 @@ $(function () {
 
         // 请求服务器修改用户密码
         $.ajax({
-            url: contextPath + "user",
+            url: contextPath + "update",
             method: "POST",
             data: "_method=PUT&" + $("#form-update-password").serialize(),
             dataType: "json",
@@ -100,6 +100,6 @@ $(function () {
             error: function () {
                 showNoticeModal(WARNING_CODE, "请求修改密码失败");
             }
-        })
+        });
     });
 });

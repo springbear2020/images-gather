@@ -31,7 +31,7 @@
 
     <!-- 拦截器 -->
     <mvc:interceptors>
-        <!-- 用户登录权限检查 -->
+        <!-- 用户登录检查 -->
         <mvc:interceptor>
             <!-- 拦截除主页、登录、静态资源外的所有请求 -->
             <mvc:mapping path="/**"/>
@@ -39,6 +39,12 @@
             <mvc:exclude-mapping path="/login"/>
             <mvc:exclude-mapping path="/static/**"/>
             <ref bean="loginInterceptor"/>
+        </mvc:interceptor>
+        <!-- 用户权限检查 -->
+        <mvc:interceptor>
+            <!-- 拦截用户资源 -->
+            <mvc:mapping path="/user/**"/>
+            <ref bean="userInterceptor"/>
         </mvc:interceptor>
         <!-- 管理员权限检查 -->
         <mvc:interceptor>

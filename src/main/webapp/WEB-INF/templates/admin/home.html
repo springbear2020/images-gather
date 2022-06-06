@@ -26,9 +26,6 @@
     <!-- Custom styles for this template -->
     <link th:href="@{/static/css/carousel.css}" rel="stylesheet">
 </head>
-<!-- 通过此完全透明的 span 文本内容存放工程上下文路径供 JavaScript 使用 -->
-<span id="span-context-path" style="display: none;opacity: 100%"></span>
-
 <!-- 密码修改模态框 -->
 <div class="modal fade" id="modal-update-password" tabindex="-1" role="dialog" aria-labelledby="modal-update-password">
     <div class="modal-dialog modal-sm" role="document">
@@ -162,13 +159,8 @@
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script th:src="@{/static/js/ie10-viewport-bug-workaround.js}"> charset = "utf-8"</script>
 
-<!-- 动态获取工程上下文路径 -->
-<script th:inline="javascript" type="text/javascript" charset="UTF-8">
-    var contextPath = /*[[@{/}]]*/'';
-    $("#span-context-path").val(contextPath);
-</script>
 <!-- 自定义的 JavaScript -->
-<script th:src="@{/static/js/home.js}" charset="utf-8"></script>
+<script th:src="@{/static/js/common-home.js}" charset="utf-8"></script>
 <!-- 七牛云平台 SDK -->
 <script th:src="@{/static/js/qiniu.min.js}" charset="utf-8"></script>
 

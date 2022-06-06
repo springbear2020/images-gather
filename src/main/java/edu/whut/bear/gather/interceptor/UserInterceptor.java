@@ -13,16 +13,16 @@ import java.nio.charset.StandardCharsets;
  * @datetime 6/6/2022 6:57 PM
  */
 @Component
-public class AdminInterceptor implements HandlerInterceptor {
+public class UserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // 查看管理员是否登录
+        // 查看普通用户是否登录
         HttpSession session = request.getSession();
-        Object admin = session.getAttribute("admin");
-        // 管理员尚未登录，拒绝访问所有管理员资源
-        if (admin == null ) {
+        Object user = session.getAttribute("user");
+        // 用户尚未登录，拒绝访问
+        if (user == null) {
             response.setContentType("text/html; charset=UTF-8");
-            response.getOutputStream().write("<h1 style=\"text-align: center\">亲爱的用户，请切换登录您的管理员账号</h1>".getBytes(StandardCharsets.UTF_8));
+            response.getOutputStream().write("<h1 style=\"text-align: center\">亲爱的管理员，请切换登录您的用户账号</h1>".getBytes(StandardCharsets.UTF_8));
             return false;
         }
         return true;
