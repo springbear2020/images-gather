@@ -18,4 +18,13 @@ public interface UserDao {
      * @return User or null
      */
     User getUserByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+
+    /**
+     * 修改用户密码
+     *
+     * @param newPassword 新密码
+     * @param id          用户 ID
+     * @return 1 - 修改成功
+     */
+    int updateUserPasswordById(@Param("newPassword") String newPassword, @Param("id") Integer id);
 }

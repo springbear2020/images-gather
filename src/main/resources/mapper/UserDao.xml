@@ -10,4 +10,11 @@
         where username = #{username}
           and password = #{password}
     </select>
+
+    <!-- int updateUserPasswordById(@Param("newPassword") String newPassword, @Param("id") Integer id); -->
+    <update id="updateUserPasswordById">
+        update t_user
+        set password = #{newPassword}
+        where id = #{id}
+    </update>
 </mapper>

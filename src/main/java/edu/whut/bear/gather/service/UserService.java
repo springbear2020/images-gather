@@ -17,4 +17,13 @@ public interface UserService {
      * @return User or null
      */
     User verifyUsernameAndPassword(String username, String password);
+
+    /**
+     * 更新用户密码
+     *
+     * @param newPassword 新密码
+     * @param id          用户 ID
+     * @return 1 - 修改成功
+     */
+    boolean updateUserPassword(String newPassword, Integer id);
 }

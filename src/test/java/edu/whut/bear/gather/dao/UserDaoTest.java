@@ -20,4 +20,9 @@ public class UserDaoTest {
     public void getUserByUsernameAndPassword() {
         System.out.println(userDao.getUserByUsernameAndPassword("0121910870705", "bear"));
     }
+
+    @Test
+    public void updateUserPasswordById() {
+        System.out.println(userDao.updateUserPasswordById("b", 108));
+    }
 }

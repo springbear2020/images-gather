@@ -1,14 +1,13 @@
 package edu.whut.bear.gather.controller;
 
+import edu.whut.bear.gather.pojo.Response;
 import edu.whut.bear.gather.pojo.User;
 import edu.whut.bear.gather.service.UserService;
 import edu.whut.bear.gather.util.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -59,5 +58,40 @@ public class UserController {
         session.removeAttribute("admin");
         session.invalidate();
         return "redirect:" + propertyUtils.getContextPath();
+    }
+
+    @ResponseBody
+    @PutMapping("/user")
+    public Response updatePassword(@RequestParam String oldPassword, @RequestParam String newPassword, HttpSession session) {
+        // 去除原密码和新密码中的首尾空格
+        oldPassword = oldPassword.trim();
+        newPassword = newPassword.trim();
+
+        User user = (User) session.getAttribute("user");
+        User admin = (User) session.getAttribute("admin");
+
+        // 普通用户和管理员同时在一个浏览器中登录，提示需退出一个账户
+        if (user != null && admin != null) {
+            return Response.info("请先退出管理员或用户账号");
+        }
+
+        // 判断是普通用户还是管理员修改密码
+        user = admin == null ? user : admin;
+        // user 依旧为空则用户未登录
+        if (user == null) {
+            return Response.info("请先登录您的账号");
+        }
+
+        // 验证原密码的正确性
+        User verifyUser = userService.verifyUsernameAndPassword(user.getUsername(), oldPassword);
+        if (verifyUser == null) {
+            return Response.error("原密码有误，请重新输入");
+        }
+
+        // 更新用户密码
+        if (!userService.updateUserPassword(newPassword, user.getId())) {
+            return Response.error("密码修改失败，请稍后重试");
+        }
+        return Response.success("密码修改成功");
     }
 }
