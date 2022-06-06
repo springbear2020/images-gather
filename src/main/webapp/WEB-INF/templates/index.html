@@ -30,7 +30,7 @@
 
 <div class="container">
     <!-- 理论上本应使用 get 方法，此处采用 post 方法以隐藏地址栏敏感信息 -->
-    <form class="form-signin" method="post" th:action="@{/user}">
+    <form class="form-signin" method="post" th:action="@{/login}">
         <h2 class="form-signin-heading text-center">欢迎登录</h2>
         <div class="login-error-msg" th:text="${loginErrorMsg}"></div>
         <label for="inputUsername" class="sr-only">用户名</label>

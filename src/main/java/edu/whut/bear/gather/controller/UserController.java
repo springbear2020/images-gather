@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     private PropertyUtils propertyUtils;
 
-    @PostMapping("/user")
+    @PostMapping("/login")
     public String login(@RequestParam("username") String username, @RequestParam("password") String password,
                         ModelMap modelMap, HttpSession session) {
         // 去除用户名、密码首尾两端空格
@@ -39,20 +39,21 @@ public class UserController {
         }
 
         // 根据用户类型跳转到不同的页面
+        final String contextPath = propertyUtils.getContextPath();
         switch (user.getUserType()) {
             case User.COMMON:
                 session.setAttribute("user", user);
-                return "user/home";
+                return "redirect:" + contextPath + "user/home";
             case User.ADMIN:
                 session.setAttribute("admin", user);
-                return "admin/home";
+                return "redirect:" + contextPath + "admin/home";
             default:
                 modelMap.addAttribute("loginErrorMsg", "用户类型不存在");
                 return "index";
         }
     }
 
-    @GetMapping("/user/logout")
+    @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.removeAttribute("user");
         session.removeAttribute("admin");
@@ -76,13 +77,10 @@ public class UserController {
         }
 
         // 判断是普通用户还是管理员修改密码
-        user = admin == null ? user : admin;
-        // user 依旧为空则用户未登录
-        if (user == null) {
-            return Response.info("请先登录您的账号");
-        }
+        user = admin != null ? admin : user;
 
         // 验证原密码的正确性
+        assert user != null;
         User verifyUser = userService.verifyUsernameAndPassword(user.getUsername(), oldPassword);
         if (verifyUser == null) {
             return Response.error("原密码有误，请重新输入");
