@@ -45,4 +45,12 @@ public class RecordDaoTest {
             System.out.println(record);
         }
     }
+
+    @Test
+    public void getGradeRecordList() {
+        List<Record> getGradeRecordList = recordDao.getGradeRecordList(1, new Date(), 1);
+        for (Record record : getGradeRecordList) {
+            System.out.println(record);
+        }
+    }
 }

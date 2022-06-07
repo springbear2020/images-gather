@@ -96,4 +96,14 @@ public class RecordServiceImpl implements RecordService {
         return Response.success("成功获取本班上传记录").put("uploadedNumbers", longinUploadList.size())
                 .put("classRecordList", classRecordList).put("unLoginUserList", unLoginUserList).put("loginNotUploadList", loginNotUploadList);
     }
+
+    @Override
+    public Response getGradeUnUploadUserList(Integer grade, Date date) {
+        // 该年级未登录学生名单
+        List<User> gradeNotLoginUserList = userDao.getGradeUserListNotLogin(grade, date);
+        // 该年级登录未上传记录
+        List<Record> loginNotUploadRecordList = recordDao.getGradeRecordList(grade, date, Record.NO);
+        return Response.success("成功获取到年级记录").put("gradeSize", User.GRADE_SIZE)
+                .put("userList", gradeNotLoginUserList).put("recordList", loginNotUploadRecordList);
+    }
 }

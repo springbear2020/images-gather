@@ -71,4 +71,13 @@ public interface RecordService {
      * @return Response
      */
     Response processClassRecordList(Integer classNumber, Date date);
+
+    /**
+     * 获取指定日期和年级的未上传学生名单
+     *
+     * @param grade 年级 ID
+     * @param date  日期
+     * @return Response
+     */
+    Response getGradeUnUploadUserList(Integer grade, Date date);
 }

@@ -35,6 +35,11 @@ public class UserDaoTest {
 
     @Test
     public void getClassUserListNotLogin() {
-        System.out.println(userDao.getClassUserListNotLogin(4,new Date()));
+        System.out.println(userDao.getClassUserListNotLogin(4, new Date()));
+    }
+
+    @Test
+    public void getGradeUserListNotLogin() {
+        System.out.println(userDao.getGradeUserListNotLogin(1, new Date()));
     }
 }

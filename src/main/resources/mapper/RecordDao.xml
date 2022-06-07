@@ -42,5 +42,15 @@
           and upload_date = #{date,jdbcType=DATE}
           and class_number = #{classNumber}
     </select>
+
+    <!-- List<Record> getGradeRecordList(@Param("grade") Integer grade, @Param("date") Date date, @Param("status") Integer status); -->
+    <select id="getGradeRecordList" resultType="Record">
+        select *
+        from t_record
+        where status = #{status}
+          and upload_date = #{date,jdbcType=DATE}
+          and grade = #{grade}
+        order by class_number
+    </select>
 </mapper>
 

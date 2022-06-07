@@ -61,6 +61,22 @@
     </div>
 </div>
 
+<!-- 上传记录模态框 -->
+<div class="modal fade" id="modal-all-class-record" tabindex="-1" role="dialog" aria-labelledby="modal-all-class-record">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <!-- 标题 -->
+            <div class="modal-header text-center">
+                <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><strong>年级记录</strong></h4>
+            </div>
+            <!-- 上传记录内容 -->
+            <div class="modal-body record-content"></div>
+        </div>
+    </div>
+</div>
+
 <!-- 通知消息模态框 -->
 <div class="modal fade" id="div-notice-modal" tabindex="-1" role="dialog" aria-labelledby="modal-notice" aria-hidden="true">
     <div class="modal-dialog modal-sm">
@@ -96,7 +112,8 @@
                     <!-- 标题左侧菜单栏 -->
                     <ul class="nav navbar-nav">
                         <li class="text-center"><a th:href="@{/admin/home}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 主页</a></li>
-                        <li class="text-center"><a th:href="@{/admin/record}"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> 记录</a></li>
+                        <li class="text-center"><a th:href="@{/admin/record}"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> 班级</a></li>
+                        <li class="text-center"><a role="button" class="record-grade"><span class="glyphicon glyphicon-education" aria-hidden="true"></span> 年级</a></li>
                     </ul>
                     <!-- 标题右侧菜单项 -->
                     <ul class="nav navbar-nav navbar-right">
@@ -161,9 +178,9 @@
 
 <!-- 自定义的 JavaScript -->
 <script th:src="@{/static/js/home.js}" charset="utf-8"></script>
+<script th:src="@{/static/js/admin-home.js}" charset="utf-8"></script>
 <!-- 七牛云平台 SDK -->
 <script th:src="@{/static/js/qiniu.min.js}" charset="utf-8"></script>
 
 </body>
-
 </html>

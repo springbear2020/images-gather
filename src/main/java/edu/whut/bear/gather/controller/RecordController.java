@@ -104,10 +104,17 @@ public class RecordController {
 
 
     @GetMapping("/admin/record/class/{date}")
-    public Response record(@PathVariable("date") String date, HttpSession session) {
+    public Response getClassRecord(@PathVariable("date") String date, HttpSession session) {
         User admin = (User) session.getAttribute("admin");
         // 获取管理员本班的学生记录信息并处理
         assert admin != null;
         return recordService.processClassRecordList(admin.getClassNumber(), DateUtils.parseString(date));
+    }
+
+    @GetMapping("/admin/record/grade/{date}")
+    public Response getGradeRecord(@PathVariable("date") String date, HttpSession session) {
+        User admin = (User) session.getAttribute("admin");
+        assert admin != null;
+        return recordService.getGradeUnUploadUserList(admin.getGrade(), DateUtils.parseString(date));
     }
 }

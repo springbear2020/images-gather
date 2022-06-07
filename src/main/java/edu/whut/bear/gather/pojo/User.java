@@ -20,6 +20,7 @@ public class User {
     private String realName;
     private Integer classNumber;
     private String className;
+    private Integer grade;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date lastRecordCreateDate;
@@ -28,4 +29,5 @@ public class User {
     public static final int COMMON = 0;
     public static final int ADMIN = 1;
     public static final int ROOT = 2;
+    public static final int GRADE_SIZE = 10;
 }

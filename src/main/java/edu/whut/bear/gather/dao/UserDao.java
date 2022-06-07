@@ -48,4 +48,13 @@ public interface UserDao {
      * @return User list or null
      */
     List<User> getClassUserListNotLogin(@Param("classNumber") Integer classNumber, @Param("date") Date date);
+
+    /**
+     * 查询指定日期和年级的学生未登录名单
+     *
+     * @param grade 年级 ID
+     * @param date  日期
+     * @return User list or null
+     */
+    List<User> getGradeUserListNotLogin(@Param("grade") Integer grade, @Param("date") Date date);
 }

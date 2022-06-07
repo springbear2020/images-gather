@@ -48,4 +48,14 @@ public interface RecordDao {
      * @return Record list
      */
     List<Record> getClassRecordList(@Param("classNumber") Integer classNumber, @Param("date") Date date, @Param("status") Integer status);
+
+    /**
+     * 获取指定年级、日期、记录状态的学生名单
+     *
+     * @param grade  年级 ID
+     * @param date   日期
+     * @param status 记录状态
+     * @return Record list
+     */
+    List<Record> getGradeRecordList(@Param("grade") Integer grade, @Param("date") Date date, @Param("status") Integer status);
 }
