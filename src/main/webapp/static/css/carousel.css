@@ -149,9 +149,9 @@ body {
     line-height: 50px;
 }
 
-.alert-danger {
-    text-align: center;
-}
+/*.alert-danger {*/
+/*    text-align: center;*/
+/*}*/
 
 .footer-link {
     margin-top: 25px;

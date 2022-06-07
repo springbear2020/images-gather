@@ -65,7 +65,7 @@ public class UserController {
             String unUploadImageUrl = propertyUtils.getContextPath() + "static/img/unUpload.png";
             // 今日用户尚未登入系统，创建今日记录并保存
             record = new Record(user.getId(), user.getUsername(), user.getRealName(), user.getClassNumber(), user.getClassName(), Record.NO,
-                    Record.UN_UPLOADED, Record.UN_UPLOADED, Record.UN_UPLOADED, new Date(), unUploadImageUrl, unUploadImageUrl, unUploadImageUrl);
+                    Record.DEFAULT_RECORD_ID, Record.DEFAULT_RECORD_ID, Record.DEFAULT_RECORD_ID, new Date(), unUploadImageUrl, unUploadImageUrl, unUploadImageUrl);
 
             if (!recordService.saveRecord(record)) {
                 modelMap.addAttribute("loginErrorMsg", "今日记录创建保存失败");

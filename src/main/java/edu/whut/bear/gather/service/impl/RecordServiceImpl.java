@@ -3,10 +3,10 @@ package edu.whut.bear.gather.service.impl;
 import edu.whut.bear.gather.dao.LoginDao;
 import edu.whut.bear.gather.dao.RecordDao;
 import edu.whut.bear.gather.dao.UploadDao;
-import edu.whut.bear.gather.pojo.Login;
-import edu.whut.bear.gather.pojo.Record;
-import edu.whut.bear.gather.pojo.Upload;
+import edu.whut.bear.gather.dao.UserDao;
+import edu.whut.bear.gather.pojo.*;
 import edu.whut.bear.gather.service.RecordService;
+import edu.whut.bear.gather.util.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +27,10 @@ public class RecordServiceImpl implements RecordService {
     private RecordDao recordDao;
     @Autowired
     private UploadDao uploadDao;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private PropertyUtils propertyUtils;
 
     @Override
     public boolean saveLogin(Login login) {
@@ -65,5 +69,31 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public boolean updateRecordState(Record record) {
         return recordDao.updateRecordState(record) == 1;
+    }
+
+    @Override
+    public Response processClassRecordList(Integer classNumber, Date date) {
+        // 班级全部记录集合：未登录、登录未上传、已上传人员组成
+        List<Record> classRecordList = new ArrayList<>();
+
+        // 获取未登录人员名单
+        List<User> unLoginUserList = userDao.getClassUserListNotLogin(classNumber, date);
+        String unLoginImageUrl = propertyUtils.getContextPath() + "static/img/unLogin.png";
+        // 遍历未登录人员名单，为每人生成一条 Record
+        for (User user : unLoginUserList) {
+            classRecordList.add(new Record(user.getId(), user.getUsername(), user.getRealName(), user.getClassNumber(), user.getClassName(), Record.NO,
+                    null, null, null, null, unLoginImageUrl, unLoginImageUrl, unLoginImageUrl));
+        }
+
+        // 获取登录但未图片未上传记录
+        List<Record> loginNotUploadList = recordDao.getClassRecordList(classNumber, date, Record.NO);
+        // 登录且已上传记录
+        List<Record> longinUploadList = recordDao.getClassRecordList(classNumber, date, Record.YES);
+
+        classRecordList.addAll(loginNotUploadList);
+        classRecordList.addAll(longinUploadList);
+        // 给客户端返回已上传人数、班级所有成员记录、未登录人员、登录未上传记录，由客户端解析以避免降低服务器性能
+        return Response.success("成功获取本班上传记录").put("uploadedNumbers", longinUploadList.size())
+                .put("classRecordList", classRecordList).put("unLoginUserList", unLoginUserList).put("loginNotUploadList", loginNotUploadList);
     }
 }

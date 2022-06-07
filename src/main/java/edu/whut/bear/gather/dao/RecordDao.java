@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Spring-_-Bear
@@ -36,4 +37,15 @@ public interface RecordDao {
      * @return 1 - 更新成功
      */
     int updateRecordState(Record record);
+
+
+    /**
+     * 获取指定班级、日期、记录状态的学生名单
+     *
+     * @param classNumber 班级 ID
+     * @param date        日期
+     * @param status      记录状态
+     * @return Record list
+     */
+    List<Record> getClassRecordList(@Param("classNumber") Integer classNumber, @Param("date") Date date, @Param("status") Integer status);
 }

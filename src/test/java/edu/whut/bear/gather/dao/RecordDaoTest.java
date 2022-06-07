@@ -8,6 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -35,5 +36,13 @@ public class RecordDaoTest {
     @Test
     public void getUserRecordByDate() {
         System.out.println(recordDao.getUserRecordByDate(1, new Date()));
+    }
+
+    @Test
+    public void getClassRecordListNotUpload() {
+        List<Record> classRecordListNotUpload = recordDao.getClassRecordList(4, new Date(), 0);
+        for (Record record : classRecordListNotUpload) {
+            System.out.println(record);
+        }
     }
 }

@@ -32,4 +32,9 @@ public class UserDaoTest {
     public void updateLastRecordCreatedDate() {
         System.out.println(userDao.updateLastRecordCreatedDate(new Date(), 1));
     }
+
+    @Test
+    public void getClassUserListNotLogin() {
+        System.out.println(userDao.getClassUserListNotLogin(4,new Date()));
+    }
 }

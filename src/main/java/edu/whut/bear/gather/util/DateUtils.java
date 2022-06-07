@@ -1,5 +1,6 @@
 package edu.whut.bear.gather.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -40,5 +41,21 @@ public class DateUtils {
     public static String parseDateNoHyphen(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         return dateFormat.format(date);
+    }
+
+    /**
+     * 将字符串类型时间解析为 java.util.Date
+     *
+     * @param date 字符串格式时间
+     * @return java.util.Date
+     */
+    public static Date parseString(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return new Date();
+        }
     }
 }

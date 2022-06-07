@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Spring-_-Bear
@@ -38,4 +39,13 @@ public interface UserDao {
      * @return 1 - 更新成功
      */
     int updateLastRecordCreatedDate(@Param("newDate") Date date, @Param("userId") Integer userId);
+
+    /**
+     * 查询指定日期和班级的学生未登录名单
+     *
+     * @param classNumber 班级 ID
+     * @param date        日期
+     * @return User list or null
+     */
+    List<User> getClassUserListNotLogin(@Param("classNumber") Integer classNumber, @Param("date") Date date);
 }

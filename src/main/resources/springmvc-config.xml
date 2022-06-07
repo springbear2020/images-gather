@@ -59,4 +59,5 @@
     <mvc:view-controller path="/" view-name="index"/>
     <mvc:view-controller path="/user/home" view-name="user/home"/>
     <mvc:view-controller path="/admin/home" view-name="admin/home"/>
+    <mvc:view-controller path="/admin/record" view-name="admin/record"/>
 </beans>

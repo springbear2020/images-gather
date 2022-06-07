@@ -5,6 +5,7 @@ import edu.whut.bear.gather.pojo.Response;
 import edu.whut.bear.gather.pojo.Upload;
 import edu.whut.bear.gather.pojo.User;
 import edu.whut.bear.gather.service.RecordService;
+import edu.whut.bear.gather.util.DateUtils;
 import edu.whut.bear.gather.util.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -95,9 +96,18 @@ public class RecordController {
             return Response.error("暂无今日记录，请先登录您的账号");
         }
         if (userRecordToday.getStatus() == Record.NO) {
-            // 用户已登入系统，今日记录已存在，但尚未上传图片 TODO
+            // 用户已登入系统，今日记录已存在，但尚未上传图片
             return Response.info("请选择并上传您的【两码一查】图片");
         }
         return Response.success("您的今日【两码一查】已上传").put("userRecordToday", userRecordToday);
+    }
+
+
+    @GetMapping("/admin/record/class/{date}")
+    public Response record(@PathVariable("date") String date, HttpSession session) {
+        User admin = (User) session.getAttribute("admin");
+        // 获取管理员本班的学生记录信息并处理
+        assert admin != null;
+        return recordService.processClassRecordList(admin.getClassNumber(), DateUtils.parseString(date));
     }
 }

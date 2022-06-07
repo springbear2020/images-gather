@@ -34,6 +34,13 @@
         where id = #{id}
     </update>
 
-
+    <!-- List<Record> getClassRecordList(@Param("classNumber") Integer classNumber, @Param("date") Date date, @Param("status") Integer status); -->
+    <select id="getClassRecordList" resultType="Record">
+        select *
+        from t_record
+        where status = #{status}
+          and upload_date = #{date,jdbcType=DATE}
+          and class_number = #{classNumber}
+    </select>
 </mapper>
 

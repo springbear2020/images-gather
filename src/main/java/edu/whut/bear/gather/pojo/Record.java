@@ -31,11 +31,9 @@ public class Record {
     private String scheduleImageUrl;
     private String closedImageUrl;
 
-    private int uploaded;
-
     public static final int YES = 0;
     public static final int NO = 1;
-    public static final int UN_UPLOADED = -1;
+    public static final int DEFAULT_RECORD_ID = -1;
 
     public Record() {
     }

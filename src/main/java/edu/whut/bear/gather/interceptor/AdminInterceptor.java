@@ -22,7 +22,7 @@ public class AdminInterceptor implements HandlerInterceptor {
         // 管理员尚未登录，拒绝访问所有管理员资源
         if (admin == null ) {
             response.setContentType("text/html; charset=UTF-8");
-            response.getOutputStream().write("<h1 style=\"text-align: center\">请登录您的管理员账号</h1>".getBytes(StandardCharsets.UTF_8));
+            response.getOutputStream().write("<h1>请登录您的管理员账号</h1>".getBytes(StandardCharsets.UTF_8));
             return false;
         }
         return true;

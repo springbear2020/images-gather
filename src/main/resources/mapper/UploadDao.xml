@@ -14,7 +14,7 @@
         insert into t_upload(id, user_id, file_type, upload_time, bucket, domain, `key`)
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
-        (null, #{item.userId}, #{item.fileType}, #{item.uploadTime}, #{item.bucket}, #{item.domain}, #{item.key})
+            (null, #{item.userId}, #{item.fileType}, #{item.uploadTime}, #{item.bucket}, #{item.domain}, #{item.key})
         </foreach>
     </insert>
 </mapper>

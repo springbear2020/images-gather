@@ -24,4 +24,12 @@
         set last_record_create_date = #{newDate}
         where id = #{userId}
     </update>
+
+    <!-- List<User> getClassUserListNotLogin(@Param("classNumber") Integer classNumber, @Param("date") Date date); -->
+    <select id="getClassUserListNotLogin" resultType="User">
+        select id, username, real_name, class_number, class_name
+        from t_user
+        where class_number = #{classNumber}
+          and last_record_create_date != #{date,jdbcType=DATE}
+    </select>
 </mapper>

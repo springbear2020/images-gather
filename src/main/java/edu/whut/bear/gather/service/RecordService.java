@@ -2,6 +2,7 @@ package edu.whut.bear.gather.service;
 
 import edu.whut.bear.gather.pojo.Login;
 import edu.whut.bear.gather.pojo.Record;
+import edu.whut.bear.gather.pojo.Response;
 import edu.whut.bear.gather.pojo.Upload;
 import org.springframework.stereotype.Service;
 
@@ -61,4 +62,13 @@ public interface RecordService {
      * @return true - 更新成功
      */
     boolean updateRecordState(Record record);
+
+    /**
+     * 获取并处理指定班级号和日期的班级记录
+     *
+     * @param classNumber 班级 ID
+     * @param date        日期
+     * @return Response
+     */
+    Response processClassRecordList(Integer classNumber, Date date);
 }
