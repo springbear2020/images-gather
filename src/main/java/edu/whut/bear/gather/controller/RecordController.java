@@ -52,13 +52,13 @@ public class RecordController {
         // 保存到数据库并获得自增 ID 值，传参顺序固定不可变
         int[] autoIncrementIds = recordService.saveUploadBatch(healthUpload, scheduleUpload, closedUpload);
         if (autoIncrementIds.length != 3) {
-            return Response.error("图片上传成功，上传记录保存失败");
+            return Response.error("上传记录保存失败，请联系系统管理员");
         }
 
         // 获取用户今日记录（登入系统时创建）
         Record userRecordToday = recordService.getUserRecordByDate(user.getId(), new Date());
         if (userRecordToday == null) {
-            return Response.info("图片上传成功，暂无今日记录");
+            return Response.info("不存在今日记录，请联系系统管理员");
         }
 
         // 更新用户今日记录 Record 中的上传记录 ID、图片访问 url 和记录状态
@@ -71,7 +71,7 @@ public class RecordController {
         userRecordToday.setClosedImageUrl(domain + closedKey);
         // 更新用户今日上传记录
         if (!recordService.updateRecordState(userRecordToday)) {
-            return Response.error("图片上传成功，今日记录更新失败");
+            return Response.error("今日记录更新失败，请联系系统管理员");
         }
         return Response.success("今日【两码一查】已完成");
     }
@@ -93,13 +93,13 @@ public class RecordController {
         Record userRecordToday = recordService.getUserRecordByDate(user.getId(), new Date());
         if (userRecordToday == null) {
             // 如果为空，则用户尚未登入系统
-            return Response.error("暂无今日记录，请先登录您的账号");
+            return Response.error("不存在今日记录，请联系系统管理员");
         }
         if (userRecordToday.getStatus() == Record.NO) {
             // 用户已登入系统，今日记录已存在，但尚未上传图片
             return Response.info("请选择并上传您的【两码一查】图片");
         }
-        return Response.success("您的今日【两码一查】已上传").put("userRecordToday", userRecordToday);
+        return Response.success("您的今日【两码一查】已完成").put("userRecordToday", userRecordToday);
     }
 
 

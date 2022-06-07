@@ -14,7 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 
@@ -33,7 +35,7 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@RequestParam("username") String username, @RequestParam("password") String password,
-                        ModelMap modelMap, HttpServletRequest request) {
+                        String remember, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
         // 去除用户名、密码首尾两端空格
         username = username.trim();
         password = password.trim();
@@ -79,6 +81,34 @@ public class UserController {
             }
         }
 
+        // 用户选择了免登录，使用 Cookie 记住用户名及密码
+        if (remember != null) {
+            // Cookie 对象一周内有效
+            Cookie usernameCookie = new Cookie("username", username);
+            usernameCookie.setMaxAge(60 * 60 * 24 * 7);
+            usernameCookie.setPath(propertyUtils.getContextPath());
+            Cookie passwordCookie = new Cookie("password", password);
+            passwordCookie.setMaxAge(60 * 60 * 24 * 7);
+            passwordCookie.setPath(propertyUtils.getContextPath());
+            // 通知浏览器保存 Cookie
+            response.addCookie(usernameCookie);
+            response.addCookie(passwordCookie);
+        } else {
+            // 用户取消勾选记住我，移除 Cookie 中的用户名和密码数据
+            Cookie[] cookies = request.getCookies();
+            for (Cookie cookie : cookies) {
+                if ("username".equals(cookie.getName())) {
+                    cookie.setValue("");
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                } else if ("password".equals(cookie.getName())) {
+                    cookie.setValue("");
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }
+            }
+        }
+
         // 根据用户类型跳转到不同的页面
         final String contextPath = propertyUtils.getContextPath();
         HttpSession session = request.getSession();
@@ -121,16 +151,16 @@ public class UserController {
         // 判断是普通用户还是管理员修改密码
         user = admin != null ? admin : user;
 
+        // 新旧密码一致，不允许修改
+        if (oldPassword.equals(newPassword)) {
+            return Response.info("新旧密码一致，不能修改");
+        }
+
         // 验证原密码的正确性
         assert user != null;
         User verifyUser = userService.verifyUsernameAndPassword(user.getUsername(), oldPassword);
         if (verifyUser == null) {
             return Response.error("原密码有误，请重新输入");
-        }
-
-        // 新旧密码一致，不允许修改
-        if (oldPassword.equals(newPassword)) {
-            return Response.info("新密码与原密码一致，不能修改");
         }
 
         // 更新用户密码

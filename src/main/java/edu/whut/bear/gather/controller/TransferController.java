@@ -56,6 +56,6 @@ public class TransferController {
             return Response.error("请求获取上传验证信息失败");
         }
 
-        return Response.success("成功获取三条图片上传验证信息").put("keyList", keyList).put("tokenList", tokenList);
+        return Response.success("成功获取三条 token 信息").put("keyList", keyList).put("tokenList", tokenList);
     }
 }

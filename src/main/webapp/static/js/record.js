@@ -35,6 +35,7 @@ $(function () {
     };
 
     /* ============================================= 记录查看 ======================================================== */
+    var projectBirth = "2022-06-02";
 
     // 解析时间为 2022-06-07 格式
     function parseDate() {
@@ -145,7 +146,7 @@ $(function () {
         // 表体
         var $tbody = $("<tbody></tbody>").appendTo($table);
 
-        // 一行一行依次显示所有人信息表格
+        // 一行一行依次显示所有人信息表格（正序），依次为未登录、未上传、已上传人员
         $.each(classRecordList, function (index, item) {
             var $tbodyTr = $("<tr></tr>").appendTo($tbody);
             // 序号
@@ -159,10 +160,12 @@ $(function () {
             $("<td></td>").append(isComplete).appendTo($tbodyTr);
         });
 
-        // 构建所有人员图片预览
-        $.each(classRecordList, function (index, item) {
+        // 构建所有人员图片预览（逆序），依次为已上传、未上传、未登录人员名单
+        var lastIndex = classRecordList.length - 1;
+        for (var i = lastIndex; i >= 0; i--) {
+            var item = classRecordList[i];
             buildImagePreview(item.realName, item.healthImageUrl, item.scheduleImageUrl, item.closedImageUrl);
-        });
+        }
     }
 
     // 查询指定日期的记录
@@ -335,8 +338,8 @@ $(function () {
         $("<a></a>").append("历史记录 ").append($("<span></span>").addClass("sr-only")).appendTo($liHistory);
         $liHistory.appendTo($ancestor);
 
-        // 循环创建当前日期到 2022-06-06 的日期
-        var dateArray = showAllDate(DATE, '2022-06-06');
+        // 循环创建当前日期到 2022-06-02 的日期
+        var dateArray = showAllDate(DATE, projectBirth);
 
         for (var i = 0; i <= dateArray.length; i++) {
             var $li = $("<li></li>");
@@ -351,7 +354,7 @@ $(function () {
         });
     }
 
-    // 页面加载完成之后，即创建日期并显示
+    // 页面加载完成之后，即刻创建日期并显示
     buildNavHistoryDate(DATE);
     buildLeftHistoryDate(DATE);
 });

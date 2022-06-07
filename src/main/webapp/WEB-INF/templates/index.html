@@ -36,13 +36,23 @@
         <label for="inputUsername" class="sr-only">用户名</label>
         <input type="text" id="inputUsername" name="username" class="form-control" placeholder="用户名" required autofocus>
         <label for="inputPassword" class="sr-only">密码</label>
-        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="密&nbsp;&nbsp;&nbsp;码" required>
+        <input type="password" id="inputPassword" name="password" class="form-control"
+               placeholder="密&nbsp;&nbsp;&nbsp;码" required>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="remember" value="remember-me"> 记住我
+            </label>
+        </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">登&nbsp;&nbsp;&nbsp;录</button>
     </form>
 </div>
 
 <!-- Placed at the end of the document so the pages load faster -->
+<script th:src="@{/static/js/jquery-1.12.4.min.js}" charset="utf-8"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script th:src="@{/static/js/ie10-viewport-bug-workaround.js}" charset="utf-8"></script>
+
+<!-- 自定义 JavaScript -->
+<script th:src="@{/static/js/login.js}" charset="utf-8"></script>
 </body>
 </html>
