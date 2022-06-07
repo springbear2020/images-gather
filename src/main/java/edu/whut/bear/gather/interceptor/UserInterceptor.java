@@ -1,5 +1,6 @@
 package edu.whut.bear.gather.interceptor;
 
+import edu.whut.bear.gather.exception.InterceptorException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -21,9 +22,7 @@ public class UserInterceptor implements HandlerInterceptor {
         Object user = session.getAttribute("user");
         // 用户尚未登录，拒绝访问
         if (user == null) {
-            response.setContentType("text/html; charset=UTF-8");
-            response.getOutputStream().write("<h1>请登录您的个人账号</h1>".getBytes(StandardCharsets.UTF_8));
-            return false;
+            throw new InterceptorException("请登录您的个人账号");
         }
         return true;
     }

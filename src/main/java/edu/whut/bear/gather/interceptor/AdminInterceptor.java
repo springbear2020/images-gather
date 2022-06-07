@@ -1,12 +1,12 @@
 package edu.whut.bear.gather.interceptor;
 
+import edu.whut.bear.gather.exception.InterceptorException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.nio.charset.StandardCharsets;
 
 /**
  * @author Spring-_-Bear
@@ -19,11 +19,9 @@ public class AdminInterceptor implements HandlerInterceptor {
         // 查看管理员是否登录
         HttpSession session = request.getSession();
         Object admin = session.getAttribute("admin");
-        // 管理员尚未登录，拒绝访问所有管理员资源
-        if (admin == null ) {
-            response.setContentType("text/html; charset=UTF-8");
-            response.getOutputStream().write("<h1>请登录您的管理员账号</h1>".getBytes(StandardCharsets.UTF_8));
-            return false;
+        // 管理员尚未登录，抛出异常由视图解析器解析并跳转到登录页面
+        if (admin == null) {
+            throw new InterceptorException("请登录您的管理员账号");
         }
         return true;
     }

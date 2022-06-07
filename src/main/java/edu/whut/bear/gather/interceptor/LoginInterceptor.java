@@ -1,5 +1,6 @@
 package edu.whut.bear.gather.interceptor;
 
+import edu.whut.bear.gather.exception.InterceptorException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -20,11 +21,9 @@ public class LoginInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession();
         Object user = session.getAttribute("user");
         Object admin = session.getAttribute("admin");
-        // 管理员和普通用户均为登录，拒绝访问所有资源
+        // 管理员和普通用户均为登录，抛出异常由视图解析器解析并跳转到登录页面
         if (user == null && admin == null) {
-            response.setContentType("text/html; charset=UTF-8");
-            response.getOutputStream().write("<h1>亲爱的用户，请先登录您的账号</h1>".getBytes(StandardCharsets.UTF_8));
-            return false;
+            throw new InterceptorException("亲爱的用户，请先登录您的账号");
         }
         return true;
     }
