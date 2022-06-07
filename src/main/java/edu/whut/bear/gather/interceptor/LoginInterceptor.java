@@ -23,7 +23,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         // 管理员和普通用户均为登录，拒绝访问所有资源
         if (user == null && admin == null) {
             response.setContentType("text/html; charset=UTF-8");
-            response.getOutputStream().write("<h1 style=\"text-align: center\">请先登录您的账号</h1>".getBytes(StandardCharsets.UTF_8));
+            response.getOutputStream().write("<h1 style=\"text-align: center\">亲爱的用户，请先登录您的账号</h1>".getBytes(StandardCharsets.UTF_8));
             return false;
         }
         return true;

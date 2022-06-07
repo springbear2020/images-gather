@@ -30,4 +30,15 @@ public class DateUtils {
         String today = parseDate(new Date());
         return specifiedDate.equals(today);
     }
+
+    /**
+     * 将 java.util.Date 解析为 20220606 的格式
+     *
+     * @param date java.util.Date
+     * @return 20220606
+     */
+    public static String parseDateNoHyphen(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        return dateFormat.format(date);
+    }
 }

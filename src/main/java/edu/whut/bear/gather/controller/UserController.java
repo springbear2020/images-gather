@@ -64,7 +64,7 @@ public class UserController {
             // 用户登录但未上传图片默认图片 URL
             String unUploadImageUrl = propertyUtils.getContextPath() + "static/img/unUpload.png";
             // 今日用户尚未登入系统，创建今日记录并保存
-            record = new Record(user.getId(), user.getUsername(), user.getRealName(), user.getClassNumber(), user.getClassName(),
+            record = new Record(user.getId(), user.getUsername(), user.getRealName(), user.getClassNumber(), user.getClassName(), Record.NO,
                     Record.UN_UPLOADED, Record.UN_UPLOADED, Record.UN_UPLOADED, new Date(), unUploadImageUrl, unUploadImageUrl, unUploadImageUrl);
 
             if (!recordService.saveRecord(record)) {
@@ -115,7 +115,7 @@ public class UserController {
 
         // 普通用户和管理员同时在一个浏览器中登录，提示需退出一个账户
         if (user != null && admin != null) {
-            return Response.info("请先退出管理员或用户账号");
+            return Response.info("请先退出管理员或普通用户账号");
         }
 
         // 判断是普通用户还是管理员修改密码

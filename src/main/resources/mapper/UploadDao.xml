@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.whut.bear.gather.dao.UploadDao">
+    <!-- int saveUpload(Upload upload); -->
+    <insert id="saveUpload" useGeneratedKeys="true" keyProperty="id">
+        insert into t_upload(id, user_id, file_type, upload_time, bucket, domain, `key`)
+        VALUES (null, #{userId}, #{fileType}, #{uploadTime}, #{bucket}, #{domain}, #{key})
+    </insert>
+
+    <!-- int saveUploadBatch(List<Upload> uploadList); -->
+    <insert id="saveUploadBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into t_upload(id, user_id, file_type, upload_time, bucket, domain, `key`)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+        (null, #{item.userId}, #{item.fileType}, #{item.uploadTime}, #{item.bucket}, #{item.domain}, #{item.key})
+        </foreach>
+    </insert>
+</mapper>
+

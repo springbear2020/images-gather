@@ -22,7 +22,7 @@ public class UserInterceptor implements HandlerInterceptor {
         // 用户尚未登录，拒绝访问
         if (user == null) {
             response.setContentType("text/html; charset=UTF-8");
-            response.getOutputStream().write("<h1 style=\"text-align: center\">亲爱的管理员，请切换登录您的用户账号</h1>".getBytes(StandardCharsets.UTF_8));
+            response.getOutputStream().write("<h1 style=\"text-align: center\">请登录您的个人账号</h1>".getBytes(StandardCharsets.UTF_8));
             return false;
         }
         return true;

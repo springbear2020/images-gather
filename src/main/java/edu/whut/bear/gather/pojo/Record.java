@@ -23,6 +23,7 @@ public class Record {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date uploadDate;
+    private Integer status;
     private Integer healthUploadId;
     private Integer scheduleUploadId;
     private Integer closedUploadId;
@@ -39,13 +40,13 @@ public class Record {
     public Record() {
     }
 
-    public Record(Integer userId, String studentNumber, String realName, Integer classNumber, String className, Integer healthUploadId, Integer scheduleUploadId, Integer closedUploadId, Date uploadDate, String healthImageUrl, String scheduleImageUrl, String closedImageUrl) {
-        this.id = id;
+    public Record(Integer userId, String studentNumber, String realName, Integer classNumber, String className, Integer status, Integer healthUploadId, Integer scheduleUploadId, Integer closedUploadId, Date uploadDate, String healthImageUrl, String scheduleImageUrl, String closedImageUrl) {
         this.userId = userId;
         this.studentNumber = studentNumber;
         this.realName = realName;
         this.classNumber = classNumber;
         this.className = className;
+        this.status = status;
         this.healthUploadId = healthUploadId;
         this.scheduleUploadId = scheduleUploadId;
         this.closedUploadId = closedUploadId;

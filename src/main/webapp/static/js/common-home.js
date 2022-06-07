@@ -102,4 +102,183 @@ $(function () {
             }
         });
     });
+
+    /* ===================================================== 图片上传 ================================================ */
+    // 健康码文件对象
+    var HEALTH_IMAGE_FILE;
+    // 行程码文件对象
+    var SCHEDULE_IMAGE_FILE;
+    // 密接查文件对象
+    var CLOSED_IMAGE_FILE;
+    // 健康码文件后缀
+    var healthFileNameSuffix = "";
+    // 行程码文件后缀
+    var scheduleFileNameSuffix = "";
+    // 密接查文件后缀
+    var closedFileNameSuffix = "";
+
+    // 选择健康码事件
+    $('.health-image').on('change', function (e) {
+        // 文件对象
+        HEALTH_IMAGE_FILE = e.target.files[0];
+        // 获取图片显示容器 <img/>
+        let $img = $(this).parent().prev();
+
+        // 文件后缀
+        var fileName = $('.health-image').val();
+        healthFileNameSuffix = fileName.substring(fileName.lastIndexOf("."));
+        // 未选择任何图片，清除原有展示的图片
+        if (healthFileNameSuffix.length <= 0) {
+            $img.attr('src', "");
+            return false;
+        }
+
+        // 显示用户选择的图片
+        let src = window.URL.createObjectURL(this.files[0]);
+        $img.attr('src', src);
+
+        // 解锁上传按钮
+        $(".image-submit").attr("disabled", false);
+    })
+    // 选择行程码事件
+    $('.schedule-image').on('change', function (e) {
+        SCHEDULE_IMAGE_FILE = e.target.files[0];
+        let $img = $(this).parent().prev();
+        var fileName = $('.schedule-image').val();
+        scheduleFileNameSuffix = fileName.substring(fileName.lastIndexOf("."));
+        if (scheduleFileNameSuffix.length <= 0) {
+            $img.attr('src', "");
+            return false;
+        }
+        let src = window.URL.createObjectURL(this.files[0]);
+        $img.attr('src', src);
+        $(".image-submit").attr("disabled", false);
+    })
+    // 选择密接查事件
+    $('.closed-image').on('change', function (e) {
+        CLOSED_IMAGE_FILE = e.target.files[0];
+        let $img = $(this).parent().prev();
+        var fileName = $('.closed-image').val();
+        closedFileNameSuffix = fileName.substring(fileName.lastIndexOf("."));
+        if (closedFileNameSuffix.length <= 0) {
+            $img.attr('src', "");
+            return false;
+        }
+        let src = window.URL.createObjectURL(this.files[0]);
+        $img.attr('src', src);
+        $(".image-submit").attr("disabled", false);
+    })
+
+    // 上传文件到七牛云
+    var isAllUploadedSuccess = true;
+
+    function uploadFileToQiniuServer(file, key, token, mimeType, successMsg, errorMsg) {
+        var putExtra = {
+            fname: {key},
+            params: {},
+            mimeType: [mimeType]
+        }
+        var config = {
+            shouldUseQiniuFileName: false,
+            region: qiniu.region.z2,
+            forceDirect: true,
+            useCdnDomain: true,
+        };
+
+        const options = {
+            quality: 0.92,
+            noCompressIfLarger: true
+        }
+
+        // 图片压缩后上传
+        qiniu.compressImage(file, options).then(data => {
+            const observable = qiniu.upload(data.dist, key, token, putExtra, config)
+            // 打印实时上传信息
+            var observer = {
+                next(next) {
+                    // 上传进度，百分比
+                    var rate = next.total.percent + "";
+                    // console.log(rate.substring(0, rate.indexOf(".") + 3));
+                },
+                error(err) {
+                    isAllUploadedSuccess = false;
+                    showNoticeModal(ERROR_CODE, errorMsg);
+                },
+                complete(res) {
+                    // showNoticeModal(SUCCESS_CODE, successMsg);
+                }
+            }
+            // 开始上传
+            observable.subscribe(observer);
+        })
+    };
+
+    // 依次上传文件到七牛云
+    function uploadFilesInOrder(keyList, tokenList) {
+        // 重置所有文件上传成功为 true
+        isAllUploadedSuccess = true;
+
+        // key 的个数与 token 个数不相等，不允许上传
+        if (keyList.length !== tokenList.length) {
+            showNoticeModal(ERROR_CODE, "请求上传图片文件失败");
+            return false;
+        }
+
+        // 依次上传健康码、行程码、密接查图片文件
+        uploadFileToQiniuServer(HEALTH_IMAGE_FILE, keyList[0], tokenList[0], "image/*", "健康码图片文件上传成功", "健康码上传失败，请稍后重试");
+        uploadFileToQiniuServer(SCHEDULE_IMAGE_FILE, keyList[1], tokenList[1], "image/*", "行程码图片文件上传成功", "行程码上传失败，请稍后重试");
+        uploadFileToQiniuServer(CLOSED_IMAGE_FILE, keyList[2], tokenList[2], "image/*", "密接查图片文件上传成功", "密接查上传失败，请稍后重试");
+
+        // 请求服务器保存上传记录 Upload、更新今日记录 Record
+        var status = isAllUploadedSuccess ? 0 : 1;
+        $.ajax({
+            url: contextPath + "record/upload/" + status,
+            dataType: "json",
+            data: "healthKey=" + keyList[0] + "&scheduleKey=" + keyList[1] + "&closedKey=" + keyList[2],
+            type: "POST",
+            success: function (response) {
+                showNoticeModal(response.code, response.msg);
+            },
+            error: function () {
+                showNoticeModal(ERROR_CODE, "请求保存上传记录失败");
+            }
+        })
+    }
+
+    // 文件上传点击按钮
+    $(".image-submit").click(function () {
+        // 验证保证三张图片均已选择
+        if (healthFileNameSuffix.length <= 0) {
+            showNoticeModal(WARNING_CODE, "请选择您的健康码");
+            return false;
+        }
+        if (scheduleFileNameSuffix.length <= 0) {
+            showNoticeModal(WARNING_CODE, "请选择您的行程码");
+            return false;
+        }
+        if (closedFileNameSuffix.length <= 0) {
+            showNoticeModal(WARNING_CODE, "请选择您的密接查");
+            return false;
+        }
+
+        // 点击上传后禁用按钮
+        $(this).attr("disabled", "disabled");
+
+        // 从服务器获取 keyList 和 tokenList 完成七牛校验
+        $.ajax({
+            url: contextPath + "transfer/upload/images",
+            dataType: "json",
+            type: "get",
+            success: function (response) {
+                if (SUCCESS_CODE === response.code) {
+                    uploadFilesInOrder(response.resultMap.keyList, response.resultMap.tokenList);
+                } else {
+                    showNoticeModal(response.code, response.msg);
+                }
+            },
+            error: function () {
+                showNoticeModal(ERROR_CODE, "请求上传图片文件失败");
+            }
+        })
+    });
 });
