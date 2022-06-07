@@ -78,7 +78,6 @@ $(function () {
             });
             // 接着显示登录未上传人员
             $.each(notUploadedUserList, function (index, item) {
-                console.log(index);
                 $unUploaded.append(item.realName + " ");
             });
         }
@@ -104,7 +103,11 @@ $(function () {
     }
 
     // 解析记录内容并显示
-    function buildRecordContent(response) {
+    function buildRecordContent(response, date) {
+        // 清除原有内容
+        $(".container-record-list").empty();
+        $(".container-image-preview").empty();
+
         // 本班所有人员记录
         var classRecordList = response.resultMap.classRecordList;
         // 未登录人员记录
@@ -122,7 +125,7 @@ $(function () {
         var $ancestor = $(".container-record-list");
 
         // 标题：显示今日日期
-        $("<h2></h2>").addClass("page-header").append(DATE).appendTo($ancestor);
+        $("<h2></h2>").addClass("page-header").append(date).appendTo($ancestor);
 
         // 首先显示未上传人员名单
         buildNotUploadedUserList(unLoginUserList, loginNotUploadList);
@@ -162,16 +165,193 @@ $(function () {
         });
     }
 
+    // 查询指定日期的记录
+    function getRecordByDate(date) {
+        $.ajax({
+            url: contextPath + "admin/record/class/" + date,
+            type: "get",
+            dataType: "json",
+            success: function (response) {
+                buildRecordContent(response, date);
+            },
+            error: function () {
+                showNoticeModal(WARNING_CODE, "请求用户上传记录数据失败");
+            }
+        })
+    }
+
     // 页面加载完成之后，从服务器获取本班学生今日上传数据
-    $.ajax({
-        url: contextPath + "admin/record/class/" + DATE,
-        type: "get",
-        dataType: "json",
-        success: function (response) {
-            buildRecordContent(response);
-        },
-        error: function () {
-            showNoticeModal(WARNING_CODE, "请求用户上传记录数据失败");
+    getRecordByDate(DATE);
+
+    /* ============================================= 历史记录 ======================================================== */
+
+    // 从当前日期到指定天数前的日期，返回数组类型
+    function nowDateReduce(date, dayNums) {
+        var year = date.getFullYear()
+        var month = date.getMonth() + 1
+        var day = date.getDate()
+        var result = []
+        for (var i = 0; i < dayNums; i++) {
+            if (i > 0) {
+                day--
+                if (day <= 0) {
+                    month--
+                    if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+                        day = 31
+                    }
+                    if (month == 4 || month == 6 || month == 9 || month == 11) {
+                        day = 30
+                    }
+                    if (month == 2) {
+                        // 判断是否为闰年
+                        if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+                            day = 29
+                        } else {
+                            day = 28
+                        }
+                    }
+                    if (month <= 0) {
+                        year--
+                        month = 12
+                    }
+                }
+            }
+            // result[i] = year + '-' + month + '-' + day
+            result[i] = year + '-'
+            if (month < 10) {
+                result[i] += '0'
+            }
+            result[i] += month + '-'
+            if (day < 10) {
+                result[i] += '0'
+            }
+            result[i] += day
         }
-    })
+        return result
+    }
+
+    // 从当前日期到指定日期（递减）
+    function showAllDate(startDate, endDate) {
+        // 将字符串转化为日期对象
+        var startD = new Date(startDate)
+        var endD = new Date(endDate)
+
+        if (startD < endD) {
+            return false
+        }
+
+        // 接收起始日期的年月日
+        var year = startD.getFullYear()
+        var month = startD.getMonth() + 1
+        var day = startD.getDate()
+
+        // 接收结束日期的年月日
+        var eyear = endD.getFullYear()
+        var emonth = endD.getMonth() + 1
+        var eday = endD.getDate()
+
+        // 接收得到的字符串
+        var result = []
+
+        // 循环判断
+        var check = true
+
+        var i = 0
+
+        while (check) {
+            if (i > 0) {
+                day--
+                if (day <= 0) {
+                    month--
+                    if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+                        day = 31
+                    }
+                    if (month == 4 || month == 6 || month == 9 || month == 11) {
+                        day = 30
+                    }
+                    if (month == 2) {
+                        // 判断是否为闰年
+                        if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+                            day = 29
+                        } else {
+                            day = 28
+                        }
+                    }
+                    if (month <= 0) {
+                        year--
+                        month = 12
+                    }
+                }
+            }
+            // result[i] = year + '-' + month + '-' + day;
+            result[i] = year + '-'
+            if (month < 10) {
+                result[i] += '0'
+            }
+            result[i] += month + '-'
+            if (day < 10) {
+                result[i] += '0'
+            }
+            result[i] += day
+            i++
+
+            // 循环结束判断
+            if (year == eyear && month == emonth && day == eday) {
+                check = false
+            }
+        }
+
+        return result
+    }
+
+
+    // 标题栏默认显示近 5 天的日期
+    function buildNavHistoryDate(currentDate) {
+        var $ancestor = $(".nav-history-view");
+        $ancestor.empty();
+
+        // 生成当前日期往前 5 天的时间字符串，遍历、构建元素并显示
+        var dateArray = nowDateReduce(new Date(), 5);
+        for (var i = 0; i < dateArray.length; i++) {
+            var $span = $("<span></span>").addClass("glyphicon glyphicon-time").attr("aria-hidden", "true");
+            var $a = $("<a></a>").addClass("nav-record-history").attr("role", "button").append($span).append(" " + dateArray[i]);
+            $("<li></li>").addClass("text-center").append($a).appendTo($ancestor);
+        }
+
+        // 跳转到指定日期
+        $(".nav-record-history").click(function () {
+            var $selectedDate = $(this).text();
+            getRecordByDate($selectedDate);
+        });
+    }
+
+    // 左侧导航栏显示当前到 2022-06-06 的日期
+    function buildLeftHistoryDate(currentDate) {
+        var $ancestor = $(".left-history-view");
+        $ancestor.empty();
+
+        // 创建历史记录并显示
+        var $liHistory = $("<li></li>").addClass("active");
+        $("<a></a>").append("历史记录 ").append($("<span></span>").addClass("sr-only")).appendTo($liHistory);
+        $liHistory.appendTo($ancestor);
+
+        // 循环创建当前日期到 2022-06-06 的日期
+        var dateArray = showAllDate(DATE, '2022-06-06');
+
+        for (var i = 0; i <= dateArray.length; i++) {
+            var $li = $("<li></li>");
+            $("<a></a>").addClass("left-record-history").append(dateArray[i]).attr("role", "button").appendTo($li);
+            $li.appendTo($ancestor);
+        }
+
+        // 查看指定日期的记录
+        $(".left-record-history").click(function () {
+            var $selectedDate = $(this).text();
+            getRecordByDate($selectedDate);
+        });
+    }
+
+    // 页面加载完成之后，即创建日期并显示
+    buildNavHistoryDate(DATE);
+    buildLeftHistoryDate(DATE);
 });

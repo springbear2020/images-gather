@@ -51,11 +51,15 @@
         </div>
         <!-- 菜单项 -->
         <div id="navbar" class="navbar-collapse collapse text-center">
+            <!-- 主页 -->
             <ul class="nav navbar-nav navbar-left">
-                <li class="text-center"><a th:href="@{/admin/home}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 主页</a></li>
+                <li class="text-center"><a th:href="@{/admin/home}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 主&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
             </ul>
+            <!-- 近 5 天历史记录 -->
+            <ul class="nav navbar-nav navbar-left nav-history-view"></ul>
+            <!-- 退出 -->
             <ul class="nav navbar-nav navbar-right">
-                <li class="text-center"><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</a></li>
+                <li class="text-center"><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出</a></li>
             </ul>
         </div>
     </div>
@@ -66,8 +70,8 @@
     <div class="row">
         <!-- PC 端左侧导航栏 -->
         <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li class="active"><a>班级记录 <span class="sr-only">(current)</span></a></li>
+            <!-- 左侧导航栏，可查看最近一周的记录 -->
+            <ul class="nav nav-sidebar left-history-view">
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
