@@ -137,6 +137,6 @@ public class UserController {
         if (!userService.updateUserPassword(newPassword, user.getId())) {
             return Response.error("密码修改失败，请稍后重试");
         }
-        return Response.success("密码修改成功");
+        return Response.success("个人登录密码修改成功");
     }
 }

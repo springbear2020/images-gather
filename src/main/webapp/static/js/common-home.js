@@ -281,4 +281,28 @@ $(function () {
             }
         })
     });
+
+    /* ============================================== 已上传 ======================================================== */
+    // 页面加载完成之后，从服务器查询用户今日记录状态信息，已上传则提示用户并回显图片信息
+    $.ajax({
+        url: contextPath + "record/user/today",
+        dataType: "json",
+        type: "get",
+        success: function (response) {
+            // 用户记录已存在则显示提示信息
+            if (SUCCESS_CODE === response.code) {
+                var userRecordToday = response.resultMap.userRecordToday;
+                // 回显用户今日已上传图片
+                $(".img-health").attr("src", userRecordToday.healthImageUrl);
+                $(".img-schedule").attr("src", userRecordToday.scheduleImageUrl);
+                $(".img-closed").attr("src", userRecordToday.closedImageUrl);
+                showNoticeModal(response.code, response.msg);
+            } else if (ERROR_CODE === response.code) {
+                showNoticeModal(response.code, response.msg);
+            }
+        },
+        error: function () {
+            showNoticeModal(ERROR_CODE, "请求获取今日上传记录信息失败");
+        }
+    })
 });

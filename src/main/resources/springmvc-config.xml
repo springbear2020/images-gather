@@ -33,10 +33,11 @@
     <mvc:interceptors>
         <!-- 用户登录检查 -->
         <mvc:interceptor>
-            <!-- 拦截除主页、登录、静态资源外的所有请求 -->
+            <!-- 拦截除主页、登录、注销、静态资源外的所有请求 -->
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/"/>
             <mvc:exclude-mapping path="/login"/>
+            <mvc:exclude-mapping path="/logout"/>
             <mvc:exclude-mapping path="/static/**"/>
             <ref bean="loginInterceptor"/>
         </mvc:interceptor>
