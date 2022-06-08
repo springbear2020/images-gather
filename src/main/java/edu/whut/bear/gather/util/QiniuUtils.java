@@ -61,11 +61,11 @@ public class QiniuUtils {
         }
 
         // TODO 重命名文件为此格式 2022-06-03/1-李春雄-0121910870705-健康码-20220223.png
-        return "develop/" + user.getClassNumber() + "-" + user.getRealName() + "-" + user.getUsername()
-                + "-" + fileTypeString + "-" + "-" + DateUtils.parseDateNoHyphen(new Date()) + ".png";
+        // return "develop/" + user.getClassNumber() + "-" + user.getRealName() + "-" + user.getUsername()
+        //         + "-" + fileTypeString + "-" + DateUtils.parseDateNoHyphen(new Date()) + ".png";
 
-        // return DateUtils.parseDate(new Date()) + user.getClassNumber() + "-" + user.getRealName() + "-" + user.getUsername()
-        //         + "-" + fileTypeString + "-" + "-" + DateUtils.parseDateNoHyphen(new Date()) + ".png";
+        return DateUtils.parseDate(new Date()) + "/" + user.getClassNumber() + "-" + user.getRealName() + "-" + user.getUsername()
+                + "-" + fileTypeString + "-" + DateUtils.parseDateNoHyphen(new Date()) + ".png";
 
     }
 }

@@ -96,15 +96,17 @@ public class UserController {
         } else {
             // 用户取消勾选记住我，移除 Cookie 中的用户名和密码数据
             Cookie[] cookies = request.getCookies();
-            for (Cookie cookie : cookies) {
-                if ("username".equals(cookie.getName())) {
-                    cookie.setValue("");
-                    cookie.setMaxAge(0);
-                    response.addCookie(cookie);
-                } else if ("password".equals(cookie.getName())) {
-                    cookie.setValue("");
-                    cookie.setMaxAge(0);
-                    response.addCookie(cookie);
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("username".equals(cookie.getName())) {
+                        cookie.setValue("");
+                        cookie.setMaxAge(0);
+                        response.addCookie(cookie);
+                    } else if ("password".equals(cookie.getName())) {
+                        cookie.setValue("");
+                        cookie.setMaxAge(0);
+                        response.addCookie(cookie);
+                    }
                 }
             }
         }
