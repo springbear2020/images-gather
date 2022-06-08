@@ -20,6 +20,7 @@ public class Record {
     private String realName;
     private Integer classNumber;
     private String className;
+    private Integer grade;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date uploadDate;
@@ -38,12 +39,13 @@ public class Record {
     public Record() {
     }
 
-    public Record(Integer userId, String studentNumber, String realName, Integer classNumber, String className, Integer status, Integer healthUploadId, Integer scheduleUploadId, Integer closedUploadId, Date uploadDate, String healthImageUrl, String scheduleImageUrl, String closedImageUrl) {
+    public Record(Integer userId, String studentNumber, String realName, Integer classNumber, String className, Integer grade, Integer status, Integer healthUploadId, Integer scheduleUploadId, Integer closedUploadId, Date uploadDate, String healthImageUrl, String scheduleImageUrl, String closedImageUrl) {
         this.userId = userId;
         this.studentNumber = studentNumber;
         this.realName = realName;
         this.classNumber = classNumber;
         this.className = className;
+        this.grade = grade;
         this.status = status;
         this.healthUploadId = healthUploadId;
         this.scheduleUploadId = scheduleUploadId;

@@ -64,7 +64,7 @@ public interface RecordService {
     boolean updateRecordState(Record record);
 
     /**
-     * 获取并处理指定班级号和日期的班级记录
+     * 获取并处理指定日期和班级的班级记录
      *
      * @param classNumber 班级 ID
      * @param date        日期

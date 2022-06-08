@@ -66,7 +66,7 @@ public class UserController {
             // 用户登录但未上传图片默认图片 URL
             String unUploadImageUrl = propertyUtils.getContextPath() + "static/img/unUpload.png";
             // 今日用户尚未登入系统，创建今日记录并保存
-            record = new Record(user.getId(), user.getUsername(), user.getRealName(), user.getClassNumber(), user.getClassName(), Record.NO,
+            record = new Record(user.getId(), user.getUsername(), user.getRealName(), user.getClassNumber(), user.getClassName(), User.DEFAULT_GRADE, Record.NO,
                     Record.DEFAULT_RECORD_ID, Record.DEFAULT_RECORD_ID, Record.DEFAULT_RECORD_ID, new Date(), unUploadImageUrl, unUploadImageUrl, unUploadImageUrl);
 
             if (!recordService.saveRecord(record)) {

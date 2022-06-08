@@ -81,8 +81,8 @@ public class RecordServiceImpl implements RecordService {
         String unLoginImageUrl = propertyUtils.getContextPath() + "static/img/unLogin.png";
         // 遍历未登录人员名单，为每人生成一条 Record
         for (User user : unLoginUserList) {
-            classRecordList.add(new Record(user.getId(), user.getUsername(), user.getRealName(), user.getClassNumber(), user.getClassName(), Record.NO,
-                    null, null, null, null, unLoginImageUrl, unLoginImageUrl, unLoginImageUrl));
+            classRecordList.add(new Record(user.getId(), user.getUsername(), user.getRealName(), user.getClassNumber(), user.getClassName(),
+                    User.DEFAULT_GRADE, Record.NO, null, null, null, null, unLoginImageUrl, unLoginImageUrl, unLoginImageUrl));
         }
 
         // 获取登录但未图片未上传记录

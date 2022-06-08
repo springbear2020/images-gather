@@ -115,6 +115,7 @@ public class RecordController {
     public Response getGradeRecord(@PathVariable("date") String date, HttpSession session) {
         User admin = (User) session.getAttribute("admin");
         assert admin != null;
+        // 获取管理员该年级的年级记录信息并处理
         return recordService.getGradeUnUploadUserList(admin.getGrade(), DateUtils.parseString(date));
     }
 }

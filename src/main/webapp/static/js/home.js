@@ -2,6 +2,7 @@ $(function () {
     /* ============================================================================================================== */
     // TODO 更新前台工程上下文路径
     var contextPath = "http://localhost:8080/gather/";
+    // var contextPath = "http://whut.springbear2020.cn/";
     // 与服务器约定的响应码
     var SUCCESS_CODE = 0;
     var ERROR_CODE = 1;

@@ -27,10 +27,10 @@
 
     <!-- List<User> getClassUserListNotLogin(@Param("classNumber") Integer classNumber, @Param("date") Date date); -->
     <select id="getClassUserListNotLogin" resultType="User">
-        select id, username, real_name, class_number, class_name, grade
-        from t_user
-        where class_number = #{classNumber}
-          and last_record_create_date != #{date,jdbcType=DATE}
+        SELECT id, username, real_name, class_number, class_name, grade
+        FROM t_user
+        WHERE class_number = #{classNumber}
+          AND id NOT IN (SELECT user_id FROM t_record WHERE upload_date = #{date,jdbcType=DATE});
     </select>
 
     <!-- List<User> getGradeUserListNotLogin(@Param("grade") Integer grade, @Param("date") Date date); -->

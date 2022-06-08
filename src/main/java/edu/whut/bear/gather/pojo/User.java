@@ -30,4 +30,6 @@ public class User {
     public static final int ADMIN = 1;
     public static final int ROOT = 2;
     public static final int GRADE_SIZE = 10;
+
+    public static final int DEFAULT_GRADE = 1;
 }
