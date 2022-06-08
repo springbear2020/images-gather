@@ -39,7 +39,7 @@ public class DateUtils {
      * @return 20220606
      */
     public static String parseDateNoHyphen(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         return dateFormat.format(date);
     }
 

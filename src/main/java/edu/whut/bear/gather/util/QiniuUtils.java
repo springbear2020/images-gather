@@ -31,7 +31,7 @@ public class QiniuUtils {
         // 限制文件上传大小
         putPolicy.put("fsizeLimit", propertyUtils.getMaxFileSize());
         // 以覆盖的方式进行上传
-        putPolicy.put("scope", propertyUtils.getDomain() + ":" + key);
+        putPolicy.put("scope", propertyUtils.getBucket() + ":" + key);
         Auth auth = Auth.create(propertyUtils.getAccessKey(), propertyUtils.getSecretKey());
         // 参数说明：空间名，文件名，token 有效期（10 分钟），限制策略
         return auth.uploadToken(propertyUtils.getBucket(), key, 600, putPolicy);
