@@ -69,7 +69,7 @@ $(function () {
 
         // 所有人已上传
         if (notLoginNumbers <= 0 && notUploadedNumbers <= 0) {
-            $("<div></div>").addClass("alert alert-success").append("今日【两码一查】所有人已完成").attr("role", "alert").appendTo($ancestor);
+            $("<div></div>").addClass("alert alert-success").append("【两码一查】所有人已完成").attr("role", "alert").appendTo($ancestor);
         } else {
             // 排行：未完成人员名单
             var $unUploaded = $("<div></div>").addClass("alert alert-danger").append("未完成人员名单【" + totalNotCompleteNumbers + "】：").attr("role", "alert").appendTo($ancestor);
@@ -96,9 +96,9 @@ $(function () {
         var $parent = $("<div></div>").addClass("row center-block placeholders");
 
         // 三张图片
-        $("<img/>").addClass("img-thumbnail first-image").attr("width", "100").attr("height", "150").attr("src", firstImage).attr("alt", "健康码").appendTo($parent);
-        $("<img/>").addClass("img-thumbnail second-image").attr("width", "100").attr("height", "150").attr("src", secondImage).attr("alt", "行程码").appendTo($parent);
-        $("<img/>").addClass("img-thumbnail third-image").attr("width", "100").attr("height", "150").attr("src", thirdImage).attr("alt", "密接查").appendTo($parent);
+        $("<img/>").addClass("img-thumbnail first-image").attr("width", "100").attr("height", "150").attr("src", firstImage).attr("alt", "健康码图片不存在，请管理员联系该同学重新上传").appendTo($parent);
+        $("<img/>").addClass("img-thumbnail second-image").attr("width", "100").attr("height", "150").attr("src", secondImage).attr("alt", "行程码图片不存在，请管理员联系该同学重新上传").appendTo($parent);
+        $("<img/>").addClass("img-thumbnail third-image").attr("width", "100").attr("height", "150").attr("src", thirdImage).attr("alt", "密接查图片不存在，请管理员联系该同学重新上传").appendTo($parent);
         // 分割线
         $("<hr/>").appendTo($parent);
         $parent.appendTo($ancestor);
@@ -308,7 +308,6 @@ $(function () {
         return result
     }
 
-
     // 标题栏默认显示近 5 天的日期
     function buildNavHistoryDate(currentDate) {
         var $ancestor = $(".nav-history-view");
@@ -329,7 +328,7 @@ $(function () {
         });
     }
 
-    // 左侧导航栏显示当前到 2022-06-06 的日期
+    // 左侧导航栏显示 10 天记录
     function buildLeftHistoryDate(currentDate) {
         var $ancestor = $(".left-history-view");
         $ancestor.empty();
@@ -339,17 +338,19 @@ $(function () {
         $("<a></a>").append("历史记录 ").append($("<span></span>").addClass("sr-only")).appendTo($liHistory);
         $liHistory.appendTo($ancestor);
 
-        // 循环创建当前日期到 2022-06-02 的日期
-        var dateArray = showAllDate(DATE, projectBirth);
+        // 左侧导航栏显示 10 天记录
+        var dateArray = nowDateReduce(new Date(), 10);
 
         for (var i = 0; i <= dateArray.length; i++) {
-            var $li = $("<li></li>");
+            var $li = $("<li></li>").addClass("left-date-li");
             $("<a></a>").addClass("left-record-history").append(dateArray[i]).attr("role", "button").appendTo($li);
             $li.appendTo($ancestor);
         }
 
         // 查看指定日期的记录
         $(".left-record-history").click(function () {
+            $(".left-date-li").removeClass("active");
+            $(this).parent().addClass("active");
             var $selectedDate = $(this).text();
             getRecordByDate($selectedDate);
         });

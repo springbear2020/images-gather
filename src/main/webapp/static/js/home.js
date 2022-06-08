@@ -171,8 +171,6 @@ $(function () {
     })
 
     // 上传文件到七牛云
-    var isAllUploadedSuccess = true;
-
     function uploadFileToQiniuServer(file, key, token, mimeType, successMsg, errorMsg) {
         var putExtra = {
             fname: {key},
@@ -186,42 +184,33 @@ $(function () {
             useCdnDomain: true,
         };
 
-        const options = {
-            quality: 0.92,
-            noCompressIfLarger: true
-        }
+        // 使用七牛云前台 API 上传文件到七牛云服务器
+        var observable = qiniu.upload(file, key, token, putExtra, config);
 
-        // 图片压缩后上传
-        qiniu.compressImage(file, options).then(data => {
-            const observable = qiniu.upload(data.dist, key, token, putExtra, config)
-            // 打印实时上传信息
-            var observer = {
-                next(next) {
-                    // 上传进度，百分比
-                    var rate = next.total.percent + "";
-                    // console.log(rate.substring(0, rate.indexOf(".") + 3));
-                },
-                error(err) {
-                    isAllUploadedSuccess = false;
-                    showNoticeModal(ERROR_CODE, errorMsg);
-                },
-                complete(res) {
-                    // showNoticeModal(SUCCESS_CODE, successMsg);
-                }
+        // 打印实时上传信息
+        var observer = {
+            next(msg) {
+                // 上传进度，百分比
+                var rate = msg.total.percent + "";
+                // console.log(rate.substring(0, rate.indexOf(".") + 3));
+            },
+            error(msg) {
+                console.log(msg);
+                showNoticeModal(ERROR_CODE, errorMsg);
+            },
+            complete(msg) {
+                // showNoticeModal(SUCCESS_CODE, successMsg);
             }
-            // 开始上传
-            observable.subscribe(observer);
-        })
+        }
+        // 开始上传
+        observable.subscribe(observer);
     };
 
     // 依次上传文件到七牛云
     function uploadFilesInOrder(keyList, tokenList) {
-        // 重置所有文件上传成功为 true
-        isAllUploadedSuccess = true;
-
         // key 的个数与 token 个数不相等，不允许上传
         if (keyList.length !== tokenList.length) {
-            showNoticeModal(ERROR_CODE, "请求上传图片文件失败");
+            showNoticeModal(ERROR_CODE, "请求获取文件上传验证信息失败");
             return false;
         }
 
@@ -230,18 +219,20 @@ $(function () {
         uploadFileToQiniuServer(SCHEDULE_IMAGE_FILE, keyList[1], tokenList[1], "image/*", "行程码图片文件上传成功", "行程码上传失败，请稍后重试");
         uploadFileToQiniuServer(CLOSED_IMAGE_FILE, keyList[2], tokenList[2], "image/*", "密接查图片文件上传成功", "密接查上传失败，请稍后重试");
 
-        // 请求服务器保存上传记录 Upload、更新今日记录 Record
-        var status = isAllUploadedSuccess ? 0 : 1;
+        //  请求服务器保存上传记录 Upload、更新今日记录 Record
+        var status = 0;
+
         $.ajax({
             url: contextPath + "record/upload/" + status,
             dataType: "json",
             data: "healthKey=" + keyList[0] + "&scheduleKey=" + keyList[1] + "&closedKey=" + keyList[2],
             type: "POST",
+            async: "false",
             success: function (response) {
                 showNoticeModal(response.code, response.msg);
             },
             error: function () {
-                showNoticeModal(ERROR_CODE, "请求保存上传记录失败");
+                showNoticeModal(ERROR_CODE, "请求更新记录失败");
             }
         })
     }
@@ -278,7 +269,7 @@ $(function () {
                 }
             },
             error: function () {
-                showNoticeModal(ERROR_CODE, "请求上传图片文件失败");
+                showNoticeModal(ERROR_CODE, "请求获取文件上传验证信息失败");
             }
         })
     });
@@ -290,8 +281,8 @@ $(function () {
         dataType: "json",
         type: "get",
         success: function (response) {
-            // 用户记录已存在则显示提示信息
-            if (SUCCESS_CODE === response.code) {
+            // 用户今日已经上传则显示提示信息
+            if (INFO_CODE === response.code) {
                 var userRecordToday = response.resultMap.userRecordToday;
                 // 回显用户今日已上传图片
                 $(".img-health").attr("src", userRecordToday.healthImageUrl);

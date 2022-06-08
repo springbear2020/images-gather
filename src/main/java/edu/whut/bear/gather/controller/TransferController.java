@@ -53,9 +53,9 @@ public class TransferController {
         tokenList.add(qiniuUtils.getImageUploadToken(closedImageFileName));
 
         if (tokenList.size() <= 0) {
-            return Response.error("请求获取上传验证信息失败");
+            return Response.error("获取 token 失败，请联系系统管理员");
         }
 
-        return Response.success("成功获取三条 token 信息").put("keyList", keyList).put("tokenList", tokenList);
+        return Response.success("成功获取 token 信息").put("keyList", keyList).put("tokenList", tokenList);
     }
 }

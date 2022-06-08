@@ -93,7 +93,7 @@ public class RecordServiceImpl implements RecordService {
         classRecordList.addAll(loginNotUploadList);
         classRecordList.addAll(longinUploadList);
         // 给客户端返回已上传人数、班级所有成员记录、未登录人员、登录未上传记录，由客户端解析以避免降低服务器性能
-        return Response.success("成功获取本班上传记录").put("uploadedNumbers", longinUploadList.size())
+        return Response.success("成功获取本班记录").put("uploadedNumbers", longinUploadList.size())
                 .put("classRecordList", classRecordList).put("unLoginUserList", unLoginUserList).put("loginNotUploadList", loginNotUploadList);
     }
 
@@ -103,7 +103,7 @@ public class RecordServiceImpl implements RecordService {
         List<User> gradeNotLoginUserList = userDao.getGradeUserListNotLogin(grade, date);
         // 该年级登录未上传记录
         List<Record> loginNotUploadRecordList = recordDao.getGradeRecordList(grade, date, Record.NO);
-        return Response.success("成功获取到年级记录").put("gradeSize", User.GRADE_SIZE)
+        return Response.success("成功获取年级记录").put("gradeSize", User.GRADE_SIZE)
                 .put("userList", gradeNotLoginUserList).put("recordList", loginNotUploadRecordList);
     }
 }

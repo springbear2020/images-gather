@@ -29,7 +29,7 @@ public class RecordController {
                                            @RequestParam("healthKey") String healthKey, @RequestParam("scheduleKey") String scheduleKey, @RequestParam("closedKey") String closedKey) {
         // 非法的今日上传记录状态
         if (status != Record.NO && status != Record.YES) {
-            return Response.error("图片上传成功，上传记录状态不正确");
+            return Response.error("图片上传成功，非法的上传记录状态");
         }
 
         User user = (User) session.getAttribute("user");
@@ -37,7 +37,7 @@ public class RecordController {
 
         // 管理员和用户在同一浏览器同时在线
         if (user != null && admin != null) {
-            return Response.info("请先退出管理员或普通用户账号");
+            return Response.info("请先退出管理员或个人用户账号");
         }
         // 判断是管理员还是用户上传记录
         user = admin == null ? user : admin;
@@ -73,7 +73,7 @@ public class RecordController {
         if (!recordService.updateRecordState(userRecordToday)) {
             return Response.error("今日记录更新失败，请联系系统管理员");
         }
-        return Response.success("今日【两码一查】已完成");
+        return Response.success("今日【两码一查】已上传");
     }
 
     @GetMapping("/record/user/today")
@@ -97,9 +97,9 @@ public class RecordController {
         }
         if (userRecordToday.getStatus() == Record.NO) {
             // 用户已登入系统，今日记录已存在，但尚未上传图片
-            return Response.info("请选择并上传您的【两码一查】图片");
+            return Response.success("请选择并上传您的【两码一查】");
         }
-        return Response.success("您的今日【两码一查】已完成").put("userRecordToday", userRecordToday);
+        return Response.info("今日【两码一查】已完成").put("userRecordToday", userRecordToday);
     }
 
 

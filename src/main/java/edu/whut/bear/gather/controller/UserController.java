@@ -56,7 +56,7 @@ public class UserController {
         // 保存用户登录记录
         Login login = new Login(user.getId(), ipAddress, location, new Date());
         if (!recordService.saveLogin(login)) {
-            modelMap.addAttribute("loginErrorMsg", "登录记录保存失败");
+            modelMap.addAttribute("loginErrorMsg", "登录记录保存失败，请联系系统管理员");
             return "index";
         }
 
@@ -70,13 +70,13 @@ public class UserController {
                     Record.DEFAULT_RECORD_ID, Record.DEFAULT_RECORD_ID, Record.DEFAULT_RECORD_ID, new Date(), unUploadImageUrl, unUploadImageUrl, unUploadImageUrl);
 
             if (!recordService.saveRecord(record)) {
-                modelMap.addAttribute("loginErrorMsg", "今日记录创建保存失败");
+                modelMap.addAttribute("loginErrorMsg", "今日记录创建失败，请联系系统管理员");
                 return "index";
             }
 
             // 更新用户上次记录创建时间为今天
             if (!userService.updateRecordCreateDate(new Date(), user.getId())) {
-                modelMap.addAttribute("loginErrorMsg", "更新上次登录日期失败");
+                modelMap.addAttribute("loginErrorMsg", "更新登录日期失败，请联系系统管理员");
                 return "index";
             }
         }
@@ -94,7 +94,7 @@ public class UserController {
             response.addCookie(usernameCookie);
             response.addCookie(passwordCookie);
         } else {
-            // 用户取消勾选记住我，移除 Cookie 中的用户名和密码数据
+            // 用户取消勾选【记住我】，移除 Cookie 中的用户名和密码数据
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
@@ -122,7 +122,7 @@ public class UserController {
                 session.setAttribute("admin", user);
                 return "redirect:" + contextPath + "admin/home";
             default:
-                modelMap.addAttribute("loginErrorMsg", "用户类型不存在");
+                modelMap.addAttribute("loginErrorMsg", "用户状态异常，禁止登录，请联系系统管理员");
                 return "index";
         }
     }
@@ -155,7 +155,7 @@ public class UserController {
 
         // 新旧密码一致，不允许修改
         if (oldPassword.equals(newPassword)) {
-            return Response.info("新旧密码一致，不能修改");
+            return Response.info("新旧密码一致，请更换输入新密码");
         }
 
         // 验证原密码的正确性
@@ -167,7 +167,7 @@ public class UserController {
 
         // 更新用户密码
         if (!userService.updateUserPassword(newPassword, user.getId())) {
-            return Response.error("密码修改失败，请稍后重试");
+            return Response.error("密码修改失败，请联系系统管理员");
         }
         return Response.success("个人登录密码修改成功");
     }

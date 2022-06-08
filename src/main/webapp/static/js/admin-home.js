@@ -66,7 +66,7 @@ $(function () {
         $contentParent.append($("<hr/>"));
 
         /*
-            TODO 分班级显示未上传人员信息
+            分班级显示未上传人员信息
             1	软件1901
             2	软件1902
             3	软件1903
@@ -99,7 +99,7 @@ $(function () {
         var classTen = [];
         var classTenSize = 0;
 
-        // 分班分类未登录用户
+        // 分班统计未登录用户
         $.each(userList, function (index, item) {
             var classNumber = item.classNumber;
             var studentName = item.realName;
@@ -136,7 +136,7 @@ $(function () {
                     break;
             }
         });
-        // 分别分类登录未上传用户
+        // 分班统计登录未上传用户
         $.each(recordList, function (index, item) {
             var classNumber = item.classNumber;
             var studentName = item.realName;

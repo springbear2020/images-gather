@@ -64,9 +64,8 @@
         <listener-class>edu.whut.bear.gather.listener.SessionListener</listener-class>
     </listener>
 
-    <!-- 404 not found page -->
-    <error-page>
-        <error-code>404</error-code>
-        <location>/404</location>
-    </error-page>
+    <!-- 修改会话超时时间为 5 分钟，减轻服务器压力 -->
+    <session-config>
+        <session-timeout>5</session-timeout>
+    </session-config>
 </web-app>
