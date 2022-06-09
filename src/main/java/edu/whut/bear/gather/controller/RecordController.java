@@ -18,6 +18,7 @@ import java.util.Date;
  * @datetime 6/7/2022 7:56 AM
  */
 @RestController
+@SuppressWarnings("all")
 public class RecordController {
     @Autowired
     private RecordService recordService;
@@ -43,7 +44,6 @@ public class RecordController {
         user = admin == null ? user : admin;
 
         // 批量插入三条用户上传记录 Upload 并返回自增 ID 数组
-        assert user != null;
         String bucket = propertyUtils.getBucket();
         String domain = propertyUtils.getDomain();
         Upload healthUpload = new Upload(user.getId(), Upload.HEALTH_IMAGE, new Date(), bucket, domain, healthKey);
@@ -89,7 +89,6 @@ public class RecordController {
         user = admin == null ? user : admin;
 
         // 获取用户今日记录（登入系统时创建）
-        assert user != null;
         Record userRecordToday = recordService.getUserRecordByDate(user.getId(), new Date());
         if (userRecordToday == null) {
             // 如果为空，则用户尚未登入系统
@@ -107,14 +106,12 @@ public class RecordController {
     public Response getClassRecord(@PathVariable("date") String date, HttpSession session) {
         User admin = (User) session.getAttribute("admin");
         // 获取管理员本班的学生记录信息并处理
-        assert admin != null;
         return recordService.processClassRecordList(admin.getClassNumber(), DateUtils.parseString(date));
     }
 
     @GetMapping("/admin/record/grade/{date}")
     public Response getGradeRecord(@PathVariable("date") String date, HttpSession session) {
         User admin = (User) session.getAttribute("admin");
-        assert admin != null;
         // 获取管理员该年级的年级记录信息并处理
         return recordService.getGradeUnUploadUserList(admin.getGrade(), DateUtils.parseString(date));
     }

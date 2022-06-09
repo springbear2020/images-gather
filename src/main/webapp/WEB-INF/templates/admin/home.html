@@ -129,7 +129,7 @@
 <!-- 健康码、行程码、密接查容器 -->
 <div class="container marketing">
     <!-- 两码一查图片文件上传表单 -->
-    <form class="center-block">
+    <form class="center-block images-form" method="post" enctype="multipart/form-data">
         <div class="row">
             <!-- 健康码 -->
             <div class="col-lg-4">
@@ -138,7 +138,7 @@
                 <label>
                     <!-- 选择健康码按钮 -->
                     <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的健康码</a></p>
-                    <input class="true-choose-image health-image" type="file" accept="image/png,image/jpeg" style="display: none;">
+                    <input class="true-choose-image health-image" name="healthImage" type="file" accept="image/*" style="display: none;">
                 </label>
             </div>
             <!-- 行程码 -->
@@ -146,7 +146,7 @@
                 <img class="img-thumbnail img-schedule" th:src="@{/static/img/scheduleDefault.png}" alt="行程码图片不存在，请选择并上传" width="300" height="500">
                 <label>
                     <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的行程码</a></p>
-                    <input class="true-choose-image schedule-image" type="file" accept="image/png,image/jpeg" style="display: none;">
+                    <input class="true-choose-image schedule-image" name="scheduleImage" type="file" accept="image/*" style="display: none;">
                 </label>
             </div>
             <!-- 密接查 -->
@@ -154,7 +154,7 @@
                 <img class="img-thumbnail img-closed" th:src="@{/static/img/closedDefault.png}" alt="密接查图片不存在，请选择并上传" width="300" height="500">
                 <label>
                     <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的密接查</a></p>
-                    <input class="true-choose-image closed-image" type="file" accept="image/png,image/jpeg" style="display: none;">
+                    <input class="true-choose-image closed-image" name="closedImage" type="file" accept="image/*" style="display: none;">
                 </label>
             </div>
         </div>

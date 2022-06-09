@@ -25,6 +25,7 @@ import java.util.Date;
  * @datetime 6/6/2022 12:55 PM
  */
 @Controller
+@SuppressWarnings("all")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -159,7 +160,6 @@ public class UserController {
         }
 
         // 验证原密码的正确性
-        assert user != null;
         User verifyUser = userService.verifyUsernameAndPassword(user.getUsername(), oldPassword);
         if (verifyUser == null) {
             return Response.error("原密码有误，请重新输入");

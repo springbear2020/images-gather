@@ -237,6 +237,43 @@ $(function () {
         })
     }
 
+    // // 文件上传点击按钮
+    // $(".image-submit").click(function () {
+    //     // 验证保证三张图片均已选择
+    //     if (healthFileNameSuffix.length <= 0) {
+    //         showNoticeModal(WARNING_CODE, "请选择您的健康码");
+    //         return false;
+    //     }
+    //     if (scheduleFileNameSuffix.length <= 0) {
+    //         showNoticeModal(WARNING_CODE, "请选择您的行程码");
+    //         return false;
+    //     }
+    //     if (closedFileNameSuffix.length <= 0) {
+    //         showNoticeModal(WARNING_CODE, "请选择您的密接查");
+    //         return false;
+    //     }
+    //
+    //     // 点击上传后禁用按钮
+    //     $(this).attr("disabled", "disabled");
+    //
+    //     // 从服务器获取 keyList 和 tokenList 完成七牛校验
+    //     $.ajax({
+    //         url: contextPath + "transfer/upload/images",
+    //         dataType: "json",
+    //         type: "get",
+    //         success: function (response) {
+    //             if (SUCCESS_CODE === response.code) {
+    //                 uploadFilesInOrder(response.resultMap.keyList, response.resultMap.tokenList);
+    //             } else {
+    //                 showNoticeModal(response.code, response.msg);
+    //             }
+    //         },
+    //         error: function () {
+    //             showNoticeModal(ERROR_CODE, "请求获取文件上传验证信息失败");
+    //         }
+    //     })
+    // });
+
     // 文件上传点击按钮
     $(".image-submit").click(function () {
         // 验证保证三张图片均已选择
@@ -255,21 +292,28 @@ $(function () {
 
         // 点击上传后禁用按钮
         $(this).attr("disabled", "disabled");
+        showNoticeModal(INFO_CODE, "文件上传中，请稍后······");
+
+        // 获取表单中的文件
+        var formData = new FormData();
+        formData.append("healthImage", HEALTH_IMAGE_FILE);
+        formData.append("scheduleImage", SCHEDULE_IMAGE_FILE);
+        formData.append("closedImage", CLOSED_IMAGE_FILE);
 
         // 从服务器获取 keyList 和 tokenList 完成七牛校验
         $.ajax({
-            url: contextPath + "transfer/upload/images",
+            url: contextPath + "transfer/local/upload/images",
+            type: "post",
             dataType: "json",
-            type: "get",
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
             success: function (response) {
-                if (SUCCESS_CODE === response.code) {
-                    uploadFilesInOrder(response.resultMap.keyList, response.resultMap.tokenList);
-                } else {
-                    showNoticeModal(response.code, response.msg);
-                }
+                showNoticeModal(response.code, response.msg);
             },
             error: function () {
-                showNoticeModal(ERROR_CODE, "请求获取文件上传验证信息失败");
+                showNoticeModal(ERROR_CODE, "请求上传文件失败");
             }
         })
     });

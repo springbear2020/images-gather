@@ -33,13 +33,25 @@ public class DateUtils {
     }
 
     /**
+     * 将 java.util.Date 解析为 20220606122345 的格式
+     *
+     * @param date java.util.Date
+     * @return 20220606122345
+     */
+    public static String parseDateNoHyphenDatetime(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        return dateFormat.format(date);
+    }
+
+
+    /**
      * 将 java.util.Date 解析为 20220606 的格式
      *
      * @param date java.util.Date
      * @return 20220606
      */
-    public static String parseDateNoHyphen(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+    public static String parseDateNoHyphenDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         return dateFormat.format(date);
     }
 

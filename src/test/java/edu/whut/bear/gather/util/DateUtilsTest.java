@@ -13,6 +13,6 @@ public class DateUtilsTest {
 
     @Test
     public void parseDateNoHyphen() {
-        System.out.println(DateUtils.parseDateNoHyphen(new Date()));
+        System.out.println(DateUtils.parseDateNoHyphenDatetime(new Date()));
     }
 }
