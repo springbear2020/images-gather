@@ -97,7 +97,7 @@ public class TransferController {
         // 创建班级今日文件保存目录
         String realPath = session.getServletContext().getRealPath("/static/gather");
         String todayDate = DateUtils.parseDate(new Date());
-        File classTodayDirectory = new File(realPath + "/" + todayDate + "/" + user.getClassName());
+        File classTodayDirectory = new File(realPath + "/" + user.getClassName() + "/" + todayDate);
         if (!classTodayDirectory.exists() && !classTodayDirectory.mkdirs()) {
             return Response.error("班级今日目录创建失败，请联系系统管理员");
         }
@@ -135,9 +135,9 @@ public class TransferController {
         }
 
         // 更新用户今日记录（图片访问 url 及记录状态）
-        String healthImageUrl = propertyUtils.getContextPath() + "static/gather/" + todayDate + "/" + user.getClassName() + "/" + fileNames[0];
-        String scheduleImageUrl = propertyUtils.getContextPath() + "static/gather/" + todayDate + "/" + user.getClassName() + "/" + fileNames[1];
-        String closedImageUrl = propertyUtils.getContextPath() + "static/gather/" + todayDate + "/" + user.getClassName() + "/" + fileNames[2];
+        String healthImageUrl = propertyUtils.getContextPath() + "static/gather/" + user.getClassName() + "/" + todayDate + "/" + fileNames[0];
+        String scheduleImageUrl = propertyUtils.getContextPath() + "static/gather/" + user.getClassName() + "/" + todayDate + "/" + fileNames[1];
+        String closedImageUrl = propertyUtils.getContextPath() + "static/gather/" + user.getClassName() + "/" + todayDate + "/" + fileNames[2];
 
         // 获取用户今日记录（登入系统时创建）
         Record userRecordToday = recordService.getUserRecordByDate(user.getId(), new Date());

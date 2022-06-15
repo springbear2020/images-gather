@@ -41,11 +41,11 @@ public class TransferUtils {
      * @return String[0]：健康码文件名     String[1]：行程码文件名    String[2]：密接查文件名
      */
     public static String[] imageFullFileName(User user, String healthSuffix, String scheduleSuffix, String closedSuffix) {
-        String healthFullFileName = +user.getClassNumber() + "-" + user.getRealName() + "-" + user.getUsername() + "-"
+        String healthFullFileName = user.getClassNumber() + "-" + user.getRealName() + "-" + user.getUsername() + "-"
                 + "健康码" + "-" + DateUtils.parseDateNoHyphenDate(new Date()) + healthSuffix;
-        String scheduleFullFileName = +user.getClassNumber() + "-" + user.getRealName() + "-" + user.getUsername() + "-"
+        String scheduleFullFileName = user.getClassNumber() + "-" + user.getRealName() + "-" + user.getUsername() + "-"
                 + "行程码" + "-" + DateUtils.parseDateNoHyphenDate(new Date()) + scheduleSuffix;
-        String closedFullFileName = +user.getClassNumber() + "-" + user.getRealName() + "-" + user.getUsername() + "-"
+        String closedFullFileName = user.getClassNumber() + "-" + user.getRealName() + "-" + user.getUsername() + "-"
                 + "密接查" + "-" + DateUtils.parseDateNoHyphenDate(new Date()) + closedSuffix;
         return new String[]{healthFullFileName, scheduleFullFileName, closedFullFileName};
     }
