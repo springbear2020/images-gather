@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="gather@localhost" uuid="f9d7818d-a2a9-4b8e-9df0-986edfb23bf3">
+    <data-source source="LOCAL" name="images_gather@localhost" uuid="3c8d23ee-7b6d-45ba-b961-ad540671e272">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/gather</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/images_gather</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
