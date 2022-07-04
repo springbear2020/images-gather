@@ -1,5 +1,6 @@
 package edu.whut.springbear.gather.controller;
 
+import edu.whut.springbear.gather.exception.InterceptorException;
 import edu.whut.springbear.gather.pojo.LoginLog;
 import edu.whut.springbear.gather.pojo.Response;
 import edu.whut.springbear.gather.pojo.Upload;
@@ -43,7 +44,7 @@ public class UserController {
         User user = userService.queryUserByUsernameAndPassword(username, password);
         if (user == null) {
             model.addAttribute("loginMsg", "用户名不存在或密码错误");
-            return "index";
+            return "login";
         }
 
         // Remember me, tell the browser save the cookie info for one week
@@ -56,53 +57,68 @@ public class UserController {
             response.addCookie(passwordCookie);
         }
 
-        // Save the user login log
-        String ip = WebUtils.getIpAddress(request);
         String location = "未知地点";
+        String ip = WebUtils.getIpAddress(request);
         // Get the ip location from the baidu api
         if (propertyUtils.getStartIpParse()) {
             location = "127.0.0.1".equals(ip) ? "localhost" : WebUtils.getIpLocationFromBaiduMap(propertyUtils.getIpParseUrl() + ip);
         }
+        // Save the user login log
         if (!recordService.saveLoginLog(new LoginLog(null, ip, location, new Date(), user.getId()))) {
             model.addAttribute("loginMsg", "登录记录保存失败，请稍后重试");
-            return "index";
+            return "login";
         }
 
         // Judge the user state
         if (User.STATUS_NORMAL != user.getUserStatus()) {
             model.addAttribute("loginMsg", "用户状态异常，禁止登录");
-            return "index";
+            return "login";
         }
 
-        // Create the user's today upload record and update last login date
+        HttpSession session = request.getSession();
+        // Create the user's today upload record and update last login date if last login date is not today
         if (!DateUtils.isToday(user.getLastLoginDate())) {
             //  Create the user's today upload record
             String uploadPath = "static/img/notUploaded.png";
             Upload upload = new Upload(null, Upload.STATUS_NON_UPLOAD, new Date(), uploadPath, uploadPath, uploadPath, uploadPath, uploadPath, uploadPath, user.getId());
             if (!recordService.saveUserUploadRecord(upload)) {
-                model.addAttribute("loginMsg", "今日上传记录创建失败，请稍后重试");
-                return "index";
+                model.addAttribute("loginMsg", "今日上传记录新增失败，请稍后重试");
+                return "login";
             }
 
             // Update user last login date to today
             if (!userService.updateUserLastLoginDate(user.getId(), new Date())) {
                 model.addAttribute("loginMsg", "更新登录时间失败，请稍后重试");
-                return "index";
+                return "login";
+            }
+        } else if (User.TYPE_USER == user.getUserType()) {
+            // User sign in again in the same day, query his/her upload record, if all images uploaded then display it for he/her
+            Upload upload = recordService.getUserUploadInSpecifiedDate(user.getId(), Upload.STATUS_UPLOADED, new Date());
+            if (upload != null) {
+                String contextPath = session.getServletContext().getContextPath() + "/";
+                // Get the three images' access url from the upload record, result format as follow,
+                // String[0]-healthImageAccessUrl String[0]-scheduleImageAccessUrl String[0]-closedImageAccessUrl
+                String[] accessUrls = recordService.getThreeImagesAccessUrl(contextPath, upload);
+                // Add the images' access url to the request scope
+                model.addAttribute("healthImageUrl", accessUrls[0]);
+                model.addAttribute("scheduleImageUrl", accessUrls[1]);
+                model.addAttribute("closedImageUrl", accessUrls[2]);
+                session.setAttribute("user", user);
+                return "user/user_complete";
             }
         }
 
         // Redirect to different page by the user's type
-        HttpSession session = request.getSession();
         switch (user.getUserType()) {
-            case User.TYPE_STUDENT:
+            case User.TYPE_USER:
                 session.setAttribute("user", user);
                 return "redirect:/user/user_home.html";
-            case User.TYPE_MONITOR:
+            case User.TYPE_ADMIN:
                 session.setAttribute("admin", user);
                 return "redirect:/admin/admin_home.html";
             default:
                 model.addAttribute("loginMsg", "用户类型不存在，禁止登录");
-                return "index";
+                return "login";
         }
     }
 
@@ -116,13 +132,13 @@ public class UserController {
 
     @ResponseBody
     @PutMapping("/update")
-    public Response updatePassword(@RequestParam String oldPassword, @RequestParam String newPassword, HttpSession session) {
+    public Response updatePassword(@RequestParam String oldPassword, @RequestParam String newPassword, HttpSession session) throws InterceptorException {
         User user = (User) session.getAttribute("user");
         User admin = (User) session.getAttribute("admin");
 
         // Admin and common user login at the same time on the same browser
         if (user != null && admin != null) {
-            return Response.error("请先退出管理员或用户账号");
+            throw new InterceptorException("请先退出管理员或用户账号");
         }
         // Judge who is trying to update his/her password
         user = admin != null ? admin : user;

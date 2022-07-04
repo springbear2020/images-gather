@@ -1,8 +1,6 @@
 package edu.whut.springbear.gather.service.impl;
 
 
-import com.qiniu.storage.Configuration;
-import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import edu.whut.springbear.gather.pojo.Response;
@@ -29,6 +27,10 @@ import java.util.Objects;
 public class TransferServiceImpl implements TransferService {
     @Resource
     private PropertyUtils propertyUtils;
+    @Resource
+    private UploadManager uploadManager;
+    @Resource
+    private Auth auth;
 
     @Override
     public Response judgeThreeImagesFormat(MultipartFile healthImage, MultipartFile scheduleImage, MultipartFile closedImage) {
@@ -50,7 +52,7 @@ public class TransferServiceImpl implements TransferService {
         Student student = userWithStudent.getStudent();
         String userTodayPath = "images/" + student.getSchool() + "/" + student.getCollege() + "/" +
                 student.getGrade() + "/" + student.getMajor() + "/" + student.getClassName() + "/" +
-                DateUtils.parseDate(new Date()) + "/";
+                DateUtils.parseDateWithHyphen(new Date()) + "/";
         File userTodayFilePath = new File(realPath + "/" + userTodayPath);
         if (!userTodayFilePath.exists()) {
             // Create the directory
@@ -66,7 +68,7 @@ public class TransferServiceImpl implements TransferService {
                                        MultipartFile healthImage, MultipartFile scheduleImage, MultipartFile closedImage) {
         Student student = userWithStudent.getStudent();
         // The three images url can be access as source
-        String datetimeNow = DateUtils.parseDatetime(new Date());
+        String datetimeNow = DateUtils.parseDatetimeNoHyphen(new Date());
         String healthUrl = userTodayPath + student.getName() + "-" + "健康码-" + datetimeNow + ".png";
         String scheduleUrl = userTodayPath + student.getName() + "-" + "行程码-" + datetimeNow + ".png";
         String closedUrl = userTodayPath + student.getName() + "-" + "密接查-" + datetimeNow + ".png";
@@ -92,9 +94,6 @@ public class TransferServiceImpl implements TransferService {
         String cdnDomain = propertyUtils.getCdnDomain();
         String bucket = propertyUtils.getBucket();
         // Qiniu file upload service
-        Configuration configuration = new Configuration(Region.region2());
-        UploadManager uploadManager = new UploadManager(configuration);
-        Auth auth = Auth.create(propertyUtils.getAccessKey(), propertyUtils.getSecretKey());
         String uploadToken = auth.uploadToken(bucket);
         try {
             // Upload the three files in order

@@ -17,7 +17,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link th:href="@{/static/css/ie10-viewport-bug-workaround.css}" href="../../../static/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link th:href="@{/static/css/carousel.css}" href="../../../static/css/carousel.css" rel="stylesheet">
+    <link th:href="@{/static/css/gather-home.css}" href="../../../static/css/gather-home.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -86,21 +86,21 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" th:href="@{/admin/admin_home.html}" href="admin_home.html">两码一查</a>
+                    <a class="navbar-brand" th:href="@{/home.html}" href="admin_home.html">两码一查</a>
                 </div>
                 <!-- Top header content -->
                 <div id="navbar" class="navbar-collapse collapse text-center">
-                    <!-- TODO User welcome -->
-                    <span class="welcome-user" th:text="${'欢迎【'+session.admin.username}+'】管理员'">欢迎登录</span>
+                    <span class="welcome-user" th:text="${'欢迎【'+session.admin.student.name}+'】管理员'">欢迎登录</span>
                     <!-- Items on the left -->
                     <ul class="nav navbar-nav">
-                        <li class="text-center"><a th:href="@{/admin/admin_home.html}" href="admin_home.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 主页</a></li>
-<!--                        <li class="text-center"><a th:href="@{/admin/record}"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> 班级</a></li>-->
+                        <li class="text-center"><a th:href="@{/home.html}" href="admin_home.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 主页</a></li>
+                        <li class="text-center"><a th:href="@{/record.html}" href="../record.html"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> 记录</a></li>
+                        <li class="text-center"><a th:href="@{/admin/admin_class_record.html}" href="admin_class_record.html"><span class="glyphicon glyphicon-education" aria-hidden="true"></span> 班级</a></li>
                     </ul>
                     <!-- Items on the right -->
                     <ul class="nav navbar-nav navbar-right">
                         <li class="text-center link-update-password"><a role="button"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 改密</a></li>
-                        <li class="text-center"><a th:href="@{/logout}" href="../index.html"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</a></li>
+                        <li class="text-center"><a th:href="@{/logout}" href="../login.html"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</a></li>
                     </ul>
                 </div>
             </div>
@@ -114,7 +114,7 @@
         <div class="row">
             <!-- Health image -->
             <div class="col-lg-4">
-                <img class="img-thumbnail img-health" th:src="@{/static/img/health.png}" src="../../../static/img/health.png" alt="健康码图片不存在">
+                <img class="img-thumbnail img-health" th:src="@{/static/img/health.png}" src="../../../static/img/health.png" alt="健康码图片加载失败">
                 <label>
                     <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的健康码</a></p>
                     <input class="true-choose-image health-image" name="healthImage" type="file" accept="image/*" style="display: none;opacity: 100%">
@@ -122,7 +122,7 @@
             </div>
             <!-- Schedule image -->
             <div class="col-lg-4">
-                <img class="img-thumbnail img-schedule" th:src="@{/static/img/schedule.png}" src="../../../static/img/schedule.png" alt="行程码图片不存在">
+                <img class="img-thumbnail img-schedule" th:src="@{/static/img/schedule.png}" src="../../../static/img/schedule.png" alt="行程码图片加载失败">
                 <label>
                     <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的行程码</a></p>
                     <input class="true-choose-image schedule-image" name="scheduleImage" type="file" accept="image/*" style="display: none;opacity: 100%">
@@ -130,7 +130,7 @@
             </div>
             <!-- Closed image -->
             <div class="col-lg-4">
-                <img class="img-thumbnail img-closed" th:src="@{/static/img/closed.png}" src="../../../static/img/closed.png" alt="密接查图片不存在">
+                <img class="img-thumbnail img-closed" th:src="@{/static/img/closed.png}" src="../../../static/img/closed.png" alt="密接查图片加载失败">
                 <label>
                     <p><a class="btn btn-success choose-image" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 请选择您的密接查</a></p>
                     <input class="true-choose-image closed-image" name="closedImage" type="file" accept="image/*" style="display: none;opacity: 100%">
@@ -165,5 +165,6 @@
 
 <!-- Custom JavaScript -->
 <script th:src="@{/static/js/gather-home.js}" src="../../../static/js/gather-home.js"> charset = "utf-8"</script>
+<script th:src="@{/static/js/gather-admin-home.js}" src="../../../static/js/gather-admin-home.js"> charset = "utf-8"</script>
 </body>
 </html>

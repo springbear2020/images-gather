@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -24,5 +25,11 @@ public class LoginLogMapperTest {
     @Test
     public void saveLoginLog() {
         System.out.println(loginLogMapper.saveLoginLog(new LoginLog(null, "127.0.0.1", "湖北省武汉市", new Date(), 1)));
+    }
+
+    @Test
+    public void getUserLoginLog() {
+        List<LoginLog> loginLogList = loginLogMapper.getUserLoginLog(1);
+        loginLogList.forEach(System.out::println);
     }
 }

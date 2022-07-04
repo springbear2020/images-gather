@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="images_gather@localhost" uuid="3c8d23ee-7b6d-45ba-b961-ad540671e272">
+    <data-source source="LOCAL" name="MySQL - images_gather@localhost" uuid="8fd82f00-12d9-4015-b494-a6ca809fb459">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>

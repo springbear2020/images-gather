@@ -30,6 +30,6 @@ public class User implements Serializable {
     public static final int STATUS_NORMAL = 0;
     public static final int STATUS_ABNORMAL = 1;
 
-    public static final int TYPE_STUDENT = 0;
-    public static final int TYPE_MONITOR = 1;
+    public static final int TYPE_USER = 0;
+    public static final int TYPE_ADMIN = 1;
 }

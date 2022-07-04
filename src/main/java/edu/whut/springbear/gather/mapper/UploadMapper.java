@@ -2,8 +2,13 @@ package edu.whut.springbear.gather.mapper;
 
 import edu.whut.springbear.gather.pojo.Upload;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -29,4 +34,26 @@ public interface UploadMapper {
             "cloud_health_url = #{cloudHealthUrl}, cloud_schedule_url = #{cloudScheduleUrl}, cloud_closed_url = #{cloudClosedUrl} " +
             "where user_id = #{userId} and DATE_FORMAT(upload_date_time,'%Y-%m-%d') = #{uploadDatetime,jdbcType=DATE}")
     int updateUserUploadImagesUrl(Upload upload);
+
+    /**
+     * Get the upload record of the user by id of user in the specified date,
+     * and filter the results by the upload record status
+     *
+     * @param userId        Id of user
+     * @param uploadStatus  Status of upload
+     * @param specifiedDate Specified date
+     * @return Upload or null
+     */
+    @Select("select * from t_upload where user_id = #{userId} and upload_status = #{uploadStatus} and DATE_FORMAT(upload_date_time,'%Y-%m-%d') = #{specifiedDate,jdbcType=DATE}")
+    Upload getUserUploadInSpecifiedDate(@Param("userId") Integer userId, @Param("uploadStatus") Integer uploadStatus, @Param("specifiedDate") Date specifiedDate);
+
+    /**
+     * Get the user's all upload record
+     *
+     * @param userId       Id of user
+     * @param uploadStatus Status of upload
+     * @return User upload list or null
+     */
+    @Select("select * from t_upload where user_id = #{userId} and upload_status = #{uploadStatus} order by upload_date_time desc")
+    List<Upload> getAllUserUploads(@Param("userId") Integer userId, @Param("uploadStatus") Integer uploadStatus);
 }

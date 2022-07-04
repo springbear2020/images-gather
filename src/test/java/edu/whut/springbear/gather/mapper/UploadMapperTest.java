@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -33,11 +34,22 @@ public class UploadMapperTest {
     public void updateUserUploadLocalUrl() {
         Upload upload = new Upload();
         upload.setUploadStatus(Upload.STATUS_UPLOADED);
-        upload.setUploadDatetime(new Date());
+        upload.setUploadDateTime(new Date());
         upload.setLocalHealthUrl("springbear");
         upload.setLocalScheduleUrl("springbear");
         upload.setLocalClosedUrl("springbear");
         upload.setUserId(1);
         System.out.println(uploadMapper.updateUserUploadImagesUrl(upload));
+    }
+
+    @Test
+    public void getUserUploadInSpecifiedDate() {
+        System.out.println(uploadMapper.getUserUploadInSpecifiedDate(1, 0, new Date()));
+    }
+
+    @Test
+    public void getAllUserUploads() {
+        List<Upload> uploadList = uploadMapper.getAllUserUploads(1, 0);
+        uploadList.forEach(System.out::println);
     }
 }

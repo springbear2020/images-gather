@@ -1,5 +1,6 @@
 package edu.whut.springbear.gather.controller;
 
+import edu.whut.springbear.gather.exception.InterceptorException;
 import edu.whut.springbear.gather.pojo.Response;
 import edu.whut.springbear.gather.pojo.Upload;
 import edu.whut.springbear.gather.pojo.User;
@@ -36,7 +37,7 @@ public class TransferController {
     public Response upload(HttpSession session,
                            @RequestParam("healthImage") MultipartFile healthImage,
                            @RequestParam("scheduleImage") MultipartFile scheduleImage,
-                           @RequestParam("closedImage") MultipartFile closedImage) {
+                           @RequestParam("closedImage") MultipartFile closedImage) throws InterceptorException {
         // Judge whether the three images are in correct format
         Response response = transferService.judgeThreeImagesFormat(healthImage, scheduleImage, closedImage);
         if (response != null) {
@@ -47,7 +48,7 @@ public class TransferController {
         User admin = (User) session.getAttribute("admin");
         // Admin and common user login at the same time on the same browser
         if (user != null && admin != null) {
-            return Response.error("请先退出管理员或用户账号");
+            throw new InterceptorException("请先退出管理员或用户账号");
         }
         // Judge who is trying to upload images
         user = admin != null ? admin : user;

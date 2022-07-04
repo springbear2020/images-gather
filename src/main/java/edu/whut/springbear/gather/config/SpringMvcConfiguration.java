@@ -1,5 +1,8 @@
 package edu.whut.springbear.gather.config;
 
+import edu.whut.springbear.gather.interceptor.AdminInterceptor;
+import edu.whut.springbear.gather.interceptor.LoginInterceptor;
+import edu.whut.springbear.gather.interceptor.UserInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -7,10 +10,7 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -26,7 +26,7 @@ import javax.servlet.ServletContext;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan("edu.whut.springbear.gather.controller")
+@ComponentScan(value = {"edu.whut.springbear.gather.controller"})
 public class SpringMvcConfiguration implements WebMvcConfigurer {
     /**
      * Default servlet handler to handle with the static resources link .ccs, .js and so on
@@ -73,9 +73,12 @@ public class SpringMvcConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("index");
+        registry.addViewController("/").setViewName("login");
+        registry.addViewController("/record.html").setViewName("record");
         registry.addViewController("/user/user_home.html").setViewName("user/user_home");
+        registry.addViewController("/user/user_complete.html").setViewName("user/user_complete");
         registry.addViewController("/admin/admin_home.html").setViewName("admin/admin_home");
+        registry.addViewController("/admin/admin_class_record.html").setViewName("admin/admin_class_record");
     }
 
     /**
@@ -84,5 +87,18 @@ public class SpringMvcConfiguration implements WebMvcConfigurer {
     @Bean
     public CommonsMultipartResolver multipartResolver() {
         return new CommonsMultipartResolver();
+    }
+
+    /**
+     * Interceptors
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // LoginInterceptor: Intercept all requests except homepage, login, logout, static resources
+        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "/login", "/logout", "/static/**");
+        // UserInterceptor: Intercept user resources
+        registry.addInterceptor(new UserInterceptor()).addPathPatterns("/user/**");
+        // AdminInterceptor: Intercept admin resources
+        registry.addInterceptor(new AdminInterceptor()).addPathPatterns("/admin/**");
     }
 }

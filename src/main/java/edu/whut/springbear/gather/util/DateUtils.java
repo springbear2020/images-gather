@@ -15,7 +15,7 @@ public class DateUtils {
      * @param date java.util.Date
      * @return Date after formatting
      */
-    public static String parseDate(Date date) {
+    public static String parseDateWithHyphen(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(date);
     }
@@ -27,8 +27,8 @@ public class DateUtils {
      * @return true - Yes, it is today
      */
     public static boolean isToday(Date date) {
-        String specifiedDate = parseDate(date);
-        String today = parseDate(new Date());
+        String specifiedDate = parseDateWithHyphen(date);
+        String today = parseDateWithHyphen(new Date());
         return specifiedDate.equals(today);
     }
 
@@ -40,7 +40,7 @@ public class DateUtils {
      * @param defaultDate Default date when parse in exception was thrown
      * @return java.util.Date
      */
-    public static Date parseString(String dateStr, Date defaultDate) {
+    public static Date parseStringWithHyphen(String dateStr, Date defaultDate) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
             return dateFormat.parse(dateStr);
@@ -56,7 +56,7 @@ public class DateUtils {
      * @param date java.util.Date
      * @return Datetime in format
      */
-    public static String parseDatetime(Date date) {
+    public static String parseDatetimeNoHyphen(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         return dateFormat.format(date);
     }

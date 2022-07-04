@@ -23,7 +23,7 @@ public class Upload implements Serializable {
     private Integer uploadStatus;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date uploadDatetime;
+    private Date uploadDateTime;
     private String localHealthUrl;
     private String localScheduleUrl;
     private String localClosedUrl;

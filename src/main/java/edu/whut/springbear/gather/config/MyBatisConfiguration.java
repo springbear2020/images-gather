@@ -31,13 +31,13 @@ public class MyBatisConfiguration {
         org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
         configuration.setMapUnderscoreToCamelCase(true);
         sqlSessionFactoryBean.setConfiguration(configuration);
-        // 设置分页插件
+        // Set the pagination plugin
         sqlSessionFactoryBean.setPlugins(new Interceptor[]{getPageInterceptor()});
         return sqlSessionFactoryBean;
     }
 
     /**
-     * MyBatis mappers scan
+     * MyBatis mapper interface scan
      */
     @Bean
     public MapperScannerConfigurer getMapperScannerConfigurer() {

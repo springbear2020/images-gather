@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author Spring-_-Bear
@@ -14,11 +13,11 @@ import java.util.List;
  */
 @Repository
 public interface UserMapper {
-    @Select("select * from t_user")
-    List<User> getAllUsers();
-
     @Select("select * from t_user where username = #{username} and password = #{password}")
-    User getUserByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+    @Results({@Result(property = "student", column = "student_id",
+            javaType = Student.class, one = @One(select = "edu.whut.springbear.gather.mapper.StudentMapper.getStudentById"))
+    })
+    User getUserByUsernameAndPasswordWithStudent(@Param("username") String username, @Param("password") String password);
 
     @Update("update t_user set last_login_date = #{newLoginDate} where id = #{userId}")
     int updateLastLoginDate(@Param("userId") Integer userId, @Param("newLoginDate") Date newLoginDate);
@@ -36,5 +35,5 @@ public interface UserMapper {
     @Results({@Result(property = "student", column = "student_id",
             javaType = Student.class, one = @One(select = "edu.whut.springbear.gather.mapper.StudentMapper.getStudentById"))
     })
-    User getUserStudent(@Param("userId") Integer userId);
+    User getUserWithStudent(@Param("userId") Integer userId);
 }

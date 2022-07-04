@@ -1,7 +1,6 @@
 package edu.whut.springbear.gather.mapper;
 
 import edu.whut.springbear.gather.config.SpringConfiguration;
-import edu.whut.springbear.gather.pojo.User;
 import edu.whut.springbear.gather.util.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -24,19 +22,13 @@ public class UserMapperTest {
     private UserMapper userMapper;
 
     @Test
-    public void getAllUsers() {
-        List<User> userList = userMapper.getAllUsers();
-        userList.forEach(System.out::println);
-    }
-
-    @Test
     public void getUserByUsernameAndPassword() {
-        System.out.println(userMapper.getUserByUsernameAndPassword("admin", "admin"));
+        System.out.println(userMapper.getUserByUsernameAndPasswordWithStudent("admin", "admin"));
     }
 
     @Test
     public void updateLastLoginDate() {
-        System.out.println(userMapper.updateLastLoginDate(1, DateUtils.parseString("1970-01-01", new Date())));
+        System.out.println(userMapper.updateLastLoginDate(1, DateUtils.parseStringWithHyphen("1970-01-01", new Date())));
     }
 
     @Test
@@ -46,6 +38,6 @@ public class UserMapperTest {
 
     @Test
     public void getUserStudent() {
-        System.out.println(userMapper.getUserStudent(1));
+        System.out.println(userMapper.getUserWithStudent(1));
     }
 }

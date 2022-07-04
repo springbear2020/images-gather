@@ -24,12 +24,20 @@ public class PropertyUtils {
      */
     @Value("${qiniu.startService}")
     private Boolean startService;
-    @Value("${qiniu.accessKey}")
-    private String accessKey;
-    @Value("${qiniu.secretKey}")
-    private String secretKey;
     @Value("${qiniu.bucket}")
     private String bucket;
     @Value("${qiniu.cdnDomain}")
     private String cdnDomain;
+
+    /**
+     * Data view size
+     */
+    @Value("${gather.loginLogDataSize}")
+    private Integer loginLogDataSize;
+    @Value("${gather.loginLogPaginationSize}")
+    private Integer loginLogPaginationSize;
+    @Value("${gather.uploadDataSize}")
+    private Integer uploadDataSize;
+    @Value("${gather.uploadPaginationSize}")
+    private Integer uploadPaginationSize;
 }
