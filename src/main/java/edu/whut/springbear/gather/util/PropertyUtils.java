@@ -40,4 +40,16 @@ public class PropertyUtils {
     private Integer uploadDataSize;
     @Value("${gather.uploadPaginationSize}")
     private Integer uploadPaginationSize;
+
+    /**
+     * Default image url
+     */
+    @Value("${gather.notUploadUrl}")
+    private String notUploadUrl;
+    @Value("${gather.notLoginUrl}")
+    private String notLoginUrl;
+    @Value("${gather.notChooseUrl}")
+    private String notChooseUrl;
+    @Value("${gather.invalidUrl}")
+    private String invalidUrl;
 }

@@ -79,12 +79,16 @@
             <h2 class="page-header">2022-07-04</h2>
             <!-- All students' list and data table -->
             <div class="row placeholders container-record-list">
-                <div class="alert alert-success" role="alert">
-                    已完成人员名单【12】李春雄
+                <div class="alert alert-danger" id="not-login-list" role="alert">
+                    未登录人员名单【0】
                 </div>
-                <div class="alert alert-danger" role="alert">
-                    未完成人员名单【24】
+                <div class="alert alert-warning" id="not-upload-list" role="alert">
+                    未上传人员名单【0】
                 </div>
+                <div class="alert alert-success" id="uploaded-list" role="alert">
+                    已完成人员名单【0】
+                </div>
+
             </div>
             <!-- All students' images preview -->
             <div class="container-image-preview text-center">

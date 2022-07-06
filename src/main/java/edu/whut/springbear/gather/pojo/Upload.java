@@ -33,5 +33,7 @@ public class Upload implements Serializable {
     private Integer userId;
 
     public static final int STATUS_UPLOADED = 0;
-    public static final int STATUS_NON_UPLOAD = 1;
+    public static final int STATUS_NOT_UPLOAD = 1;
+
+    private Student student;
 }

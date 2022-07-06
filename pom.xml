@@ -127,5 +127,33 @@
             <artifactId>qiniu-java-sdk</artifactId>
             <version>7.8.0</version>
         </dependency>
+
+        <!-- Custom dependency -->
+        <dependency>
+            <groupId>edu.whut.springbear</groupId>
+            <artifactId>excel-bean-converter</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/excel-bean-converter-1.0.3.jar</systemPath>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Fix the problem Error assembling WAR: web.xml attribute is required -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

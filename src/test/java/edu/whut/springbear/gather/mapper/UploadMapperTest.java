@@ -2,6 +2,7 @@ package edu.whut.springbear.gather.mapper;
 
 import edu.whut.springbear.gather.config.SpringConfiguration;
 import edu.whut.springbear.gather.pojo.Upload;
+import edu.whut.springbear.gather.util.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class UploadMapperTest {
     public void saveUpload() {
         Upload upload = new Upload();
         upload.setUserId(1);
-        upload.setUploadStatus(Upload.STATUS_NON_UPLOAD);
+        upload.setUploadStatus(1);
         System.out.println(uploadMapper.saveUpload(upload));
     }
 
@@ -44,12 +45,18 @@ public class UploadMapperTest {
 
     @Test
     public void getUserUploadInSpecifiedDate() {
-        System.out.println(uploadMapper.getUserUploadInSpecifiedDate(1, 0, new Date()));
+        System.out.println(uploadMapper.getUserUploadAtSpecifiedDate(1, 0, new Date()));
     }
 
     @Test
     public void getAllUserUploads() {
-        List<Upload> uploadList = uploadMapper.getAllUserUploads(1, 0);
+        List<Upload> uploadList = uploadMapper.getUserAllUploads(1, 0);
+        uploadList.forEach(System.out::println);
+    }
+
+    @Test
+    public void getClassUploadListWithStudentByStatusOnSpecifiedDay() {
+        List<Upload> uploadList = uploadMapper.getClassUploadListWithStudentByStatusOnSpecifiedDay(0, DateUtils.parseStringWithHyphen("2022-07-04", new Date()), "软件zy1901");
         uploadList.forEach(System.out::println);
     }
 }

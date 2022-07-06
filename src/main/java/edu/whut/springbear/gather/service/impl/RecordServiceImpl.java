@@ -44,7 +44,7 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public Upload getUserUploadInSpecifiedDate(Integer userId, Integer uploadStatus, Date specifiedDate) {
-        return uploadMapper.getUserUploadInSpecifiedDate(userId, uploadStatus, specifiedDate);
+        return uploadMapper.getUserUploadAtSpecifiedDate(userId, uploadStatus, specifiedDate);
     }
 
     @Override
@@ -72,7 +72,12 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public PageInfo<Upload> getUserUploadHistory(Integer userId, Integer uploadStatus, Integer pageNum) {
         PageHelper.startPage(pageNum, propertyUtils.getUploadDataSize());
-        List<Upload> uploadList = uploadMapper.getAllUserUploads(userId, uploadStatus);
+        List<Upload> uploadList = uploadMapper.getUserAllUploads(userId, uploadStatus);
         return new PageInfo<>(uploadList, propertyUtils.getUploadPaginationSize());
+    }
+
+    @Override
+    public List<Upload> getClassUploadListWithStudentOnDayByStatus(Integer uploadStatus, Date specifiedDate, String className) {
+        return uploadMapper.getClassUploadListWithStudentByStatusOnSpecifiedDay(uploadStatus, specifiedDate, className);
     }
 }

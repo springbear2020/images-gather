@@ -23,7 +23,7 @@ public class UserMapperTest {
 
     @Test
     public void getUserByUsernameAndPassword() {
-        System.out.println(userMapper.getUserByUsernameAndPasswordWithStudent("admin", "admin"));
+        System.out.println(userMapper.getUserWithStudentByUsernameAndPassword("admin", "admin"));
     }
 
     @Test
@@ -38,6 +38,6 @@ public class UserMapperTest {
 
     @Test
     public void getUserStudent() {
-        System.out.println(userMapper.getUserWithStudent(1));
+        System.out.println(userMapper.getUserWithStudentByUserId(1));
     }
 }

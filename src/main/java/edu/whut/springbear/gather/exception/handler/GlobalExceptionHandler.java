@@ -11,19 +11,21 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * TODO Replace with @ControllerAdmin and @ExceptionHandler
+ *
  * @author Spring-_-Bear
  * @datetime 2022-07-03 15:26 Sunday
  */
 @Component
 public class GlobalExceptionHandler implements HandlerExceptionResolver {
     @Override
-    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) {
         ModelAndView modelAndView = new ModelAndView("login");
-        if (ex instanceof InterceptorException) {
-            modelAndView.addObject("loginMsg", ex);
+        if (e instanceof InterceptorException) {
+            modelAndView.addObject("loginMsg", e);
         } else {
             modelAndView.addObject("loginMsg", "服务器维护中，请稍后重试");
         }
+        e.printStackTrace();
         return modelAndView;
     }
 }

@@ -17,7 +17,7 @@ public interface UserMapper {
     @Results({@Result(property = "student", column = "student_id",
             javaType = Student.class, one = @One(select = "edu.whut.springbear.gather.mapper.StudentMapper.getStudentById"))
     })
-    User getUserByUsernameAndPasswordWithStudent(@Param("username") String username, @Param("password") String password);
+    User getUserWithStudentByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 
     @Update("update t_user set last_login_date = #{newLoginDate} where id = #{userId}")
     int updateLastLoginDate(@Param("userId") Integer userId, @Param("newLoginDate") Date newLoginDate);
@@ -35,5 +35,10 @@ public interface UserMapper {
     @Results({@Result(property = "student", column = "student_id",
             javaType = Student.class, one = @One(select = "edu.whut.springbear.gather.mapper.StudentMapper.getStudentById"))
     })
-    User getUserWithStudent(@Param("userId") Integer userId);
+    User getUserWithStudentByUserId(@Param("userId") Integer userId);
+
+    @Insert("insert into t_user (username, password, last_login_date, user_type, user_status, student_id) " +
+            "values (#{username},#{password},#{lastLoginDate},#{userType},#{userStatus},#{studentId})")
+    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
+    int saveUser(User user);
 }

@@ -217,19 +217,19 @@ $(function () {
             var localHealthUrl = data.localHealthUrl;
             var cloudHealthUrl = data.cloudHealthUrl;
             var healthAccessUrl = cloudHealthUrl.length == 0 ? contextPath + localHealthUrl : cloudHealthUrl;
-            var healthContent = healthAccessUrl == contextPath ? "已失效" : $("<a></a>").append("查看").attr("href", healthAccessUrl).attr("target", "blank");
+            var healthContent = healthAccessUrl == contextPath ? "已失效" : $("<a></a>").append("下载").attr("href", healthAccessUrl).attr("target", "blank");
             $("<td></td>").append(healthContent).appendTo($trOfBody);
             // Schedule image access url
             var localScheduleUrl = data.localScheduleUrl;
             var cloudScheduleUrl = data.cloudScheduleUrl;
             var scheduleAccessUrl = cloudScheduleUrl.length == 0 ? contextPath + localScheduleUrl : cloudScheduleUrl;
-            var scheduleContent = scheduleAccessUrl == contextPath ? "已失效" : $("<a></a>").append("查看").attr("href", scheduleAccessUrl).attr("target", "blank");
+            var scheduleContent = scheduleAccessUrl == contextPath ? "已失效" : $("<a></a>").append("下载").attr("href", scheduleAccessUrl).attr("target", "blank");
             $("<td></td>").append(scheduleContent).appendTo($trOfBody);
             // Closed image access url
             var localClosedUrl = data.localClosedUrl;
             var cloudClosedUrl = data.cloudClosedUrl;
             var closedAccessUrl = cloudClosedUrl.length == 0 ? contextPath + localClosedUrl : cloudClosedUrl;
-            var closedContent = closedAccessUrl == contextPath ? "已失效" : $("<a></a>").append("查看").attr("href", closedAccessUrl).attr("target", "blank");
+            var closedContent = closedAccessUrl == contextPath ? "已失效" : $("<a></a>").append("下载").attr("href", closedAccessUrl).attr("target", "blank");
             $("<td></td>").append(closedContent).appendTo($trOfBody);
         });
     };

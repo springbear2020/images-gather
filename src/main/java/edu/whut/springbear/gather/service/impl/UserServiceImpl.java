@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User queryUserByUsernameAndPassword(String username, String password) {
-        return userMapper.getUserByUsernameAndPasswordWithStudent(username, password);
+        return userMapper.getUserWithStudentByUsernameAndPassword(username, password);
     }
 
     @Override
@@ -34,6 +34,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserWithStudentInfo(Integer userId) {
-        return userMapper.getUserWithStudent(userId);
+        return userMapper.getUserWithStudentByUserId(userId);
     }
 }

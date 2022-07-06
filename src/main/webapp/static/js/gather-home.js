@@ -27,6 +27,7 @@ $(function () {
 
     // Context path
     var contextPath = $("#context-path").val();
+    var notChooseImageUrl = "https://s1.ax1x.com/2022/07/01/jMb7E4.png";
 
     /* ============================================= Update password ================================================ */
 
@@ -122,7 +123,7 @@ $(function () {
         healthFileNameSuffix = fileName.substring(fileName.lastIndexOf("."));
         // If choose anything, clear the existed image preview
         if (healthFileNameSuffix.length <= 0) {
-            $(this).parent().prev().attr('src', "https://s1.ax1x.com/2022/07/01/jMb7E4.png");
+            $(this).parent().prev().attr('src', notChooseImageUrl).attr("未选择健康码图片");
             return false;
         }
         // Display the image user chosen by user
@@ -137,7 +138,7 @@ $(function () {
         var fileName = $('.schedule-image').val();
         scheduleFileNameSuffix = fileName.substring(fileName.lastIndexOf("."));
         if (scheduleFileNameSuffix.length <= 0) {
-            $(this).parent().prev().attr('src', "https://s1.ax1x.com/2022/07/01/jMb7E4.png");
+            $(this).parent().prev().attr('src', notChooseImageUrl).attr("未选择行程码图片");
             return false;
         }
         $(this).parent().prev().attr('src', window.URL.createObjectURL(this.files[0]));
@@ -149,7 +150,7 @@ $(function () {
         var fileName = $('.closed-image').val();
         closedFileNameSuffix = fileName.substring(fileName.lastIndexOf("."));
         if (closedFileNameSuffix.length <= 0) {
-            $(this).parent().prev().attr('src', "https://s1.ax1x.com/2022/07/01/jMb7E4.png");
+            $(this).parent().prev().attr('src', notChooseImageUrl).attr("未选择密接查图片");
             return false;
         }
         $(this).parent().prev().attr('src', window.URL.createObjectURL(this.files[0]));

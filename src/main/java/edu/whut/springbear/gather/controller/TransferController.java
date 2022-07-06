@@ -48,7 +48,9 @@ public class TransferController {
         User admin = (User) session.getAttribute("admin");
         // Admin and common user login at the same time on the same browser
         if (user != null && admin != null) {
-            throw new InterceptorException("请先退出管理员或用户账号");
+            session.removeAttribute("user");
+            session.removeAttribute("admin");
+            throw new InterceptorException("不允许同时登录管理员和用户账号，请重新登录");
         }
         // Judge who is trying to upload images
         user = admin != null ? admin : user;

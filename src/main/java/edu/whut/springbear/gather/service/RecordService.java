@@ -6,6 +6,7 @@ import edu.whut.springbear.gather.pojo.Upload;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Spring-_-Bear
@@ -74,4 +75,15 @@ public interface RecordService {
      * @return Upload data or null
      */
     PageInfo<Upload> getUserUploadHistory(Integer userId, Integer uploadStatus, Integer pageNum);
+
+    /**
+     * Get the upload list of the class with student information at the specified date who signed in the system successfully,
+     * filtered the results set by the status of the upload record
+     *
+     * @param uploadStatus  Status of the upload record
+     * @param className     Name of class
+     * @param specifiedDate SpecifiedDate
+     * @return Upload list with student or null
+     */
+    List<Upload> getClassUploadListWithStudentOnDayByStatus(Integer uploadStatus, Date specifiedDate, String className);
 }

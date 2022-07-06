@@ -81,7 +81,7 @@ public class TransferServiceImpl implements TransferService {
         } catch (IOException e) {
             return null;
         }
-        return new Upload(null, Upload.STATUS_UPLOADED, new Date(), healthUrl, scheduleUrl, closedUrl, "", "", "", userWithStudent.getId());
+        return new Upload(null, Upload.STATUS_UPLOADED, new Date(), healthUrl, scheduleUrl, closedUrl, "", "", "", userWithStudent.getId(),null);
     }
 
     @Override

@@ -79,8 +79,9 @@ public class UserController {
         // Create the user's today upload record and update last login date if last login date is not today
         if (!DateUtils.isToday(user.getLastLoginDate())) {
             //  Create the user's today upload record
-            String uploadPath = "static/img/notUploaded.png";
-            Upload upload = new Upload(null, Upload.STATUS_NON_UPLOAD, new Date(), uploadPath, uploadPath, uploadPath, uploadPath, uploadPath, uploadPath, user.getId());
+            // String uploadPath = "static/img/notUpload.png";
+            String uploadPath = "";
+            Upload upload = new Upload(null, Upload.STATUS_NOT_UPLOAD, new Date(), uploadPath, uploadPath, uploadPath, uploadPath, uploadPath, uploadPath, user.getId(), null);
             if (!recordService.saveUserUploadRecord(upload)) {
                 model.addAttribute("loginMsg", "今日上传记录新增失败，请稍后重试");
                 return "login";
@@ -135,10 +136,11 @@ public class UserController {
     public Response updatePassword(@RequestParam String oldPassword, @RequestParam String newPassword, HttpSession session) throws InterceptorException {
         User user = (User) session.getAttribute("user");
         User admin = (User) session.getAttribute("admin");
-
         // Admin and common user login at the same time on the same browser
         if (user != null && admin != null) {
-            throw new InterceptorException("请先退出管理员或用户账号");
+            session.removeAttribute("user");
+            session.removeAttribute("admin");
+            throw new InterceptorException("不允许同时登录管理员和用户账号，请重新登录");
         }
         // Judge who is trying to update his/her password
         user = admin != null ? admin : user;
