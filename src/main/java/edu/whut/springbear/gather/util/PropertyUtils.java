@@ -22,8 +22,8 @@ public class PropertyUtils {
     /**
      * Qiniu cloud
      */
-    @Value("${qiniu.startService}")
-    private Boolean startService;
+    @Value("${qiniu.startQiniuService}")
+    private Boolean startQiniuService;
     @Value("${qiniu.bucket}")
     private String bucket;
     @Value("${qiniu.cdnDomain}")
@@ -52,4 +52,12 @@ public class PropertyUtils {
     private String notChooseUrl;
     @Value("${gather.invalidUrl}")
     private String invalidUrl;
+
+    /**
+     * Email
+     */
+    @Value("${email.startEmailService}")
+    private Boolean startEmailService;
+    @Value("${email.verifyCodeLength}")
+    private Integer verifyCodeLength;
 }

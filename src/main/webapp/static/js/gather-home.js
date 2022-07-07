@@ -23,8 +23,17 @@ $(function () {
         // Set the content of notice then show it
         $noticeContent.text(msg);
         $("#div-notice-modal").modal('show');
-    };
 
+        // Counting down to close the notice modal
+        var countingTime = 3;
+        var timer = setInterval(function () {
+            countingTime--;
+            if (countingTime <= 0) {
+                $("#div-notice-modal").modal('hide');
+                clearInterval(timer);
+            }
+        }, 1000)
+    };
     // Context path
     var contextPath = $("#context-path").val();
     var notChooseImageUrl = "https://s1.ax1x.com/2022/07/01/jMb7E4.png";
@@ -50,7 +59,7 @@ $(function () {
         clearContentOfUpdatePassword();
     });
 
-    // Prevent the default behavior of the password update form
+    // Prevent the default submit behavior of the password update form
     $("#form-update-password").on("submit", function () {
         return false;
     });
@@ -93,7 +102,7 @@ $(function () {
                 showNoticeModal(response.code, response.msg);
             },
             error: function () {
-                showNoticeModal(CODE_ERROR, "请求修改登录密码失败");
+                showNoticeModal(CODE_ERROR, "请求修改登录密码失败，请稍后重试");
             }
         });
     });
@@ -194,7 +203,7 @@ $(function () {
                 showNoticeModal(response.code, response.msg);
             },
             error: function () {
-                showNoticeModal(CODE_ERROR, "请求上传图片文件失败");
+                showNoticeModal(CODE_ERROR, "请求上传图片文件失败，请稍后重试");
             }
         })
     });

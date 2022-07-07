@@ -136,14 +136,14 @@ body {
     text-align: left;
 }
 
-.alert-danger {
+.not-login-list {
     text-align: left;
 }
 
-.alert-success {
+.not-upload-list {
     text-align: left;
 }
 
-.alert-warning{
+.uploaded-list {
     text-align: left;
 }

@@ -75,10 +75,9 @@ public class SpringMvcConfiguration implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("login");
         registry.addViewController("/record.html").setViewName("record");
-        registry.addViewController("/user/user_home.html").setViewName("user/user_home");
-        registry.addViewController("/user/user_complete.html").setViewName("user/user_complete");
-        registry.addViewController("/admin/admin_home.html").setViewName("admin/admin_home");
-        registry.addViewController("/admin/admin_class_record.html").setViewName("admin/admin_class_record");
+        registry.addViewController("/reset.html").setViewName("reset");
+        registry.addViewController("/user/complete.html").setViewName("user/complete");
+        registry.addViewController("/admin/class.html").setViewName("admin/class");
     }
 
     /**
@@ -94,8 +93,8 @@ public class SpringMvcConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // LoginInterceptor: Intercept all requests except homepage, login, logout, static resources
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "/login", "/logout", "/static/**");
+        // LoginInterceptor: Intercept all requests except some special request
+        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "/login", "/logout", "/reset.html", "/reset", "/email", "/static/**");
         // UserInterceptor: Intercept user resources
         registry.addInterceptor(new UserInterceptor()).addPathPatterns("/user/**");
         // AdminInterceptor: Intercept admin resources

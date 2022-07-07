@@ -40,4 +40,9 @@ public class UserMapperTest {
     public void getUserStudent() {
         System.out.println(userMapper.getUserWithStudentByUserId(1));
     }
+
+    @Test
+    public void updatePasswordByUsername() {
+        System.out.println(userMapper.updatePasswordByUsername("0121910870705", "bear"));
+    }
 }

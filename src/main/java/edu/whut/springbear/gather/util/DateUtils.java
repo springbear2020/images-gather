@@ -21,6 +21,28 @@ public class DateUtils {
     }
 
     /**
+     * Parse java.util.Date into 20220606122345 format
+     *
+     * @param date java.util.Date
+     * @return Datetime in format string
+     */
+    public static String parseDatetimeNoHyphen(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        return dateFormat.format(date);
+    }
+
+    /**
+     * Parse java.util.Date into 2022-06-06 12:23:45 format
+     *
+     * @param date java.util.Date
+     * @return Datetime in format string
+     */
+    public static String parseDatetimeWithHyphen(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(date);
+    }
+
+    /**
      * Judge the specified date is today
      *
      * @param date java.util.Date
@@ -48,16 +70,5 @@ public class DateUtils {
             e.printStackTrace();
             return defaultDate;
         }
-    }
-
-    /**
-     * Parse java.util.Date into 20220606122345 format
-     *
-     * @param date java.util.Date
-     * @return Datetime in format
-     */
-    public static String parseDatetimeNoHyphen(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        return dateFormat.format(date);
     }
 }

@@ -40,4 +40,13 @@ public interface StudentService {
      * @return Student list or null
      */
     List<Student> getClassStudentsNotUploadOnDate(Integer uploadStatus, String className, Date specifiedDate);
+
+    /**
+     * Get the student info by the number of student and email address
+     *
+     * @param studentNumber Number of student
+     * @param email         Email address of student
+     * @return Student or null
+     */
+    Student getStudentByStudentNumberAndEmail(String studentNumber, String email);
 }

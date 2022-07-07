@@ -41,4 +41,7 @@ public interface UserMapper {
             "values (#{username},#{password},#{lastLoginDate},#{userType},#{userStatus},#{studentId})")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     int saveUser(User user);
+
+    @Update("update t_user set password = #{newPassword} where username = #{username}")
+    int updatePasswordByUsername(@Param("username") String username, @Param("newPassword") String newPassword);
 }

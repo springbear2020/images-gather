@@ -54,4 +54,9 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> getClassStudentsNotUploadOnDate(Integer uploadStatus, String className, Date specifiedDate) {
         return studentMapper.getClassStudentListOnSpecifiedDayByStatus(uploadStatus, className, specifiedDate);
     }
+
+    @Override
+    public Student getStudentByStudentNumberAndEmail(String studentNumber, String email) {
+        return studentMapper.getStudentByNumberAndEmail(studentNumber, email);
+    }
 }

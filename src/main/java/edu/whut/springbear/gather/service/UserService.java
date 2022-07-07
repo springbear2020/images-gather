@@ -1,6 +1,8 @@
 package edu.whut.springbear.gather.service;
 
 import edu.whut.springbear.gather.pojo.User;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -44,4 +46,13 @@ public interface UserService {
      * @return User with student property
      */
     User getUserWithStudentInfo(Integer userId);
+
+    /**
+     * Update the login password of the user by username
+     *
+     * @param username    Username of user
+     * @param newPassword New password
+     * @return true - Update successfully
+     */
+    boolean updateUserPassword(String username, String newPassword);
 }

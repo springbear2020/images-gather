@@ -30,21 +30,8 @@ public class RecordController {
     @Resource
     private PropertyUtils propertyUtils;
 
-    @GetMapping("/admin/images/personal/today")
-    public Response adminTodayImages(HttpSession session) {
-        User admin = (User) session.getAttribute("admin");
-        Upload upload = recordService.getUserUploadInSpecifiedDate(admin.getId(), Upload.STATUS_UPLOADED, new Date());
-        if (upload == null) {
-            return Response.info("今日【两码一查】待完成");
-        }
-        String contextPath = session.getServletContext().getContextPath() + "/";
-        // String[0]-healthImageAccessUrl String[0]-scheduleImageAccessUrl String[0]-closedImageAccessUrl
-        String[] imagesUrl = recordService.getThreeImagesAccessUrl(contextPath, upload);
-        return Response.success(admin.getStudent().getName() + "，今日【两码一查】已完成").put("imagesUrl", imagesUrl);
-    }
-
     @GetMapping("/record/login/{pageNum}")
-    public Response getLoginLogData(@PathVariable("pageNum") Integer pageNum, HttpSession session) throws InterceptorException {
+    public Response getLoginLogPageData(@PathVariable("pageNum") Integer pageNum, HttpSession session) throws InterceptorException {
         User user = (User) session.getAttribute("user");
         User admin = (User) session.getAttribute("admin");
         // Admin and common user login at the same time on the same browser
@@ -65,7 +52,7 @@ public class RecordController {
     }
 
     @GetMapping("/record/upload/{pageNum}")
-    public Response getUploadDate(@PathVariable("pageNum") Integer pageNum, HttpSession session) throws InterceptorException {
+    public Response getUploadPageData(@PathVariable("pageNum") Integer pageNum, HttpSession session) throws InterceptorException {
         User user = (User) session.getAttribute("user");
         User admin = (User) session.getAttribute("admin");
         // Admin and common user login at the same time on the same browser
@@ -85,22 +72,26 @@ public class RecordController {
         return Response.success("成功查询您的上传记录").put("uploadPageData", uploadPageData);
     }
 
-    @GetMapping("/record/class/{date}")
-    public Response getClassUploadDate(@PathVariable("date") String date, HttpSession session) throws InterceptorException {
-        User user = (User) session.getAttribute("user");
+    @GetMapping("/admin/record/upload/today")
+    public Response uploadImagesUrlToday(HttpSession session) {
         User admin = (User) session.getAttribute("admin");
-        // Admin and common user login at the same time on the same browser
-        if (user != null && admin != null) {
-            session.removeAttribute("user");
-            session.removeAttribute("admin");
-            throw new InterceptorException("不允许同时登录管理员和用户账号，请重新登录");
+
+        Upload upload = recordService.getUserUploadInSpecifiedDate(admin.getId(), Upload.STATUS_UPLOADED, new Date());
+        if (upload == null) {
+            return Response.info("今日【两码一查】待完成");
         }
-        // Judge who is trying to upload images
-        user = admin != null ? admin : user;
-        assert user != null;
+        String contextPath = session.getServletContext().getContextPath() + "/";
+        // String[0]-healthImageAccessUrl String[0]-scheduleImageAccessUrl String[0]-closedImageAccessUrl
+        String[] imagesUrl = recordService.getThreeImagesAccessUrl(contextPath, upload);
+        return Response.success(admin.getStudent().getName() + "，今日【两码一查】已完成").put("imagesUrl", imagesUrl);
+    }
+
+    @GetMapping("/admin/record/class/{date}")
+    public Response getClassUploadPageData(@PathVariable("date") String date, HttpSession session) {
+        User admin = (User) session.getAttribute("admin");
 
         // Get the class student list someone who not sign in the system
-        String className = user.getStudent().getClassName();
+        String className = admin.getStudent().getClassName();
         Date specifiedDate = DateUtils.parseStringWithHyphen(date, new Date());
         List<Student> notLoginList = studentService.getClassStudentsNotSignInOnDate(className, specifiedDate);
         // Get the class student list someone who sign in the system but not upload the images

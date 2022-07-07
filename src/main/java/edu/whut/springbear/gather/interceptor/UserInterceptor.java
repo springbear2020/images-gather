@@ -21,7 +21,7 @@ public class UserInterceptor implements HandlerInterceptor {
         Object user = session.getAttribute("user");
         // Not login, throw an interceptor exception
         if (user == null) {
-            throw new InterceptorException("Access denied, sign in your user account");
+            throw new InterceptorException("Access denied, please sign in your user account");
         }
         return true;
     }

@@ -23,6 +23,16 @@ $(function () {
         // Set the content of notice then show it
         $noticeContent.text(msg);
         $("#div-notice-modal").modal('show');
+
+        // Counting down to close the notice modal
+        var countingTime = 3;
+        var timer = setInterval(function () {
+            countingTime--;
+            if (countingTime <= 0) {
+                $("#div-notice-modal").modal('hide');
+                clearInterval(timer);
+            }
+        }, 1000)
     };
 
     // Context path
@@ -34,8 +44,7 @@ $(function () {
     /* ====================================== Display the class upload record ======================================= */
 
     // Parse the JavaScript date like this '2022-07-06' format
-    function parseDate() {
-        var date = new Date();
+    function parseDate(date) {
         var nowMonth = date.getMonth() + 1;
         var strDate = date.getDate();
         var separator = "-";
@@ -100,10 +109,8 @@ $(function () {
 
         // Students list who have uploaded the images successfully
         var uploadedList = response.resultMap.uploadedList;
-        // Traverser the images have uploaded list inverse order
-        var lastIndex = uploadedList.length - 1;
-        for (var i = lastIndex; i >= 0; i--) {
-            var upload = uploadedList[i];
+        // Traverser the images have uploaded list
+        $.each(uploadedList, function (index, upload) {
             // Health image access url
             var localHealthUrl = upload.localHealthUrl;
             var cloudHealthUrl = upload.cloudHealthUrl;
@@ -129,7 +136,7 @@ $(function () {
             // Split line between students
             $("<hr/>").appendTo($imgParent);
             $imgParent.appendTo($ancestor);
-        }
+        });
 
         // Students list who signed in the system but not upload the images
         var notUploadStudentList = response.resultMap.notUploadList;
@@ -165,7 +172,7 @@ $(function () {
     // Get the upload record history of the class by specified date
     function getClassUploadRecord(date) {
         $.ajax({
-            url: contextPath + "record/class/" + date,
+            url: contextPath + "admin/record/class/" + date,
             dataType: "json",
             type: "get",
             success: function (response) {
@@ -183,7 +190,7 @@ $(function () {
                 }
             },
             error: function () {
-                showNoticeModal(CODE_ERROR, "请求获取班级上传记录失败");
+                showNoticeModal(CODE_ERROR, "请求获取班级上传记录失败，请稍后重试");
             }
         })
     }
@@ -285,6 +292,7 @@ $(function () {
     }
 
     // After page loaded successfully, display the date ahead of today
+    $(".page-header").text(parseDate(new Date()));
     buildTopHistoryDate(new Date(), 5);
     buildLeftHistoryDate(new Date(), 15);
 });

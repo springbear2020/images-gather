@@ -73,7 +73,7 @@ public class TransferController {
         }
 
         // Upload the image files to the Qiniu cloud
-        if (propertyUtils.getStartService()) {
+        if (propertyUtils.getStartQiniuService()) {
             upload = transferService.saveImagesToCloud(upload, realPath);
         }
 

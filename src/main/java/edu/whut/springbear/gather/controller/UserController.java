@@ -6,6 +6,7 @@ import edu.whut.springbear.gather.pojo.Response;
 import edu.whut.springbear.gather.pojo.Upload;
 import edu.whut.springbear.gather.pojo.User;
 import edu.whut.springbear.gather.service.RecordService;
+import edu.whut.springbear.gather.service.StudentService;
 import edu.whut.springbear.gather.service.UserService;
 import edu.whut.springbear.gather.util.DateUtils;
 import edu.whut.springbear.gather.util.PropertyUtils;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 /**
  * @author Spring-_-Bear
@@ -36,6 +38,8 @@ public class UserController {
     private RecordService recordService;
     @Resource
     private PropertyUtils propertyUtils;
+    @Resource
+    private StudentService studentService;
 
     @GetMapping("/login")
     public String login(String rememberMe, @RequestParam("username") String username, @RequestParam("password") String password,
@@ -43,7 +47,7 @@ public class UserController {
         // Verify the correctness of the username and password entered by the user
         User user = userService.queryUserByUsernameAndPassword(username, password);
         if (user == null) {
-            model.addAttribute("loginMsg", "用户名不存在或密码错误");
+            model.addAttribute("loginMsg", "用户名不存在或密码错误，请重新输入");
             return "login";
         }
 
@@ -105,7 +109,7 @@ public class UserController {
                 model.addAttribute("scheduleImageUrl", accessUrls[1]);
                 model.addAttribute("closedImageUrl", accessUrls[2]);
                 session.setAttribute("user", user);
-                return "user/user_complete";
+                return "user/complete";
             }
         }
 
@@ -113,10 +117,10 @@ public class UserController {
         switch (user.getUserType()) {
             case User.TYPE_USER:
                 session.setAttribute("user", user);
-                return "redirect:/user/user_home.html";
+                return "redirect:/home.html";
             case User.TYPE_ADMIN:
                 session.setAttribute("admin", user);
-                return "redirect:/admin/admin_home.html";
+                return "redirect:/home.html";
             default:
                 model.addAttribute("loginMsg", "用户类型不存在，禁止登录");
                 return "login";
@@ -162,5 +166,43 @@ public class UserController {
             return Response.error("密码修改失败，请稍后重试");
         }
         return Response.success("个人登录密码修改成功");
+    }
+
+    @ResponseBody
+    @PutMapping("/reset")
+    public Response resetPassword(@RequestParam("username") String username, @RequestParam("email") String email,
+                                  @RequestParam("verifyCode") String codeByUser, @RequestParam("newPassword") String newPassword,
+                                  HttpSession session) {
+        // Verify the format of the email address
+        if (!Pattern.matches("\\w+@\\w+\\.[a-z]+(\\.[a-z]+)?", email)) {
+            return Response.warn("邮箱地址格式不正确，请重新输入");
+        }
+        // Verify the length of the newPassword
+        if (newPassword == null || newPassword.length() < 6) {
+            return Response.warn("新密码长度不小于 6 位，请重新输入");
+        }
+        // Verify the existence of the student number and email address (student number is the username)
+        if (studentService.getStudentByStudentNumberAndEmail(username, email) == null) {
+            return Response.error("用户名不存在或邮箱地址不匹配");
+        }
+
+        String codeBySystem = (String) session.getAttribute("emailVerifyCode");
+        // The email is sending but not failed, will be send successfully a few moment later
+        if (codeBySystem == null) {
+            return Response.info("系统正在发送验证码，请稍等···");
+        }
+        // Verify the correctness of the email verify code entered by user
+        if (!codeBySystem.equals(codeByUser)) {
+            return Response.error("邮箱验证码有误，请重新输入");
+        }
+
+        // Update the login password of the user
+        if (!userService.updateUserPassword(username, newPassword)) {
+            return Response.error("密码重置失败，请稍后重试");
+        }
+
+        // TODO Set the max alive time of the verify code is 10m
+        session.removeAttribute("emailVerifyCode");
+        return Response.success("密码重置成功，3 秒后返回登录页面");
     }
 }

@@ -64,7 +64,7 @@ public interface UploadMapper {
      * @return Upload list with student or null
      */
     @Select("select t_upload.* from t_upload where t_upload.upload_status = #{uploadStatus} and DATE_FORMAT(upload_date_time,'%Y-%m-%d') = DATE_FORMAT(#{specifiedDate},'%Y-%m-%d') " +
-            "and t_upload.user_id in (select t_student.user_id from t_student where class_name = #{className})")
+            "and t_upload.user_id in (select t_student.user_id from t_student where class_name = #{className}) order by upload_date_time desc")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(property = "student", column = "user_id",

@@ -21,7 +21,7 @@ public class AdminInterceptor implements HandlerInterceptor {
         Object admin = session.getAttribute("admin");
         // Not login, throw an interceptor exception
         if (admin == null) {
-            throw new InterceptorException("Access denied, sign in your admin account");
+            throw new InterceptorException("Access denied, please sign in your admin account");
         }
         return true;
     }

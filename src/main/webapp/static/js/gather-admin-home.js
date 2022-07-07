@@ -23,6 +23,20 @@ $(function () {
         // Set the content of notice then show it
         $noticeContent.text(msg);
         $("#div-notice-modal").modal('show');
+
+        // $("#notice-progress").attr("style", "width: " + countingTime + "%");
+        // <div class="progress" style="max-height: 3px">
+        //      <div id="notice-progress" class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+        // </div>
+        // Counting down to close the notice modal
+        var countingTime = 3;
+        var timer = setInterval(function () {
+            countingTime--;
+            if (countingTime <= 0) {
+                $("#div-notice-modal").modal('hide');
+                clearInterval(timer);
+            }
+        }, 1000)
     };
 
     // Context path
@@ -30,7 +44,7 @@ $(function () {
 
     /* =========================================== Get images of today ============================================== */
     $.ajax({
-        url: contextPath + "admin/images/personal/today",
+        url: contextPath + "admin/record/upload/today",
         dataType: "json",
         type: "get",
         success: function (response) {
@@ -44,7 +58,7 @@ $(function () {
             }
         },
         error: function () {
-            showNoticeModal(CODE_ERROR, "请求获取今日已上传图片失败");
+            showNoticeModal(CODE_ERROR, "请求获取今日已上传图片失败，请稍后重试");
         }
     })
 });

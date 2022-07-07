@@ -50,6 +50,9 @@ public interface StudentMapper {
 
     @Select("select * from t_student where user_id = #{userId}")
     Student getStudentByUserId(@Param("userId") Integer userId);
+
+    @Select("select * from t_student where number = #{studentNumber} and email = #{email}")
+    Student getStudentByNumberAndEmail(@Param("studentNumber") String studentNumber, @Param("email") String email);
 }
 
 

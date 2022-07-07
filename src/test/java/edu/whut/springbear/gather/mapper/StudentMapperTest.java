@@ -69,4 +69,9 @@ public class StudentMapperTest {
     public void getStudentByUserId() {
         System.out.println(studentMapper.getStudentByUserId(109));
     }
+
+    @Test
+    public void getStudentByNumberAndEmail() {
+        System.out.println(studentMapper.getStudentByNumberAndEmail("0121910870705", "springbear2020@163.com"));
+    }
 }

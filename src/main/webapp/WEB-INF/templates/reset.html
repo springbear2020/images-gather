@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Password reset page of the user">
+    <meta name="author" content="Spring-_-Bear">
+    <link rel="icon" th:href="@{/static/img/WHUT.png}" href="../../static/img/WHUT.png">
+
+    <title>密码重置 - 两码一查</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/static/css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link th:href="@{/static/css/ie10-viewport-bug-workaround.css}"
+          href="../../static/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/static/css/gather-login.css}" href="../../static/css/gather-login.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script th:src="@{/static/js/html5shiv.min.js}" src="../../static/js/html5shiv.min.js" charset="utf-8"></script>
+    <script th:src="@{/static/js/respond.min.js}" src="../../static/js/respond.min.js" charset="utf-8"></script>
+    <![endif]-->
+</head>
+
+<body>
+<!-- Modal of notice -->
+<div class="modal fade" id="div-notice-modal" tabindex="-1" role="dialog" aria-labelledby="modal-notice"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-header text-center">
+            <!-- Close modal button -->
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <!-- Data of notice -->
+            <h5 class="modal-title" id="h-notice-content">欢迎使用【两码一查】图片收集信息管理系统</h5>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Form for user reset password -->
+    <form class="form-signin" id="form-reset-password">
+        <!-- Title -->
+        <h2 class="form-signin-heading text-center">密码重置</h2>
+        <!-- Notice message -->
+        <div class="error-msg" th:text="${resetMsg}"></div>
+        <!-- Username -->
+        <div class="form-group has-feedback">
+            <label for="reset-username" class="control-label sr-only"></label>
+            <input type="text" id="reset-username" class="form-control" name="username" required autofocus placeholder="用户名">
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        </div>
+        <!-- Email -->
+        <div class="form-group has-feedback">
+            <label for="reset-email" class="control-label sr-only"></label>
+            <input type="email" id="reset-email" class="form-control" name="email" required placeholder="邮&nbsp;&nbsp;&nbsp;箱">
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        </div>
+        <!-- Email verify code -->
+        <div class="form-group">
+            <div class="input-group">
+                <label for="reset-verify-code" class="control-label sr-only"></label>
+                <input type="text" id="reset-verify-code" class="form-control" name="verifyCode" required placeholder="验证码">
+                <!-- Get the email verify code button -->
+                <span class="input-group-btn"><input type="button" id="btn-obtain-verify-code" class="btn btn-lg btn-primary" value="获取"/></span>
+            </div>
+        </div>
+        <!-- New password -->
+        <div class="form-group has-feedback">
+            <label for="reset-password" class="control-label sr-only"></label>
+            <input type="password" id="reset-password" class="form-control" name="newPassword" required placeholder="新密码">
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        </div>
+        <button type="submit" class="btn btn-lg btn-block btn-primary">确认</button>
+    </form>
+</div>
+
+<!-- Bootstrap core JavaScript
+  ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script th:src="@{/static/js/jquery-1.12.4.min.js}" src="../../static/js/jquery-1.12.4.min.js" charset="utf-8"></script>
+<script>window.jQuery || document.write('<script th:src="@{/static/js/jquery.min.js}" src="../../static/js/jquery.min.js" charset="utf-8"><\/script>')</script>
+<script th:src="@{/static/js/bootstrap.min.js}" charset="utf-8" src="../../static/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script th:src="@{/static/js/ie10-viewport-bug-workaround.js}" src="../../static/js/ie10-viewport-bug-workaround.js"> charset = "utf-8"</script>
+
+<!-- Context path -->
+<span id="context-path" style="display: none; opacity: 100%"></span>
+<!-- Get the context path dynamically -->
+<script th:inline="javascript" type="text/javascript" charset="UTF-8">
+    var contextPath = /*[[@{/}]]*/'';
+    $("#context-path").val(contextPath);
+</script>
+
+<!-- Custom JavaScript -->
+<script th:src="@{/static/js/gather-reset.js}" src="../../static/js/gather-reset.js" charset="utf-8"></script>
+</body>
+</html>
