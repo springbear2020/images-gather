@@ -110,7 +110,7 @@ $(function () {
         }
 
         // Verify the format of the email address
-        let emailRegexp = new RegExp("^([a-z0-9_-]+)@([\\da-z-]+)\\.([a-z]{2,6})$");
+        var emailRegexp = new RegExp("^([a-z0-9_-]+)@([\\da-z-]+)\\.([a-z]{2,6})$");
         if (!emailRegexp.test(email)) {
             setValidateStatusOfFormItem($emailElement, STATUS_ERROR, "邮箱地址格式不正确，请重新输入");
             return;

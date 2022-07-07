@@ -31,7 +31,7 @@ public class StudentServiceImpl implements StudentService {
             User user = new User();
             user.setUsername(student.getNumber());
             user.setPassword(student.getNumber());
-            user.setLastLoginDate(DateUtils.parseStringWithHyphen("1970-01-01", new Date()));
+            user.setLastLoginDatetime(DateUtils.parseStringWithHyphen("1970-01-01", new Date()));
             user.setUserType(User.TYPE_USER);
             user.setUserStatus(User.STATUS_NORMAL);
             user.setStudentId(student.getId());
@@ -58,5 +58,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student getStudentByStudentNumberAndEmail(String studentNumber, String email) {
         return studentMapper.getStudentByNumberAndEmail(studentNumber, email);
+    }
+
+    @Override
+    public boolean updateStudent(String newSex, String newPhone, String newEmail, String number) {
+        return studentMapper.updateStudent(newSex, newPhone, newEmail, number) == 1;
     }
 }

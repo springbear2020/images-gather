@@ -89,7 +89,7 @@ $(function () {
 
         // Send an ajax request to ask server for updating the password of user
         $.ajax({
-            url: contextPath + "update",
+            url: contextPath + "update/password",
             method: "POST",
             data: "_method=PUT&" + $("#form-update-password").serialize(),
             dataType: "json",

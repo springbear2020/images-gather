@@ -63,7 +63,7 @@ public class TransferController {
         // Create the user's file save directory of today
         String userTodayPath = transferService.createUserTodayDirectory(userWithStudent, realPath);
         if (userTodayPath == null) {
-            return Response.error("今日文件保存目录创建失败，请稍后重试");
+            return Response.error("今日保存目录创建失败，请稍后重试");
         }
 
         // Save the image files to the physical disk

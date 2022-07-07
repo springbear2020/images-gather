@@ -53,7 +53,7 @@ public interface StudentMapper {
 
     @Select("select * from t_student where number = #{studentNumber} and email = #{email}")
     Student getStudentByNumberAndEmail(@Param("studentNumber") String studentNumber, @Param("email") String email);
+
+    @Update("update t_student set sex = #{newSex}, phone = #{newPhone}, email = #{newEmail} where number = #{number}")
+    int updateStudent(@Param("newSex") String newSex, @Param("newPhone") String newPhone, @Param("newEmail") String newEmail, @Param("number") String number);
 }
-
-
-

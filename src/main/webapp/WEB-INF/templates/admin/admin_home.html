@@ -94,11 +94,13 @@
                     <span class="welcome-user" th:text="${'欢迎【'+session.admin.student.name}+'】管理员'">欢迎管理员登录</span>
                     <!-- Items on the left -->
                     <ul class="nav navbar-nav">
-                        <li class="text-center"><a th:href="@{/record.html}" href="../record.html"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> 记录</a></li>
+                        <li class="text-center"><a th:href="@{/home.html}" href="admin_home.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 主页</a></li>
                         <li class="text-center"><a th:href="@{/admin/class.html}" href="class.html"><span class="glyphicon glyphicon-education" aria-hidden="true"></span> 班级</a></li>
+                        <li class="text-center"><a th:href="@{/record.html}" href="../record.html"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> 记录</a></li>
                     </ul>
                     <!-- Items on the right -->
                     <ul class="nav navbar-nav navbar-right">
+                        <li class="text-center"><a role="button" th:href="@{/personal.html}" href="../personal.html"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 我的</a></li>
                         <li class="text-center link-update-password"><a role="button"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 改密</a></li>
                         <li class="text-center"><a th:href="@{/logout}" href="../login.html"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</a></li>
                     </ul>

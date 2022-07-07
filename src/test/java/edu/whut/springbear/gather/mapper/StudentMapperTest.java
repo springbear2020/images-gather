@@ -43,7 +43,7 @@ public class StudentMapperTest {
                 User user = new User();
                 user.setUsername(student.getNumber());
                 user.setPassword(student.getNumber());
-                user.setLastLoginDate(DateUtils.parseStringWithHyphen("1970-01-01", new Date()));
+                user.setLastLoginDatetime(DateUtils.parseStringWithHyphen("1970-01-01", new Date()));
                 user.setUserType(User.TYPE_USER);
                 user.setUserStatus(User.STATUS_NORMAL);
                 user.setStudentId(student.getId());
@@ -73,5 +73,10 @@ public class StudentMapperTest {
     @Test
     public void getStudentByNumberAndEmail() {
         System.out.println(studentMapper.getStudentByNumberAndEmail("0121910870705", "springbear2020@163.com"));
+    }
+
+    @Test
+    public void updateStudent() {
+        System.out.println(studentMapper.updateStudent("女","123","123","0121910870705"));
     }
 }

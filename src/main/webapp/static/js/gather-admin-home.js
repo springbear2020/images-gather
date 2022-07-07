@@ -58,7 +58,7 @@ $(function () {
             }
         },
         error: function () {
-            showNoticeModal(CODE_ERROR, "请求获取今日已上传图片失败，请稍后重试");
+            showNoticeModal(CODE_ERROR, "请求获取已上传图片失败，请稍后重试");
         }
     })
 });

@@ -49,4 +49,15 @@ public interface StudentService {
      * @return Student or null
      */
     Student getStudentByStudentNumberAndEmail(String studentNumber, String email);
+
+    /**
+     * Update the sex, phone and email info of the student by student number
+     *
+     * @param newSex   Sex
+     * @param newPhone Phone
+     * @param newEmail Email
+     * @param number   Number of student
+     * @return true - Update successfully
+     */
+    boolean updateStudent(String newSex, String newPhone, String newEmail, String number);
 }

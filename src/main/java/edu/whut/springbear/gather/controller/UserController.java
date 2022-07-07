@@ -1,10 +1,7 @@
 package edu.whut.springbear.gather.controller;
 
 import edu.whut.springbear.gather.exception.InterceptorException;
-import edu.whut.springbear.gather.pojo.LoginLog;
-import edu.whut.springbear.gather.pojo.Response;
-import edu.whut.springbear.gather.pojo.Upload;
-import edu.whut.springbear.gather.pojo.User;
+import edu.whut.springbear.gather.pojo.*;
 import edu.whut.springbear.gather.service.RecordService;
 import edu.whut.springbear.gather.service.StudentService;
 import edu.whut.springbear.gather.service.UserService;
@@ -72,31 +69,31 @@ public class UserController {
             model.addAttribute("loginMsg", "登录记录保存失败，请稍后重试");
             return "login";
         }
-
-        // Judge the user state
+        // Judge the user status
         if (User.STATUS_NORMAL != user.getUserStatus()) {
             model.addAttribute("loginMsg", "用户状态异常，禁止登录");
             return "login";
         }
+        // Update user last login date
+        if (!userService.updateUserLastLoginDate(user.getId(), new Date())) {
+            model.addAttribute("loginMsg", "更新登录时间失败，请稍后重试");
+            return "login";
+        }
 
         HttpSession session = request.getSession();
-        // Create the user's today upload record and update last login date if last login date is not today
-        if (!DateUtils.isToday(user.getLastLoginDate())) {
+        // Create the user's today upload record of today
+        if (!DateUtils.isToday(user.getLastLoginDatetime())) {
             //  Create the user's today upload record
-            // String uploadPath = "static/img/notUpload.png";
-            String uploadPath = "";
+            String uploadPath = "static/img/notUpload.png";
             Upload upload = new Upload(null, Upload.STATUS_NOT_UPLOAD, new Date(), uploadPath, uploadPath, uploadPath, uploadPath, uploadPath, uploadPath, user.getId(), null);
             if (!recordService.saveUserUploadRecord(upload)) {
-                model.addAttribute("loginMsg", "今日上传记录新增失败，请稍后重试");
+                model.addAttribute("loginMsg", "今日上传记录创建失败，请稍后重试");
                 return "login";
             }
+        }
 
-            // Update user last login date to today
-            if (!userService.updateUserLastLoginDate(user.getId(), new Date())) {
-                model.addAttribute("loginMsg", "更新登录时间失败，请稍后重试");
-                return "login";
-            }
-        } else if (User.TYPE_USER == user.getUserType()) {
+        // Judge whether the normal user have uploaded the images in one day
+        if (User.TYPE_USER == user.getUserType()) {
             // User sign in again in the same day, query his/her upload record, if all images uploaded then display it for he/her
             Upload upload = recordService.getUserUploadInSpecifiedDate(user.getId(), Upload.STATUS_UPLOADED, new Date());
             if (upload != null) {
@@ -117,26 +114,28 @@ public class UserController {
         switch (user.getUserType()) {
             case User.TYPE_USER:
                 session.setAttribute("user", user);
-                return "redirect:/home.html";
+                break;
             case User.TYPE_ADMIN:
                 session.setAttribute("admin", user);
-                return "redirect:/home.html";
+                break;
             default:
                 model.addAttribute("loginMsg", "用户类型不存在，禁止登录");
                 return "login";
         }
+        return "redirect:/home.html";
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.removeAttribute("user");
         session.removeAttribute("admin");
+        session.removeAttribute("person");
         session.invalidate();
         return "redirect:/";
     }
 
     @ResponseBody
-    @PutMapping("/update")
+    @PutMapping("/update/password")
     public Response updatePassword(@RequestParam String oldPassword, @RequestParam String newPassword, HttpSession session) throws InterceptorException {
         User user = (User) session.getAttribute("user");
         User admin = (User) session.getAttribute("admin");
@@ -204,5 +203,46 @@ public class UserController {
         // TODO Set the max alive time of the verify code is 10m
         session.removeAttribute("emailVerifyCode");
         return Response.success("密码重置成功，3 秒后返回登录页面");
+    }
+
+    @ResponseBody
+    @PutMapping("/update/personal")
+    public Response updatePersonalInfo(@RequestParam String newSex, @RequestParam String newPhone, @RequestParam String newEmail, HttpSession session) throws InterceptorException {
+        User user = (User) session.getAttribute("user");
+        User admin = (User) session.getAttribute("admin");
+        // Admin and common user login at the same time on the same browser
+        if (user != null && admin != null) {
+            session.removeAttribute("user");
+            session.removeAttribute("admin");
+            throw new InterceptorException("不允许同时登录管理员和用户账号，请重新登录");
+        }
+        // Judge who is trying to update his/her password
+        user = admin != null ? admin : user;
+
+        // Verify the data entered by the user
+        if (!("男".equals(newSex) || "女".equals(newSex))) {
+            return Response.error("性别类型不正确，请重新输入");
+        }
+        if (!Pattern.matches("^1[3-9]\\d{9}$", newPhone)) {
+            return Response.error("手机号格式不正确，请重新输入");
+        }
+        if (!Pattern.matches("\\w+@\\w+\\.[a-z]+(\\.[a-z]+)?", newEmail)) {
+            return Response.warn("邮箱地址格式不正确，请重新输入");
+        }
+
+        // Update the user info by the user number
+        assert user != null;
+        Student student = user.getStudent();
+        if (!studentService.updateStudent(newSex, newPhone, newEmail, student.getNumber())) {
+            return Response.error("个人信息更新失败，请稍后重试");
+        }
+
+        // Set the latest information of user
+        student.setSex(newSex);
+        student.setPhone(newPhone);
+        student.setEmail(newEmail);
+        user.setStudent(student);
+        session.setAttribute("person", user);
+        return Response.success("个人信息更新成功");
     }
 }
