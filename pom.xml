@@ -137,11 +137,11 @@
         <!-- Custom dependency -->
         <dependency>
             <groupId>edu.whut.springbear</groupId>
-            <artifactId>excel-bean-converter</artifactId>
-            <version>1.0.0</version>
+            <artifactId>sheet-bean-convert</artifactId>
+            <version>1.0.4</version>
             <type>jar</type>
             <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/excel-bean-converter-1.0.3.jar</systemPath>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/sheet-bean-converter-1.0.4.jar</systemPath>
         </dependency>
     </dependencies>
 

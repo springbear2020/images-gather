@@ -1,8 +1,6 @@
 package edu.whut.springbear.gather.service;
 
 import edu.whut.springbear.gather.pojo.User;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

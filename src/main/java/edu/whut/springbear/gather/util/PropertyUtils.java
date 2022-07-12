@@ -60,4 +60,6 @@ public class PropertyUtils {
     private Boolean startEmailService;
     @Value("${email.verifyCodeLength}")
     private Integer verifyCodeLength;
+    @Value("${gather.contextPath}")
+    private String contextPath;
 }

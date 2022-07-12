@@ -48,16 +48,6 @@ public interface RecordService {
      */
     Upload getUserUploadInSpecifiedDate(Integer userId, Integer uploadStatus, Date specifiedDate);
 
-
-    /**
-     * Get the three images' access url in the upload record
-     *
-     * @param contextPath Context path of the web project
-     * @param upload      Upload
-     * @return String[0]-healthImageAccessUrl String[0]-scheduleImageAccessUrl String[0]-closedImageAccessUrl
-     */
-    String[] getThreeImagesAccessUrl(String contextPath, Upload upload);
-
     /**
      * Get the user's login page data
      *
@@ -86,4 +76,12 @@ public interface RecordService {
      * @return Upload list with student or null
      */
     List<Upload> getClassUploadListWithStudentOnDayByStatus(Integer uploadStatus, Date specifiedDate, String className);
+
+    /**
+     * Get the three images' access url in the upload record
+     *
+     * @param upload      Upload
+     * @return String[0]-healthImageAccessUrl String[0]-scheduleImageAccessUrl String[0]-closedImageAccessUrl
+     */
+    String[] getThreeImagesAccessUrl(Upload upload);
 }

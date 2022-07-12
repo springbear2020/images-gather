@@ -16,8 +16,8 @@ public interface StudentMapper {
     @Select("select * from t_student where id = #{studentId}")
     Student getStudentById(@Param("studentId") Integer studentId);
 
-    @Insert("insert into t_student(number, name, sex, phone, email, major, class_name, grade, college, school) " +
-            "values (#{number},#{name},#{sex},#{phone},#{email},#{major},#{className},#{grade},#{college},#{school})")
+    @Insert("insert into t_student(number, name, sex, phone, email, major, class_name, grade, college, school,user_id) " +
+            "values (#{number},#{name},#{sex},#{phone},#{email},#{major},#{className},#{grade},#{college},#{school},null)")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     int saveStudent(Student student);
 

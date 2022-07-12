@@ -74,10 +74,7 @@ public class SpringMvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("login");
-        registry.addViewController("/record.html").setViewName("record");
-        registry.addViewController("/reset.html").setViewName("reset");
-        registry.addViewController("/user/complete.html").setViewName("user/complete");
-        registry.addViewController("/admin/class.html").setViewName("admin/class");
+        registry.addViewController("/home.do").setViewName("home");
     }
 
     /**
@@ -94,7 +91,7 @@ public class SpringMvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // LoginInterceptor: Intercept all requests except some special request
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "/login", "/logout", "/reset.html", "/reset", "/email", "/static/**");
+        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "/login.do", "/logout.do", "/reset.do", "/email.do");
         // UserInterceptor: Intercept user resources
         registry.addInterceptor(new UserInterceptor()).addPathPatterns("/user/**");
         // AdminInterceptor: Intercept admin resources

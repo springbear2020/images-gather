@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Personal information page of the user">
+    <meta name="author" content="Spring-_-Bear">
+    <link rel="icon" href="https://whut.springbear2020.cn/static/img/favicon.png">
+
+    <title>我的资料 - 两码一查</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://whut.springbear2020.cn/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="https://whut.springbear2020.cn/static/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://whut.springbear2020.cn/static/css/gather-personal.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://whut.springbear2020.cn/static/js/html5shiv.min.js" charset="UTF-8" ></script>
+    <script src="https://whut.springbear2020.cn/static/js/respond.min.js" charset="UTF-8" >
+    <![endif]-->
+</head>
+
+<body>
+<!-- Modal of notice -->
+<div class="modal fade" id="div-notice-modal" tabindex="-1" role="dialog" aria-labelledby="modal-notice"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-header text-center">
+            <!-- Close modal button -->
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <!-- Data of notice -->
+            <h5 class="modal-title" id="h-notice-content">欢迎使用【两码一查】管理系统</h5>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-left">
+                <li role="presentation"><a class="navbar-brand" href="https://whut.springbear2020.cn/home.do">两码一查</a></li>
+            </ul>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation"><a href="https://whut.springbear2020.cn/logout.do"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <ol class="breadcrumb">
+        班级信息：
+        <li id="personal-school">清华大学</li>
+        <li id="personal-college">计算机学院</li>
+        <li id="personal-grade">2019</li>
+        <li id="personal-major">计算机科学与技术</li>
+        <li id="personal-class">计科1901</li>
+    </ol>
+
+    <div class="jumbotron row marketing">
+        <ol class="breadcrumb" id="edit-save-info">
+            <li><a role="button" class="btn" id="edit-personal-info">修改</a></li>
+        </ol>
+        <!-- Left -->
+        <div class="col-lg-6">
+            <!-- Items-->
+            <div class="panel panel-success">
+                <div class="panel-heading">姓名</div>
+                <div class="panel-body" id="personal-name">张三</div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">性别</div>
+                <div class="panel-body">
+                    <label class="radio-inline sr-only" for="personal-sex-man"></label>
+                    <input type="radio" name="sex" id="personal-sex-man" value="男" disabled> 男
+                    <label class="radio-inline sr-only" for="personal-sex-woman"></label>
+                    <input type="radio" name="sex" id="personal-sex-woman" value="女" disabled> 女
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">电话</div>
+                <div class="panel-body text-center">
+                    <label for="personal-phone" class="sr-only"></label>
+                    <input type="tel" class="text-center form-control" id="personal-phone" readonly/>
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">邮箱</div>
+                <div class="panel-body">
+                    <label for="personal-email" class="sr-only"></label>
+                    <input type="email" class="text-center form-control" id="personal-email" readonly/>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right -->
+        <div class="col-lg-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">用&nbsp;&nbsp;户&nbsp;&nbsp;名</div>
+                <div class="panel-body" id="personal-username">365157895</div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">上次登录</div>
+                <div class="panel-body" id="personal-last-login">2022-07-07 07:07:07</div>
+            </div>
+            <div class="panel panel-info" style="min-height: 107px">
+                <div class="panel-heading">用户类型</div>
+                <div class="panel-body" id="personal-user-type">普通用户</div>
+            </div>
+            <div class="panel panel-info"  style="min-height: 107px">
+                <div class="panel-heading">用户状态</div>
+                <div class="panel-body" id="personal-user-status">正常</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+  ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://whut.springbear2020.cn/static/js/jquery-1.12.4.min.js" charset="utf-8"></script>
+<script>window.jQuery || document.write('<script src="https://whut.springbear2020.cn/static/js/jquery.min.js" charset="utf-8"><\/script>')</script>
+<script src="https://whut.springbear2020.cn/static/js/bootstrap.min.js" charset="utf-8"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="https://whut.springbear2020.cn/static/js/ie10-viewport-bug-workaround.js" charset="utf-8"></script>
+
+<!-- Custom JavaScript -->
+<script src="https://whut.springbear2020.cn/static/js/gather-personal.js" charset="utf-8"></script>
+</body>
+</html>

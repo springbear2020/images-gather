@@ -48,21 +48,6 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public String[] getThreeImagesAccessUrl(String contextPath, Upload upload) {
-        String cloudHealthUrl = upload.getCloudHealthUrl();
-        String cloudScheduleUrl = upload.getCloudScheduleUrl();
-        String cloudClosedUrl = upload.getCloudClosedUrl();
-        // If has invalid url of the cloud then return the local access url of images
-        if (cloudHealthUrl == null || cloudHealthUrl.length() <= 0 ||
-                cloudScheduleUrl == null || cloudScheduleUrl.length() <= 0 ||
-                cloudClosedUrl == null || cloudClosedUrl.length() <= 0) {
-            return new String[]{contextPath + upload.getLocalHealthUrl(),
-                    contextPath + upload.getLocalScheduleUrl(), contextPath + upload.getLocalClosedUrl()};
-        }
-        return new String[]{cloudHealthUrl, cloudScheduleUrl, cloudClosedUrl};
-    }
-
-    @Override
     public PageInfo<LoginLog> getUserLoginPageData(Integer userId, Integer pageNum) {
         PageHelper.startPage(pageNum, propertyUtils.getLoginLogDataSize());
         List<LoginLog> loginList = loginLogMapper.getUserLoginLog(userId);
@@ -79,5 +64,21 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public List<Upload> getClassUploadListWithStudentOnDayByStatus(Integer uploadStatus, Date specifiedDate, String className) {
         return uploadMapper.getClassUploadListWithStudentByStatusOnSpecifiedDay(uploadStatus, specifiedDate, className);
+    }
+
+    @Override
+    public String[] getThreeImagesAccessUrl(Upload upload) {
+        String cloudHealthUrl = upload.getCloudHealthUrl();
+        String cloudScheduleUrl = upload.getCloudScheduleUrl();
+        String cloudClosedUrl = upload.getCloudClosedUrl();
+        // If has invalid url of the cloud then return the local access url of images
+        if (cloudHealthUrl == null || cloudHealthUrl.length() <= 0 ||
+                cloudScheduleUrl == null || cloudScheduleUrl.length() <= 0 ||
+                cloudClosedUrl == null || cloudClosedUrl.length() <= 0) {
+            String contextPath = propertyUtils.getContextPath();
+            return new String[]{contextPath + upload.getLocalHealthUrl(),
+                    contextPath + upload.getLocalScheduleUrl(), contextPath + upload.getLocalClosedUrl()};
+        }
+        return new String[]{cloudHealthUrl, cloudScheduleUrl, cloudClosedUrl};
     }
 }

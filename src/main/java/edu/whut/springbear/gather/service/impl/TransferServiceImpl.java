@@ -50,7 +50,7 @@ public class TransferServiceImpl implements TransferService {
     public String createUserTodayDirectory(User userWithStudent, String realPath) {
         // Judge the user's directory of today, if not existed, then create it
         Student student = userWithStudent.getStudent();
-        String userTodayPath = "images/" + student.getSchool() + "/" + student.getCollege() + "/" +
+        String userTodayPath = "resources/" + student.getSchool() + "/" + student.getCollege() + "/" +
                 student.getGrade() + "/" + student.getMajor() + "/" + student.getClassName() + "/" +
                 DateUtils.parseDateWithHyphen(new Date()) + "/";
         File userTodayFilePath = new File(realPath + "/" + userTodayPath);
@@ -81,7 +81,7 @@ public class TransferServiceImpl implements TransferService {
         } catch (IOException e) {
             return null;
         }
-        return new Upload(null, Upload.STATUS_UPLOADED, new Date(), healthUrl, scheduleUrl, closedUrl, "", "", "", userWithStudent.getId(),null);
+        return new Upload(null, Upload.STATUS_UPLOADED, new Date(), healthUrl, scheduleUrl, closedUrl, "", "", "", userWithStudent.getId(), null);
     }
 
     @Override

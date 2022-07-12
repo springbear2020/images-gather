@@ -1,6 +1,7 @@
 package edu.whut.springbear.gather.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import edu.whut.springbear.converter.annotation.ExcelColumnName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,10 +21,14 @@ public class LoginLog implements Serializable {
     private static final long serialVersionUID = -7095349991287590023L;
 
     private Integer id;
+    @ExcelColumnName("IP")
     private String ip;
+    @ExcelColumnName("location")
     private String location;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @ExcelColumnName("datetime")
     private Date loginDateTime;
+    @ExcelColumnName("userId")
     private Integer userId;
 }

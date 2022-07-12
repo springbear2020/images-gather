@@ -1,5 +1,7 @@
 package edu.whut.springbear.gather.mapper;
 
+import edu.whut.springbear.converter.Converter;
+import edu.whut.springbear.converter.SheetBeanConverter;
 import edu.whut.springbear.gather.config.SpringConfiguration;
 import edu.whut.springbear.gather.pojo.LoginLog;
 import org.junit.Test;
@@ -31,5 +33,19 @@ public class LoginLogMapperTest {
     public void getUserLoginLog() {
         List<LoginLog> loginLogList = loginLogMapper.getUserLoginLog(1);
         loginLogList.forEach(System.out::println);
+    }
+
+    @Test
+    public void saveLoginLogFromExcel() {
+        Converter converter = new SheetBeanConverter("C:/Users/Admin/Desktop/log_login.xlsx");
+        List<LoginLog> loginLogs = converter.excelConvertBean(LoginLog.class);
+        int sum   = 0;
+        if (loginLogs != null) {
+            for (LoginLog loginLog : loginLogs) {
+                int i = loginLogMapper.saveLoginLog(loginLog);
+                sum += i;
+            }
+        }
+        System.out.println(sum);
     }
 }
