@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../static/img/WHUT.png">
+
+    <title>教师首页 - 两码一查</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../../static/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../../static/css/gather-teacher.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="../../static/js/html5shiv.min.js"></script>
+    <script src="../../static/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<!-- Modal of update user password -->
+<div class="modal fade" id="modal-update-password" tabindex="-1" role="dialog" aria-labelledby="modal-update-password">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <!-- Title -->
+            <div class="modal-header text-center">
+                <button type="button" class="close modal-update-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><strong>修改密码</strong></h4>
+            </div>
+            <div class="modal-body">
+                <form id="form-update-password">
+                    <!-- Old password -->
+                    <div class="form-group has-feedback">
+                        <label for="input-old-password" class="control-label sr-only"></label>
+                        <input type="password" id="input-old-password" class="form-control" name="oldPassword" required autofocus placeholder="原密码">
+                    </div>
+                    <!-- New password -->
+                    <div class="form-group has-feedback">
+                        <label for="input-new-password" class="control-label sr-only"></label>
+                        <input type="password" id="input-new-password" class="form-control" name="newPassword" required placeholder="新密码">
+                    </div>
+                    <!-- New password again -->
+                    <div class="form-group has-feedback">
+                        <label for="input-new-password-again" class="control-label sr-only"></label>
+                        <input type="password" id="input-new-password-again" class="form-control" required placeholder="确认新密码">
+                    </div>
+                    <!-- Update button -->
+                    <button type="submit" class="btn btn-primary btn-block">确认</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal of notice -->
+<div class="modal fade" id="div-notice-modal" tabindex="-1" role="dialog" aria-labelledby="modal-notice"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-header text-center">
+            <!-- Close modal button -->
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <!-- Data of notice -->
+            <h5 class="modal-title" id="h-notice-content">欢迎使用【两码一查】系统</h5>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="masthead">
+        <h3 class="text-muted">两码一查</h3>
+    </div>
+
+    <!-- Jumbotron -->
+    <div class="jumbotron">
+        <h3 class="welcome-teacher">张三</h3>
+        <p class="lead login-location">湖北省武汉市</p>
+        <p class="lead login-ip">IP：192.168.43.225</p>
+        <p class="lead login-datetime">2022-08-10 14:28:28</p>
+        <p><a class="btn btn-lg link-logout" role="button"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</a></p>
+    </div>
+
+    <div class="jumbotron">
+        <nav>
+            <ul class="pager">
+                <li class="manage-item"><a class="btn btn-lg" href="class.html?type=2"><span class="glyphicon glyphicon-education" aria-hidden="true"></span> 班级管理</a></li>
+                <li class="manage-item"><a class="btn btn-lg" href="record.html?type=2"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> 登录记录</a></li>
+                <br/><br/>
+                <li class="manage-item"><a class="btn btn-lg" href="personal.html?type=2"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>  我的资料</a></li>
+                <li class="manage-item"><a class="btn btn-lg link-update-password" role="button"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 修改密码</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Site footer -->
+    <footer class="footer text-center">
+        <p>&copy; 2022 Spring-_-Bear</p>
+    </footer>
+
+</div> <!-- /container -->
+
+<!-- Bootstrap core JavaScript
+  ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../js/jquery-1.12.4.min.js" charset="utf-8"></script>
+<script>window.jQuery || document.write('<script src="../js/jquery.min.js" charset="utf-8"><\/script>')</script>
+<script charset="utf-8" src="../js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../js/ie10-viewport-bug-workaround.js" charset="utf-8"></script>
+
+<!-- Custom JavaScript -->
+<script src="../js/gather-common.js" charset="utf-8"></script>
+<script src="../js/gather-update.js" charset="utf-8"></script>
+<script src="../js/gather-logout.js" charset="utf-8"></script>
+<script src="../js/gather-teacher.js" charset="utf-8"></script>
+</body>
+</html>
