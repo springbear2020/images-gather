@@ -1,13 +1,12 @@
 package cn.edu.whut.springbear.gather.controller;
 
-import cn.edu.whut.springbear.gather.pojo.People;
-import cn.edu.whut.springbear.gather.pojo.Response;
-import cn.edu.whut.springbear.gather.pojo.Upload;
-import cn.edu.whut.springbear.gather.pojo.User;
+import cn.edu.whut.springbear.gather.pojo.*;
 import cn.edu.whut.springbear.gather.service.PeopleService;
 import cn.edu.whut.springbear.gather.service.RecordService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -42,5 +41,25 @@ public class RecordController {
             return Response.info("暂无您的今日已完成记录").put("name", people.getName()).put("userType", user.getUserType());
         }
         return Response.success("今日已完成记录查询成功").put("name", people.getName()).put("userType", user.getUserType()).put("upload", upload);
+    }
+
+    @GetMapping("/record/login.do")
+    public Response getLoginLogPageData(@RequestParam("pageNum") Integer pageNum, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        PageInfo<LoginLog> loginPageData = recordService.getUserLoginLogPageData(user.getId(), pageNum);
+        if (loginPageData == null || loginPageData.getList() == null || loginPageData.getList().size() == 0) {
+            return Response.info("暂无您的个人登录记录");
+        }
+        return Response.success("个人登录记录查询成功").put("pageData", loginPageData);
+    }
+
+    @GetMapping("/record/upload.do")
+    public Response getUploadPageData(@RequestParam("pageNum") Integer pageNum, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        PageInfo<Upload> uploadPageData = recordService.getUserUploadPageData(user.getId(), Upload.STATUS_COMPLETED, pageNum);
+        if (uploadPageData == null || uploadPageData.getList() == null || uploadPageData.getList().size() == 0) {
+            return Response.info("暂无您的个人上传记录");
+        }
+        return Response.success("个人上传记录查询成功").put("pageData", uploadPageData);
     }
 }

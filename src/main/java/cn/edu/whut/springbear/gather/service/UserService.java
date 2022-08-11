@@ -28,4 +28,9 @@ public interface UserService {
      * Update the login password of the user by user id
      */
     boolean updateUserPassword(Integer userId, String newPassword);
+
+    /**
+     * Update the email and phone number of the user
+     */
+    boolean updateUserEmailAndPhone(String newEmail, String newPhone, Integer userId);
 }

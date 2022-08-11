@@ -15,7 +15,7 @@ function getUrlParam(key) {
             var curKeyVal = keyValArray[i].split("=");
             // Find the key given by user then return the val about it
             if (curKeyVal != null && curKeyVal[0] == key) {
-                return arr[1];
+                return curKeyVal[1];
             }
         }
         return "";

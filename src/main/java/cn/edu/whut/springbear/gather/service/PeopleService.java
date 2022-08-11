@@ -11,4 +11,9 @@ public interface PeopleService {
      * Get people info by user id
      */
     People queryPeople(Integer userId);
+
+    /**
+     * Update the info of the people, including sex, email and phone number
+     */
+    boolean updatePeopleInfo(String newSex, String newEmail, String newPhone, Integer id);
 }

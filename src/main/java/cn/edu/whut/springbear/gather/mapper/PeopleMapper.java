@@ -16,4 +16,9 @@ public interface PeopleMapper {
      */
     @Select("select * from t_people where user_id = #{userId}")
     People getPeopleByUserId(@Param("userId") Integer userId);
+
+    /**
+     * Update the people info if it not null
+     */
+    int updatePeople(People people);
 }

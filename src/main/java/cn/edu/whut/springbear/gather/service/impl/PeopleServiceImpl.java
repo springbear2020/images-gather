@@ -19,4 +19,14 @@ public class PeopleServiceImpl implements PeopleService {
     public People queryPeople(Integer userId) {
         return peopleMapper.getPeopleByUserId(userId);
     }
+
+    @Override
+    public boolean updatePeopleInfo(String newSex, String newEmail, String newPhone, Integer id) {
+        People people = new People();
+        people.setId(id);
+        people.setSex(newSex);
+        people.setEmail(newEmail);
+        people.setPhone(newPhone);
+        return peopleMapper.updatePeople(people) == 1;
+    }
 }

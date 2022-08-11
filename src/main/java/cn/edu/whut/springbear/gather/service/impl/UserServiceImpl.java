@@ -42,4 +42,13 @@ public class UserServiceImpl implements UserService {
         user.setPassword(newPassword);
         return userMapper.updateUserById(user) == 1;
     }
+
+    @Override
+    public boolean updateUserEmailAndPhone(String newEmail, String newPhone, Integer userId) {
+        User user = new User();
+        user.setId(userId);
+        user.setEmail(newEmail);
+        user.setPhone(newPhone);
+        return userMapper.updateUserById(user) == 1;
+    }
 }

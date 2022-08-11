@@ -18,7 +18,10 @@ var CODE_WARN = 3;
 // User type
 var USER_TYPE_STUDENT = 0;
 var USER_TYPE_MONITOR = 1;
-var USER_TYPE_TEACHER = 2;
+var USER_TYPE_HEAD_TEACHER = 2;
+var USER_TYPE_GRADE_TEACHER = 3;
+// User status
+var USER_STATUS_NORMAL = 0;
 // Verify code length
 var VERIFY_CODE_LEN = 6;
 
@@ -56,3 +59,15 @@ var showNoticeModal = function (code, msg) {
         }
     }, 1000)
 };
+
+// Dispatch to the different home page according to the user type
+function homePageDispatch(type) {
+    var userType = parseInt(type);
+    if (USER_TYPE_STUDENT === userType || USER_TYPE_MONITOR === userType) {
+        // Student home page
+        $(".navbar-brand").attr("href", contextPath + "static/html/student.html");
+    } else if (USER_TYPE_HEAD_TEACHER === userType) {
+        // Teacher home page
+        $(".navbar-brand").attr("href", contextPath + "static/html/teacher.html");
+    }
+}

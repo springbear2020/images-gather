@@ -25,7 +25,7 @@ public class User implements Serializable {
      */
     public static final int TYPE_STUDENT = 0;
     public static final int TYPE_MONITOR = 1;
-    public static final int TYPE_TEACHER = 2;
+    public static final int TYPE_HEAD_TEACHER = 2;
 
     private Integer id;
     private String username;

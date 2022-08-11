@@ -28,6 +28,14 @@ public class DateUtils {
     }
 
     /**
+     * Parse java.util.Date into 20220606122345 format
+     */
+    public static String parseDatetimeNoHyphen(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        return dateFormat.format(date);
+    }
+
+    /**
      * Judge the specified date is today
      */
     public static boolean isToday(Date date) {

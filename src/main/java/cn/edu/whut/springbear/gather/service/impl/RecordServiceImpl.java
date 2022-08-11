@@ -8,12 +8,15 @@ import cn.edu.whut.springbear.gather.pojo.LoginLog;
 import cn.edu.whut.springbear.gather.pojo.Upload;
 import cn.edu.whut.springbear.gather.service.RecordService;
 import cn.edu.whut.springbear.gather.util.WebUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Spring-_-Bear
@@ -26,6 +29,9 @@ public class RecordServiceImpl implements RecordService {
     private Boolean ipService;
     @Value("${baidu.parseUrl}")
     private String parseUrl;
+
+    private static final int PAGE_DATA_ROWS = 10;
+    private static final int PAGE_NAVIGATIONS = 7;
 
     @Autowired
     private LoginLogMapper loginLogMapper;
@@ -48,7 +54,7 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public boolean createStudentUploadToday(Integer userId) {
         String unUploadUrl = "static/img/notUpload.png";
-        Upload upload = new Upload(Upload.STATUS_NOT_UPLOAD, new Date(), unUploadUrl, unUploadUrl, unUploadUrl, unUploadUrl, unUploadUrl, unUploadUrl, userId);
+        Upload upload = new Upload(Upload.STATUS_NOT_UPLOAD, new Date(), unUploadUrl, unUploadUrl, unUploadUrl, userId);
         return uploadMapper.saveUpload(upload) == 1;
     }
 
@@ -60,5 +66,24 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public Upload getStudentUpload(Integer userId, Date date, Integer uploadStatus) {
         return uploadMapper.getUploadOfUserFilterByStatusAndDate(userId, uploadStatus, date);
+    }
+
+    @Override
+    public boolean updateUploadImagesUrl(Upload upload) {
+        return uploadMapper.updateUploadImagesUrl(upload) == 1;
+    }
+
+    @Override
+    public PageInfo<LoginLog> getUserLoginLogPageData(Integer userId, Integer pageNum) {
+        PageHelper.startPage(pageNum, PAGE_DATA_ROWS);
+        List<LoginLog> loginList = loginLogMapper.getUserLoginLogs(userId);
+        return new PageInfo<>(loginList, PAGE_NAVIGATIONS);
+    }
+
+    @Override
+    public PageInfo<Upload> getUserUploadPageData(Integer userId, Integer uploadStatus, Integer pageNum) {
+        PageHelper.startPage(pageNum, PAGE_DATA_ROWS);
+        List<Upload> uploadList = uploadMapper.getUserUploads(userId, uploadStatus);
+        return new PageInfo<>(uploadList, PAGE_NAVIGATIONS);
     }
 }

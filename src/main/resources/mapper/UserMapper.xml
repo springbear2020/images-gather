@@ -19,6 +19,12 @@
             <if test="lastLoginDatetime != null">
                 last_login_datetime = #{lastLoginDatetime},
             </if>
+            <if test="userType != null">
+                user_type = #{userType},
+            </if>
+            <if test="userStatus != null">
+                user_status = #{userStatus},
+            </if>
         </set>
         where id = #{id}
     </update>

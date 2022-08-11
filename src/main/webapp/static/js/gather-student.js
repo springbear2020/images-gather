@@ -4,6 +4,7 @@ $(function () {
      * Welcome student info and whether task of today is completed
      * =================================================================================================================
      */
+    var USER_TYPE = -1;
 
     // Display three images
     function displayImages(upload, name) {
@@ -45,6 +46,7 @@ $(function () {
 
             // Common student don't have the privilege to view the class upload record
             var userType = response.resultMap.userType;
+            USER_TYPE = userType;
             if (USER_TYPE_STUDENT === userType) {
                 $(".li-class").attr("style", "display: none");
             }
@@ -55,6 +57,27 @@ $(function () {
         },
         error: function () {
             showNoticeModal(CODE_WARN, "请求今日上传记录失败，请稍后重试");
+        }
+    });
+
+    /*
+     * =================================================================================================================
+     * Page dispatcher
+     * =================================================================================================================
+     */
+    $(".li-class").click(function () {
+        if (USER_TYPE != -1) {
+            $(this).attr("href", contextPath + "static/html/class.html?type=" + USER_TYPE);
+        }
+    });
+    $(".link-record").click(function () {
+        if (USER_TYPE != -1) {
+            $(this).attr("href", contextPath + "static/html/record.html?type=" + USER_TYPE);
+        }
+    });
+    $(".link-personal-profile").click(function () {
+        if (USER_TYPE != -1) {
+            $(this).attr("href", contextPath + "static/html/profile.html?type=" + USER_TYPE);
         }
     });
 });
