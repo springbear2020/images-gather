@@ -7,17 +7,21 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 import javax.servlet.Filter;
 
 /**
- * Replace web.xml
- *
  * @author Spring-_-Bear
- * @datetime 2022-08-08 09:43 Monday
+ * @datetime 2022-08-10 22:26 Wednesday
  */
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+    /**
+     * Spring
+     */
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[]{SpringConfiguration.class};
     }
 
+    /**
+     * MVC
+     */
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class[]{SpringMvcConfiguration.class};
@@ -38,7 +42,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     protected Filter[] getServletFilters() {
         // Chinese garbled solution
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter("UTF-8", true);
-        // Support RESTful style
+        // RESTful style support
         HiddenHttpMethodFilter hiddenHttpMethodFilter = new HiddenHttpMethodFilter();
         return new Filter[]{characterEncodingFilter, hiddenHttpMethodFilter};
     }

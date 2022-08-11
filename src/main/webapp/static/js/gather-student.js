@@ -1,35 +1,36 @@
 $(function () {
-    /* ================================================== Completed ================================================= */
+    /*
+     * =================================================================================================================
+     * Welcome student info and whether task of today is completed
+     * =================================================================================================================
+     */
 
     // Display three images
-    function displayImages(response, studentName) {
-        var upload = response.resultMap.item;
-
-        $(".span-uploaded").text(studentName + "，今日【两码一查】已完成");
+    function displayImages(upload, name) {
+        // Display the completed box
+        $(".span-uploaded").text(name + "，今日【两码一查】已完成");
         $(".span-uploaded-datetime").text("上传时间：" + upload.uploadDatetime);
+        $(".div-completed").attr("style", "display: block");
 
         // Health image access url
-        var localHealthUrl = upload.localHealthUrl;
-        var cloudHealthUrl = upload.cloudHealthUrl;
+        var localHealthUrl = upload.localHealthUrl == null ? "" : upload.localHealthUrl;
+        var cloudHealthUrl = upload.cloudHealthUrl == null ? "" : upload.cloudHealthUrl;
         var healthAccessUrl = cloudHealthUrl.length == 0 ? contextPath + localHealthUrl : cloudHealthUrl;
         healthAccessUrl = healthAccessUrl == contextPath ? invalidImageUrl : healthAccessUrl;
         // Schedule image access url
-        var localScheduleUrl = upload.localScheduleUrl;
-        var cloudScheduleUrl = upload.cloudScheduleUrl;
+        var localScheduleUrl = upload.localScheduleUrl == null ? "" : upload.localScheduleUrl;
+        var cloudScheduleUrl = upload.cloudScheduleUrl == null ? "" : upload.cloudScheduleUrl;
         var scheduleAccessUrl = cloudScheduleUrl.length == 0 ? contextPath + localScheduleUrl : cloudScheduleUrl;
         scheduleAccessUrl = scheduleAccessUrl == contextPath ? invalidImageUrl : scheduleAccessUrl;
         // Closed image access url
-        var localClosedUrl = upload.localClosedUrl;
-        var cloudClosedUrl = upload.cloudClosedUrl;
+        var localClosedUrl = upload.localClosedUrl == null ? "" : upload.localClosedUrl;
+        var cloudClosedUrl = upload.cloudClosedUrl == null ? "" : upload.cloudClosedUrl;
         var closedAccessUrl = cloudClosedUrl.length == 0 ? contextPath + localClosedUrl : cloudClosedUrl;
         closedAccessUrl = closedAccessUrl == contextPath ? invalidImageUrl : closedAccessUrl;
 
         $(".img-health").attr("src", healthAccessUrl);
         $(".img-schedule").attr("src", scheduleAccessUrl);
         $(".img-closed").attr("src", closedAccessUrl);
-
-        // Display the completed box
-        $(".div-completed").attr("style", "display: block");
     }
 
     // Get the student's upload of today
@@ -39,16 +40,17 @@ $(function () {
         dataType: "json",
         success: function (response) {
             // Welcome
-            var studentName = response.resultMap.user.student.name;
-            $(".welcome-user").text(studentName + "，欢迎登录！");
+            var name = response.resultMap.name;
+            $(".welcome").text(name + "，欢迎登录！");
 
-            var userType = response.resultMap.user.userType;
-            if (0 !== userType) {
-                $(".li-class").attr("style", "display: block");
+            // Common student don't have the privilege to view the class upload record
+            var userType = response.resultMap.userType;
+            if (USER_TYPE_STUDENT === userType) {
+                $(".li-class").attr("style", "display: none");
             }
-            // Uploaded
+            // Task of today completed
             if (CODE_SUCCESS == response.code) {
-                displayImages(response, studentName);
+                displayImages(response.resultMap.upload, name);
             }
         },
         error: function () {

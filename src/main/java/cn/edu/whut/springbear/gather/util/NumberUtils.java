@@ -4,14 +4,11 @@ import java.util.Random;
 
 /**
  * @author Spring-_-Bear
- * @datetime 2022-08-09 14:33 Tuesday
+ * @datetime 2022-08-11 01:30 Thursday
  */
 public class NumberUtils {
     /**
      * Generate the digital code string in length
-     *
-     * @param len The max length of the code
-     * @return Digital code string
      */
     public static String generateDigitalCode(int len) {
         int[] nums = new int[]{1, 7, 9, 3, 5, 0, 6, 8, 2, 4};

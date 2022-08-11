@@ -1,26 +1,44 @@
-$(function () {
-    <!-- Set running time of this website -->
-    function showRunningTime() {
-        window.setTimeout("showRunningTime()", 1000);
-        X = new Date("06/02/2022 00:00:00");
-        Y = new Date();
-        T = (Y.getTime() - X.getTime());
-        M = 24 * 60 * 60 * 1000;
-        a = T / M;
-        A = Math.floor(a);
-        b = (a - A) * 24;
-        B = Math.floor(b);
-        c = (b - B) * 60;
-        C = Math.floor((b - B) * 60);
-        D = Math.floor((c - C) * 60);
-        runtime.innerHTML = A + " 天 " + B + " 时 " + C + " 分 " + D + " 秒"
+window.onload = function () {
+    /*
+     * =================================================================================================================
+     * Set running time of the website
+     * =================================================================================================================
+     */
+    function showRunningTime(startTimeStr) {
+        var datetimeNow = new Date();
+        var startDatetime = new Date(startTimeStr);
+        var datetimeSpan = (datetimeNow.getTime() - startDatetime.getTime());
+        var daySeconds = 24 * 60 * 60 * 1000;
+
+        // days
+        var days = datetimeSpan / daySeconds;
+        var realDays = Math.floor(days);
+        // realHours
+        var hours = (days - realDays) * 24;
+        var realHours = Math.floor(hours);
+        // realMinutes
+        var minutes = (hours - realHours) * 60;
+        var realMinutes = Math.floor(minutes);
+        // seconds
+        var seconds = (minutes - realMinutes) * 60;
+        var realSeconds = Math.floor(seconds);
+
+        // Set runtime for the element
+        var runtimeElement = document.getElementById("runtime");
+        runtimeElement.innerHTML = realDays + " 天 " + realHours + " 时 " + realMinutes + " 分 " + realSeconds + " 秒"
     }
 
-    showRunningTime();
+    setInterval(function () {
+        showRunningTime("06/02/2022 00:00:00");
+    }, 1000)
 
-    var $copyrightElement = $('.copyright');
-    $copyrightElement.css('opacity', '0');
+    /*
+     * =================================================================================================================
+     * Runtime display or hide
+     * =================================================================================================================
+     */
     // Display
+    var $copyrightElement = $(".copyright");
     $copyrightElement.mouseover(function () {
         $copyrightElement.css('opacity', '1');
     });
@@ -28,4 +46,4 @@ $(function () {
     $copyrightElement.mouseleave(function () {
         $copyrightElement.css('opacity', '0');
     });
-});
+};

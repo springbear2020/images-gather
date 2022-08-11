@@ -107,7 +107,6 @@
             <artifactId>pagehelper</artifactId>
             <version>5.2.0</version>
         </dependency>
-
         <!-- File upload -->
         <dependency>
             <groupId>commons-fileupload</groupId>

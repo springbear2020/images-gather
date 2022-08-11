@@ -1,6 +1,5 @@
 package cn.edu.whut.springbear.gather.pojo;
 
-import cn.edu.whut.springbear.gather.util.poi.annation.SheetColumnName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -10,20 +9,25 @@ import java.util.Date;
 
 /**
  * @author Spring-_-Bear
- * @datetime 2022-08-08 10:00 Monday
+ * @datetime 2022-08-10 23:58 Wednesday
  */
 @Data
 public class User implements Serializable {
     private static final long serialVersionUID = -4649863508706693629L;
 
+    /**
+     * User status
+     */
     public static final int STATUS_NORMAL = 0;
     public static final int STATUS_ABNORMAL = 1;
+    /**
+     * User type
+     */
     public static final int TYPE_STUDENT = 0;
     public static final int TYPE_MONITOR = 1;
     public static final int TYPE_TEACHER = 2;
 
     private Integer id;
-    @SheetColumnName("用户名")
     private String username;
     @JsonIgnore
     private String password;
@@ -34,6 +38,5 @@ public class User implements Serializable {
     private Integer userStatus;
     private Integer userType;
 
-    private Student student;
-    private Teacher teacher;
+    private People people;
 }

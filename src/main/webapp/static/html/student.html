@@ -36,6 +36,8 @@
                 <h4 class="modal-title"><strong>修改密码</strong></h4>
             </div>
             <div class="modal-body">
+                <!-- message -->
+                <div class="error-msg"></div>
                 <form id="form-update-password">
                     <!-- Old password -->
                     <div class="form-group has-feedback">
@@ -76,6 +78,7 @@
 <!-- Top header -->
 <div class="navbar-wrapper">
     <div class="container">
+        <!-- Top nav -->
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <!-- Logo -->
@@ -90,11 +93,11 @@
                 </div>
                 <!-- Top header content -->
                 <div id="navbar" class="navbar-collapse collapse text-center">
-                    <span class="welcome-user">张三，欢迎登录！</span>
+                    <span class="welcome">张三，欢迎登录！</span>
                     <ul class="nav navbar-nav navbar-left">
-                        <li class="text-center li-class" style="display: none"><a href="class.html?type=1"><span class="glyphicon glyphicon-education" aria-hidden="true"></span> 班级</a></li>
-                        <li class="text-center"><a href="record.html?type=1"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> 记录</a></li>
-                        <li class="text-center"><a href="personal.html?type=1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 我的</a></li>
+                        <li class="text-center li-class"><a href="class.html"><span class="glyphicon glyphicon-education" aria-hidden="true"></span> 班级</a></li>
+                        <li class="text-center"><a href="record.html"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> 记录</a></li>
+                        <li class="text-center"><a href="personal.html"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 我的</a></li>
                     </ul>
                     <!-- Items -->
                     <ul class="nav navbar-nav navbar-right">
@@ -111,7 +114,8 @@
 <div class="container marketing">
     <form class="center-block images-form">
         <div class="row">
-            <div class="alert alert-success text-center div-completed" role="alert" style="display: none">
+            <!-- Completed label -->
+            <div class="alert alert-success text-center div-completed" role="alert">
                 <span class="span-uploaded">张三，今日【两码一查】已完成&nbsp;&nbsp;&nbsp;</span>
                 <br/>
                 <br/>
@@ -145,6 +149,7 @@
         <!-- Upload button -->
         <input class="btn btn-primary btn-lg btn-block" id="btn-images-upload" disabled type="button" value="提交">
     </form>
+
     <!-- Copyright -->
     <footer class="footer-link text-center">
         <p>&copy; 2022 Spring-_-Bear</p>
@@ -154,17 +159,17 @@
 <!-- Bootstrap core JavaScript
   ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="../js/jquery-1.12.4.min.js" charset="utf-8"></script>
-<script>window.jQuery || document.write('<script src="../js/jquery.min.js" charset="utf-8"><\/script>')</script>
-<script charset="utf-8" src="../js/bootstrap.min.js"></script>
+<script src="../../static/js/jquery-1.12.4.min.js" charset="utf-8"></script>
+<script>window.jQuery || document.write('<script src="../../static/js/jquery.min.js" charset="utf-8"><\/script>')</script>
+<script src="../../static/js/bootstrap.min.js" charset="utf-8" ></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="../js/ie10-viewport-bug-workaround.js" charset = "utf-8"></script>
+<script src="../../static/js/ie10-viewport-bug-workaround.js" charset = "utf-8"></script>
 
 <!-- Custom JavaScript -->
-<script src="../js/gather-common.js" charset = "utf-8"></script>
-<script src="../js/gather-file-upload.js" charset = "utf-8"></script>
+<script src="../js/gather-commons.js" charset = "utf-8"></script>
 <script src="../js/gather-student.js" charset = "utf-8"></script>
 <script src="../js/gather-update.js" charset = "utf-8"></script>
 <script src="../js/gather-logout.js"  charset = "utf-8"></script>
+<!--<script src="../js/gather-file-upload.js" charset = "utf-8"></script>-->
 </body>
 </html>

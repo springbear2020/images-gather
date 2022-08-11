@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.whut.springbear.gather.mapper.UserMapper">
+    <!-- int updateUserById(User user); -->
+    <update id="updateUserById" parameterType="user">
+        update t_user
+        <set>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="lastLoginDatetime != null">
+                last_login_datetime = #{lastLoginDatetime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

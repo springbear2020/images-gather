@@ -1,28 +1,10 @@
 $(function () {
-    /* =================================================== Cookie =================================================== */
-
-    // Get the cookie info from the disk file
-    function getCookieByKey(key) {
-        var cookieArray = document.cookie.split("; ");
-        var len = cookieArray.length;
-        for (var i = 0; i < len; i++) {
-            // key - value
-            var val = cookieArray[i].split("=");
-            // Return the value of the specified key
-            if (val[0] == key) {
-                return val[1];
-            }
-        }
-        // The key not exists in the cookie, return the ""
-        return "";
-    }
-
     /*
-     * Auto fill text for the username and password input element,
-     * get the username and password from the cookie,
-     * username and password exists in the cookie,
-     * set the content of the input text element
+     * =================================================================================================================
+     * Auto fill content from the cookies
+     * =================================================================================================================
      */
+    // Auto fill text for the username and password input element from the cookie if exists
     var usernameFromCookie = getCookieByKey("username");
     var passwordFromCookie = getCookieByKey("password");
     if (usernameFromCookie.length > 0 && passwordFromCookie.length > 0) {
@@ -43,36 +25,45 @@ $(function () {
         }
     })
 
-    /* =================================================== Login ==================================================== */
-
+    /*
+     * =================================================================================================================
+     * User login
+     * =================================================================================================================
+     */
     // Prevent the default submit behavior of the form
     $("form").on("submit", function () {
         return false;
     });
 
-    // User login by username and password
+    // User login button click event
     $(".btn-block").click(function () {
+        // TODO MD5 password encode
+        var password = $("#inputPassword").val();
+        var params = "username=" + $("#inputUsername").val() + "&password=" + password;
+        var $rememberMe = $(".remember-me");
+        if ($rememberMe.is(':checked')) {
+            params = params + "&rememberMe=" + $rememberMe.val();
+        }
         $.ajax({
             url: contextPath + "login.do",
             method: "get",
-            data: $(".form-signin").serialize(),
+            data: params,
             dataType: "json",
             success: function (response) {
                 if (CODE_SUCCESS == response.code) {
-                    var type = response.resultMap.type;
+                    var userType = response.resultMap.item;
                     // Student and monitor
-                    if (USER_TYPE_STUDENT == type || USER_TYPE_MONITOR == type) {
+                    if (USER_TYPE_STUDENT == userType || USER_TYPE_MONITOR == userType) {
                         window.location.href = contextPath + "static/html/student.html";
-                    } else if (USER_TYPE_TEACHER == type) {
+                    } else if (USER_TYPE_TEACHER == userType) {
                         window.location.href = contextPath + "static/html/teacher.html"
                     }
                 } else {
                     $(".error-msg").text(response.msg);
-                    // showNoticeModal(response.code, response.msg);
                 }
             },
             error: function () {
-                showNoticeModal(CODE_WARN, "请求登录失败，请稍后重试");
+                $(".error-msg").text("请求登录失败，请稍后重试");
             }
         });
     });

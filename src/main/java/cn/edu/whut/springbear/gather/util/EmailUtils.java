@@ -1,6 +1,5 @@
 package cn.edu.whut.springbear.gather.util;
 
-
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -12,7 +11,7 @@ import java.util.Properties;
 
 /**
  * @author Spring-_-Bear
- * @datetime 2022-08-09 14:41 Tuesday
+ * @datetime 2022-08-11 01:32 Thursday
  */
 public class EmailUtils {
     /**

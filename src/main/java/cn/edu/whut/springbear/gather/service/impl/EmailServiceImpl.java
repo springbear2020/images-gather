@@ -1,24 +1,18 @@
 package cn.edu.whut.springbear.gather.service.impl;
 
-import cn.edu.whut.springbear.gather.pojo.EmailLog;
 import cn.edu.whut.springbear.gather.service.EmailService;
-import cn.edu.whut.springbear.gather.service.RecordService;
 import cn.edu.whut.springbear.gather.util.EmailUtils;
 import cn.edu.whut.springbear.gather.util.NumberUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-
-
 /**
  * @author Spring-_-Bear
- * @datetime 2022-08-09 14:31 Tuesday
+ * @datetime 2022-08-11 01:27 Thursday
  */
 @Service
-@PropertySource("classpath:email.properties")
+@PropertySource("classpath:properties/email.properties")
 public class EmailServiceImpl implements EmailService {
     @Value("${email.emailService}")
     private Boolean emailService;
@@ -28,9 +22,10 @@ public class EmailServiceImpl implements EmailService {
     private String password;
     @Value("${email.smtpHost}")
     private String smtpHost;
-    @Autowired
-    private RecordService recordService;
 
+    /**
+     * Length of the email verify code
+     */
     private static final int CODE_LEN = 6;
 
     @Override
@@ -41,10 +36,8 @@ public class EmailServiceImpl implements EmailService {
         // Generate the verify code in length randomly
         String verifyCode = NumberUtils.generateDigitalCode(CODE_LEN);
 
-        recordService.saveEmailLog(new EmailLog(null, receiver, verifyCode, new Date()));
-
-        // try to send the email to the email address of the receiver
         try {
+            // try to send the email to the email address of the receiver
             EmailUtils.sendEmail(sender, password, smtpHost, receiver, verifyCode);
         } catch (Exception e) {
             e.printStackTrace();

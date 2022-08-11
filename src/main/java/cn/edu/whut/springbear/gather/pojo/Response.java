@@ -8,16 +8,15 @@ import java.util.Map;
 
 /**
  * @author Spring-_-Bear
- * @datetime 2022-08-08 11:14 Monday
+ * @datetime 2022-08-10 23:52 Wednesday
  */
 @Data
 public class Response implements Serializable {
     private static final long serialVersionUID = 1992589378681096903L;
 
-    public static final int SUCCESS = 0;
-    public static final int INFO = 1;
-    public static final int WARN = 2;
-    public static final int ERROR = 3;
+    private static final int SUCCESS = 0;
+    private static final int INFO = 1;
+    private static final int ERROR = 2;
 
     /**
      * Response code agreed with the client
@@ -40,10 +39,6 @@ public class Response implements Serializable {
         return getResponse(msg, INFO);
     }
 
-    public static Response warn(String msg) {
-        return getResponse(msg, WARN);
-    }
-
     public static Response error(String msg) {
         return getResponse(msg, ERROR);
     }
@@ -60,4 +55,3 @@ public class Response implements Serializable {
         return this;
     }
 }
-

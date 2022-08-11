@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="Index page for user login">
+    <meta name="description" content="User login">
     <meta name="author" content="Spring-_-Bear">
     <link rel="icon" href="../../static/img/WHUT.png">
 
@@ -24,20 +24,7 @@
     <script src="../../static/js/respond.min.js" charset="utf-8"></script>
     <![endif]-->
 </head>
-
 <body>
-<!-- Modal of notice -->
-<div class="modal fade" id="div-notice-modal" tabindex="-1" role="dialog" aria-labelledby="modal-notice" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-header text-center">
-            <!-- Close modal button -->
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <!-- Data of notice -->
-            <h5 class="modal-title" id="h-notice-content">欢迎使用【两码一查】系统</h5>
-        </div>
-    </div>
-</div>
-
 <div class="container">
     <!-- Form for user login -->
     <form class="form-signin">
@@ -52,7 +39,10 @@
         <label for="inputPassword" class="sr-only">密码</label>
         <input type="password" id="inputPassword" name="password" class="form-control" placeholder="密&nbsp;&nbsp;&nbsp;码" required>
         <!-- Remember me -->
-        <div class="checkbox"><label><input class="remember-me" type="checkbox" name="rememberMe" value="true"> 记住我</label><a class="forget-password" href="reset.html">忘记密码？</a></div>
+        <div class="checkbox">
+            <label><input class="remember-me" type="checkbox" name="rememberMe" value="yes">记住我</label>
+            <a class="forget-password" href="reset.html">忘记密码？</a>
+        </div>
         <!-- Login button -->
         <button class="btn btn-lg btn-primary btn-block" type="submit">登&nbsp;&nbsp;&nbsp;录</button>
     </form>
@@ -74,8 +64,9 @@
 <script src="../../static/js/ie10-viewport-bug-workaround.js" charset = "utf-8"></script>
 
 <!-- Custom JavaScript -->
-<script src="../../static/js/gather-common.js" charset="utf-8"></script>
-<script src="../../static/js/gather-login.js" charset="utf-8"></script>
+<script src="../../static/js/gather-commons.js" charset="utf-8"></script>
+<script src="../../static/js/gather-utils.js" charset="utf-8"></script>
 <script src="../../static/js/gather-runtime.js" charset="utf-8"></script>
+<script src="../../static/js/gather-login.js" charset="utf-8"></script>
 </body>
 </html>

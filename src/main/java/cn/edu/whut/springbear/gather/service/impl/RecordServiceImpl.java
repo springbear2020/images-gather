@@ -7,24 +7,25 @@ import cn.edu.whut.springbear.gather.pojo.EmailLog;
 import cn.edu.whut.springbear.gather.pojo.LoginLog;
 import cn.edu.whut.springbear.gather.pojo.Upload;
 import cn.edu.whut.springbear.gather.service.RecordService;
-import cn.edu.whut.springbear.gather.service.StudentService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import cn.edu.whut.springbear.gather.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author Spring-_-Bear
- * @datetime 2022-08-08 22:06 Monday
+ * @datetime 2022-08-11 00:10 Thursday
  */
 @Service
+@PropertySource("classpath:properties/baidu.properties")
 public class RecordServiceImpl implements RecordService {
-    private static final int PAGE_DATA_ROWS = 10;
-    private static final int PAGE_NUMS = 7;
+    @Value("${baidu.ipService}")
+    private Boolean ipService;
+    @Value("${baidu.parseUrl}")
+    private String parseUrl;
 
     @Autowired
     private LoginLogMapper loginLogMapper;
@@ -32,46 +33,23 @@ public class RecordServiceImpl implements RecordService {
     private UploadMapper uploadMapper;
     @Autowired
     private EmailLogMapper emailLogMapper;
-    @Autowired
-    private StudentService studentService;
 
     @Override
-    public PageInfo<LoginLog> getUserLoginLogPageData(Integer userId, Integer pageNum) {
-        PageHelper.startPage(pageNum, PAGE_DATA_ROWS);
-        List<LoginLog> loginList = loginLogMapper.getUserLoginLog(userId);
-        return new PageInfo<>(loginList, PAGE_NUMS);
-    }
-
-    @Override
-    public boolean saveLoginLog(LoginLog loginLog) {
+    public boolean saveLoginLog(String ip, Integer userId) {
+        String location = "未知地点";
+        // Parse the location of the ip address from the baidu map api
+        if (ipService && !"127.0.0.1".equals(ip)) {
+            location = WebUtils.parseIpLocation(parseUrl + ip);
+        }
+        LoginLog loginLog = new LoginLog(ip, location, new Date(), userId);
         return loginLogMapper.saveLoginLog(loginLog) == 1;
     }
 
     @Override
-    public boolean saveUpload(Upload upload) {
+    public boolean createStudentUploadToday(Integer userId) {
+        String unUploadUrl = "static/img/notUpload.png";
+        Upload upload = new Upload(Upload.STATUS_NOT_UPLOAD, new Date(), unUploadUrl, unUploadUrl, unUploadUrl, unUploadUrl, unUploadUrl, unUploadUrl, userId);
         return uploadMapper.saveUpload(upload) == 1;
-    }
-
-    @Override
-    public boolean updateUpload(Upload upload) {
-        return uploadMapper.updateUserUploadImagesUrl(upload) == 1;
-    }
-
-    @Override
-    public PageInfo<Upload> getUserUploadPageData(Integer userId, Integer uploadStatus, Integer pageNum) {
-        PageHelper.startPage(pageNum, PAGE_DATA_ROWS);
-        List<Upload> uploadList = uploadMapper.getUserAllUploads(userId, uploadStatus);
-        return new PageInfo<>(uploadList, PAGE_NUMS);
-    }
-
-    @Override
-    public Upload getUserUploadInSpecifiedDate(Integer userId, Integer uploadStatus, Date specifiedDate) {
-        return uploadMapper.getUserUploadAtSpecifiedDate(userId, uploadStatus, specifiedDate);
-    }
-
-    @Override
-    public List<Upload> getClassUploadListWithStudent(Integer uploadStatus, Date specifiedDate, String className) {
-        return uploadMapper.getClassUploadListWithStudent(uploadStatus, specifiedDate, className);
     }
 
     @Override
@@ -80,22 +58,7 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public LoginLog getLatestLoginLog(Integer userId) {
-        return loginLogMapper.getLatestLoginLog(userId);
-    }
-
-    @Override
-    public List<List<String>> getClassUploadStudents(String className, Date specifiedDate) {
-        // Get the class student list someone who not sign in the system
-        List<String> notLoginStudentNames = studentService.getClassStudentNameListNotLogin(className, specifiedDate);
-        // Get the class student list someone who sign in the system but not upload the images
-        List<String> notUploadStudentNames = studentService.getClassStudentNameListByUploadStatus(Upload.STATUS_NOT_UPLOAD, className, specifiedDate);
-        // Get the class student list someone who upload the images successfully
-        List<String> completedStudentNames = studentService.getClassStudentNameListByUploadStatus(Upload.STATUS_UPLOADED, className, specifiedDate);
-        List<List<String>> res = new ArrayList<>();
-        res.add(notLoginStudentNames);
-        res.add(notUploadStudentNames);
-        res.add(completedStudentNames);
-        return res;
+    public Upload getStudentUpload(Integer userId, Date date, Integer uploadStatus) {
+        return uploadMapper.getUploadOfUserFilterByStatusAndDate(userId, uploadStatus, date);
     }
 }

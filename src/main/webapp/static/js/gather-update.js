@@ -1,56 +1,63 @@
 $(function () {
-    /* =============================================== Update password ============================================== */
+    /*
+     * =================================================================================================================
+     * Update user login password
+     * =================================================================================================================
+     */
 
-    // Clear the content in the update password modal
+    // Reset update password modal content
     function clearContentOfUpdatePassword() {
         $("#input-old-password").val("");
         $("#input-new-password").val("");
         $("#input-new-password-again").val("");
     }
 
-    // Show the password update modal
+    // Open modal
     $(".link-update-password").click(function () {
         $("#modal-update-password").modal({
             backdrop: "static"
         })
     });
 
-    // Reset content in the password input element
+    // Close modal
     $(".modal-update-close").click(function () {
         clearContentOfUpdatePassword();
     });
 
-    // Prevent the default submit behavior of the password update form
+    // Prevent the default submit behavior of the form
     $("#form-update-password").on("submit", function () {
         return false;
     });
 
-    // Before the update form submit, do some verify of it
+    // Form submit
     $("#form-update-password").submit(function () {
+        var $errorMsg = $(".error-msg");
         // Verify the password entered in two times
         var newPassword = $("#input-new-password").val();
         var newPasswordAgain = $("#input-new-password-again").val();
         if (newPassword !== newPasswordAgain) {
-            showNoticeModal(CODE_WARN, "两次输入的新密码不一致");
+            $errorMsg.text("两次输入的新密码不一致，请检查后重新输入");
             return false;
         }
 
         // Length too short of the new password
         if (newPassword.length < 6) {
-            showNoticeModal(CODE_WARN, "新密码长度小于 6 位，请重新输入");
+            $errorMsg.text("新密码长度不小于 6 位，请重新输入");
             return false;
         }
 
         // Whether the old password id equals to the new password
         var oldPassword = $("#input-old-password").val();
         if (oldPassword === newPassword) {
-            showNoticeModal(CODE_WARN, "新旧密码一致，请重新输入");
+            $errorMsg.text("新旧密码一致，请重新输入新密码");
             return false;
+        } else {
+            $errorMsg.text("");
         }
 
         // Send an ajax request to ask server for updating the password of user
         $.ajax({
-            url: contextPath + "user.do",
+            url: contextPath + "update.do",
             method: "POST",
             data: "_method=PUT&" + $("#form-update-password").serialize(),
             dataType: "json",

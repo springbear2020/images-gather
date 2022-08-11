@@ -13,13 +13,13 @@ import java.util.Map;
 
 /**
  * @author Spring-_-Bear
- * @datetime 2022-08-08 22:23 Monday
+ * @datetime 2022-08-11 00:05 Thursday
  */
 public class WebUtils {
     /**
      * Get the ip address from the request header
      *
-     * @return IP string or null
+     * @return IP string or ""
      */
     public static String getIpAddress(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
@@ -52,14 +52,13 @@ public class WebUtils {
     }
 
     /**
-     * Send a GET request to the baidu.com, then handle with the response json data,
+     * Send a GET request to the map.baidu.com, then handle with the response json data,
      * get the ip location from the response finally
      *
      * @param requestUrl The request url for baidu.com
      * @return Ip location or "未知地点"
      */
-    @SuppressWarnings("all")
-    public static String getIpLocationFromBaiduMap(String requestUrl) {
+    public static String parseIpLocation(String requestUrl) {
         StringBuffer stringBuffer = new StringBuffer();
         try {
             // Try to make a GET httpURLConnection with the request url

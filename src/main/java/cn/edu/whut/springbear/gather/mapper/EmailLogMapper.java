@@ -6,13 +6,13 @@ import org.springframework.stereotype.Repository;
 
 /**
  * @author Spring-_-Bear
- * @datetime 2022-08-09 15:28 Tuesday
+ * @datetime 2022-08-11 01:37 Thursday
  */
 @Repository
 public interface EmailLogMapper {
     /**
      * Save the verify code sent record
      */
-    @Insert("insert into log_email(email, code, datetime) values (#{email},#{code},#{datetime})")
+    @Insert("insert into log_email(email, code, datetime, user_id) values (#{email},#{code},#{datetime},#{userId})")
     int saveEmailLog(EmailLog emailLog);
 }
