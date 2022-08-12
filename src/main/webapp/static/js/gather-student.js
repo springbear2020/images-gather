@@ -65,7 +65,7 @@ $(function () {
      * Page dispatcher
      * =================================================================================================================
      */
-    $(".li-class").click(function () {
+    $(".link-class").click(function () {
         if (USER_TYPE != -1) {
             $(this).attr("href", contextPath + "static/html/class.html?type=" + USER_TYPE);
         }

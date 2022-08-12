@@ -1,5 +1,6 @@
 package cn.edu.whut.springbear.gather.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,6 +34,20 @@ public class DateUtils {
     public static String parseDatetimeNoHyphen(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         return dateFormat.format(date);
+    }
+
+    /**
+     * Parse the date in string format into java.util.Date,
+     * if parse failed then return null
+     */
+    public static Date parseString(String dateStr) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return dateFormat.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**

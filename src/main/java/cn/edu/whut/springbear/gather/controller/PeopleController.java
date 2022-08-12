@@ -32,7 +32,7 @@ public class PeopleController {
     }
 
     @PutMapping("/people.do")
-    public Response updateStudent(@RequestParam String newSex, @RequestParam String newPhone, @RequestParam String newEmail, HttpSession session) {
+    public Response updatePeople(@RequestParam String newSex, @RequestParam String newPhone, @RequestParam String newEmail, HttpSession session) {
         // Verify the data entered by the user
         if (!Pattern.matches("^1[3-9]\\d{9}$", newPhone)) {
             return Response.error("手机号格式不正确，请重新输入");

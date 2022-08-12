@@ -1,5 +1,6 @@
 package cn.edu.whut.springbear.gather.service;
 
+import cn.edu.whut.springbear.gather.pojo.People;
 import cn.edu.whut.springbear.gather.pojo.Upload;
 import cn.edu.whut.springbear.gather.pojo.User;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,4 +33,17 @@ public interface TransferService {
      * @return Upload
      */
     Upload pushImagesToQiniu(Upload upload, String realPath);
+
+    /**
+     * Create a new file named README.txt contains the student list (unLogin, unUpload, completed),
+     */
+    boolean createReadmeFile(String realPath, String dateStr, People people);
+
+    /**
+     * Compress the specified directory, if process something going wrong then return null
+     * or return the absolute path of the compress file
+     *
+     * @return Null or compress file absolute path
+     */
+    String compressDirectory(String realPath, String dateStr, People people);
 }

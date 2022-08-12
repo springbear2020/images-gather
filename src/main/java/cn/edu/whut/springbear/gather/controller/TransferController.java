@@ -9,12 +9,20 @@ import cn.edu.whut.springbear.gather.service.TransferService;
 import cn.edu.whut.springbear.gather.util.DateUtils;
 import cn.edu.whut.springbear.gather.util.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 /**
@@ -33,7 +41,7 @@ public class TransferController {
                            HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user.getUserType() > User.TYPE_MONITOR) {
-            return Response.error("权限不足，禁止上传两码一查图片");
+            return Response.error("当前用户账号禁止上传两码一查图片");
         }
         People people = user.getPeople();
 
@@ -60,5 +68,42 @@ public class TransferController {
         }
 
         return Response.success(people.getName() + "，今日【两码一查】已上传");
+    }
+
+    @GetMapping("/transfer.do")
+    public ResponseEntity<byte[]> classUploadFilesDownload(@RequestParam("date") String dateStr, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        // Student don't have the privilege to download the files
+        if (user.getUserType() < User.TYPE_MONITOR) {
+            return new ResponseEntity<>(null, null, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+        }
+
+        // e.g: E:\images-gather\target\images-gather-1.0-SNAPSHOT\
+        String realPath = session.getServletContext().getRealPath("/");
+        // Create new file named README.txt contains the student list (unLogin, unUpload, completed)
+        if (!transferService.createReadmeFile(realPath, dateStr, user.getPeople())) {
+            return new ResponseEntity<>(null, null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        // Compress the file user needed from the specified directory
+        String compressFilePath = transferService.compressDirectory(realPath, dateStr, user.getPeople());
+        if (compressFilePath == null) {
+            return new ResponseEntity<>(null, null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        byte[] byteData;
+        try {
+            InputStream inputStream = new FileInputStream(compressFilePath);
+            // Write byte data
+            byteData = new byte[inputStream.available()];
+            inputStream.read(byteData);
+            inputStream.close();
+        } catch (IOException e) {
+            return new ResponseEntity<>(null, null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        // Response headers
+        MultiValueMap<String, String> headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment;filename=" + dateStr + ".zip");
+        return new ResponseEntity<>(byteData, headers, HttpStatus.OK);
     }
 }

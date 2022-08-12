@@ -27,7 +27,7 @@ public interface UploadMapper {
      * and filter the results by the upload record status
      */
     @Select("select * from t_upload where user_id = #{userId} and upload_status = #{uploadStatus} and DATE_FORMAT(upload_datetime,'%Y-%m-%d') = #{date,jdbcType=DATE}")
-    Upload getUploadOfUserFilterByStatusAndDate(@Param("userId") Integer userId, @Param("uploadStatus") Integer uploadStatus, @Param("date") Date date);
+    Upload getUploadOfUser(@Param("userId") Integer userId, @Param("uploadStatus") Integer uploadStatus, @Param("date") Date date);
 
     /**
      * Update the upload record of user in specified user,
@@ -41,4 +41,12 @@ public interface UploadMapper {
     @Select("select * from t_upload where user_id = #{userId} and upload_status = #{uploadStatus} order by upload_datetime desc")
     List<Upload> getUserUploads(@Param("userId") Integer userId, @Param("uploadStatus") Integer uploadStatus);
 
+    /**
+     * Get the upload list of class contains the relevant people name at specified date
+     * Attention: only the student and monitor have the upload record
+     */
+    @Select("select t_upload.*, t_people.name from t_upload, t_people where class_name = #{className}  " +
+            "and t_people.user_id = t_upload.user_id " +
+            "and upload_status = #{uploadStatus} and DATE_FORMAT(upload_datetime,'%Y-%m-%d') = #{date,jdbcType=DATE}")
+    List<Upload> getUploadsOfClassWithName(@Param("className") String className, @Param("uploadStatus") Integer uploadStatus, @Param("date") Date date);
 }

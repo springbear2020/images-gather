@@ -7,6 +7,7 @@ import cn.edu.whut.springbear.gather.pojo.Upload;
 import com.github.pagehelper.PageInfo;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Spring-_-Bear
@@ -47,4 +48,9 @@ public interface RecordService {
      * Get the upload record history page data of the user
      */
     PageInfo<Upload> getUserUploadPageData(Integer userId, Integer uploadStatus, Integer pageNum);
+
+    /**
+     * Get the upload list of class contains the relevant people name at specified date
+     */
+    List<Upload> getUploadsOfClassWithName(String className, Integer uploadStatus, Date date);
 }

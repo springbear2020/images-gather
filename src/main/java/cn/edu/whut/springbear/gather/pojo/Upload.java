@@ -30,6 +30,11 @@ public class Upload {
     private String cloudClosedUrl;
     private Integer userId;
 
+    /**
+     * Name of people
+     */
+    private String name;
+
     public Upload(Integer uploadStatus, Date uploadDatetime, String localHealthUrl, String localScheduleUrl, String localClosedUrl, Integer userId) {
         this.uploadStatus = uploadStatus;
         this.uploadDatetime = uploadDatetime;
