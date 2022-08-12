@@ -91,4 +91,9 @@ public class RecordServiceImpl implements RecordService {
     public List<Upload> getUploadsOfClassWithName(String className, Integer uploadStatus, Date date) {
         return uploadMapper.getUploadsOfClassWithName(className, uploadStatus, date);
     }
+
+    @Override
+    public LoginLog getUserLatestLoginLog(Integer userId) {
+        return loginLogMapper.getUserLatestLoginLog(userId);
+    }
 }

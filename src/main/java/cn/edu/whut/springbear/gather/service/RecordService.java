@@ -53,4 +53,9 @@ public interface RecordService {
      * Get the upload list of class contains the relevant people name at specified date
      */
     List<Upload> getUploadsOfClassWithName(String className, Integer uploadStatus, Date date);
+
+    /**
+     * Get the latest login log data of the user
+     */
+    LoginLog getUserLatestLoginLog(Integer userId);
 }

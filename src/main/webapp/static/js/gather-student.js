@@ -38,6 +38,7 @@ $(function () {
     $.ajax({
         url: contextPath + "record/upload/today.do",
         type: "get",
+        async: false,
         dataType: "json",
         success: function (response) {
             // Welcome
@@ -65,19 +66,5 @@ $(function () {
      * Page dispatcher
      * =================================================================================================================
      */
-    $(".link-class").click(function () {
-        if (USER_TYPE != -1) {
-            $(this).attr("href", contextPath + "static/html/class.html?type=" + USER_TYPE);
-        }
-    });
-    $(".link-record").click(function () {
-        if (USER_TYPE != -1) {
-            $(this).attr("href", contextPath + "static/html/record.html?type=" + USER_TYPE);
-        }
-    });
-    $(".link-personal-profile").click(function () {
-        if (USER_TYPE != -1) {
-            $(this).attr("href", contextPath + "static/html/profile.html?type=" + USER_TYPE);
-        }
-    });
+    pageDispatcher(USER_TYPE);
 });

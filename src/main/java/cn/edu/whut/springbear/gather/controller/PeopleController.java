@@ -1,9 +1,11 @@
 package cn.edu.whut.springbear.gather.controller;
 
+import cn.edu.whut.springbear.gather.pojo.LoginLog;
 import cn.edu.whut.springbear.gather.pojo.People;
 import cn.edu.whut.springbear.gather.pojo.Response;
 import cn.edu.whut.springbear.gather.pojo.User;
 import cn.edu.whut.springbear.gather.service.PeopleService;
+import cn.edu.whut.springbear.gather.service.RecordService;
 import cn.edu.whut.springbear.gather.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,11 +26,19 @@ public class PeopleController {
     private UserService userService;
     @Autowired
     private PeopleService peopleService;
+    @Autowired
+    private RecordService recordService;
 
     @GetMapping("/people.do")
     public Response getPeopleWithUser(HttpSession session) {
         User user = (User) session.getAttribute("user");
-        return Response.success("查询个人信息成功").put("item", user);
+        // Keep the user info in the session scope with people information
+        People people = peopleService.queryPeople(user.getId());
+        user.setPeople(people);
+        session.setAttribute("user", user);
+        // Get the latest login log of the user
+        LoginLog loginLog = recordService.getUserLatestLoginLog(user.getId());
+        return Response.success("查询个人信息成功").put("item", user).put("loginLog", loginLog);
     }
 
     @PutMapping("/people.do")

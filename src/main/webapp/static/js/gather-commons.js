@@ -71,3 +71,25 @@ function homePageDispatch(type) {
         $(".navbar-brand").attr("href", contextPath + "static/html/teacher.html");
     }
 }
+
+// Dispatch to different page according to user type when click the page link
+function pageDispatcher(userType) {
+    // Class upload record history
+    $(".link-class").click(function () {
+        if (userType != -1) {
+            $(this).attr("href", contextPath + "static/html/class.html?type=" + userType);
+        }
+    });
+    // Personal data including login and upload
+    $(".link-record").click(function () {
+        if (userType != -1) {
+            $(this).attr("href", contextPath + "static/html/record.html?type=" + userType);
+        }
+    });
+    // Personal profile
+    $(".link-personal-profile").click(function () {
+        if (userType != -1) {
+            $(this).attr("href", contextPath + "static/html/profile.html?type=" + userType);
+        }
+    });
+}

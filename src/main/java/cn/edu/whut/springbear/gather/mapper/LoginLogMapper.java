@@ -25,4 +25,10 @@ public interface LoginLogMapper {
      */
     @Select("select * from log_login where user_id = #{userId} order by login_datetime desc")
     List<LoginLog> getUserLoginLogs(@Param("userId") Integer userId);
+
+    /**
+     * Get the latest login log data of the user
+     */
+    @Select("select * from log_login where user_id = #{userId} order by login_datetime desc limit 0,1")
+    LoginLog getUserLatestLoginLog(@Param("userId") Integer userId);
 }
