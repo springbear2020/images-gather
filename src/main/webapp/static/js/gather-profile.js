@@ -16,9 +16,7 @@ $(function () {
     function displayPersonalProfile(user, people) {
         // Class info
         $(".li-school").text(people.school == null ? "" : people.school);
-        $(".li-college").text(people.college == null ? "" : people.college);
         $(".li-grade").text(people.grade == null ? "" : people.grade);
-        $(".li-major").text(people.major == null ? "" : people.major);
         $(".li-class").text(people.className == null ? "" : people.className);
 
         // Personal info

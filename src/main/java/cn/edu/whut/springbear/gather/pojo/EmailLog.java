@@ -18,13 +18,13 @@ public class EmailLog implements Serializable {
     private Integer id;
     private String email;
     private String code;
-    private Date datetime;
+    private Date deliveryDatetime;
     private Integer userId;
 
-    public EmailLog(String email, String code, Date datetime, Integer userId) {
+    public EmailLog(String email, String code, Date deliveryDatetime, Integer userId) {
         this.email = email;
         this.code = code;
-        this.datetime = datetime;
+        this.deliveryDatetime = deliveryDatetime;
         this.userId = userId;
     }
 }

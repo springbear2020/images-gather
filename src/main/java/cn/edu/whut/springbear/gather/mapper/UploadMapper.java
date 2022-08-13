@@ -18,8 +18,7 @@ public interface UploadMapper {
     /**
      * Save upload of user
      */
-    @Insert("insert into t_upload(upload_status, upload_datetime, local_health_url, local_schedule_url, local_closed_url, user_id) " +
-            "values (#{uploadStatus},#{uploadDatetime},#{localHealthUrl},#{localScheduleUrl},#{localClosedUrl},#{userId})")
+    @Insert("insert into t_upload(upload_status,upload_datetime,user_id) values (#{uploadStatus},#{uploadDatetime},#{userId})")
     int saveUpload(Upload upload);
 
     /**
@@ -45,8 +44,8 @@ public interface UploadMapper {
      * Get the upload list of class contains the relevant people name at specified date
      * Attention: only the student and monitor have the upload record
      */
-    @Select("select t_upload.*, t_people.name from t_upload, t_people where class_name = #{className}  " +
+    @Select("select t_upload.*, t_people.name from t_upload, t_people where class_id = #{classId}  " +
             "and t_people.user_id = t_upload.user_id " +
             "and upload_status = #{uploadStatus} and DATE_FORMAT(upload_datetime,'%Y-%m-%d') = #{date,jdbcType=DATE}")
-    List<Upload> getUploadsOfClassWithName(@Param("className") String className, @Param("uploadStatus") Integer uploadStatus, @Param("date") Date date);
+    List<Upload> getUploadsOfClassWithName(@Param("classId") Integer classId, @Param("uploadStatus") Integer uploadStatus, @Param("date") Date date);
 }

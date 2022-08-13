@@ -38,7 +38,7 @@ public class PeopleController {
         session.setAttribute("user", user);
         // Get the latest login log of the user
         LoginLog loginLog = recordService.getUserLatestLoginLog(user.getId());
-        return Response.success("查询个人信息成功").put("item", user).put("loginLog", loginLog);
+        return Response.success("个人信息查询成功").put("item", user).put("loginLog", loginLog);
     }
 
     @PutMapping("/people.do")
@@ -48,7 +48,7 @@ public class PeopleController {
             return Response.error("手机号格式不正确，请重新输入");
         }
         if (!Pattern.matches("\\w+@\\w+\\.[a-z]+(\\.[a-z]+)?", newEmail)) {
-            return Response.error("邮箱地址格式不正确，请重新输入");
+            return Response.error("邮箱格式不正确，请重新输入");
         }
 
         User user = (User) session.getAttribute("user");

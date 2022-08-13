@@ -40,4 +40,19 @@ $(function () {
     * =================================================================================================================
     */
     pageDispatcher(USER_TYPE);
+
+    /*
+     * =================================================================================================================
+     * Different teacher type
+     * =================================================================================================================
+     */
+
+    // Display different element according to the user type
+    if (USER_TYPE_HEAD_TEACHER === USER_TYPE) {
+        // Hide the grade management
+        $(".li-grade").attr("style", "display: none;opacity 100%");
+    } else if (USER_TYPE_GRADE_TEACHER === USER_TYPE) {
+        // Hide the class upload record
+        $(".li-class").attr("style", "display: none;opacity 100%");
+    }
 });

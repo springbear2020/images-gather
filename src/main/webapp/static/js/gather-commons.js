@@ -6,10 +6,10 @@
 // TODO Replace the context path when environment changed
 var contextPath = "http://localhost:8686/";
 // Images' url
-var notChooseImageUrl = "https://s1.ax1x.com/2022/07/01/jMb7E4.png";
-var invalidImageUrl = "https://s1.ax1x.com/2022/07/06/jU0fW6.png";
-var notLoginImageUrl = "https://s1.ax1x.com/2022/07/06/jUBDht.png";
-var notUploadImageUrl = "https://s1.ax1x.com/2022/07/06/jUBy1f.png";
+var notChooseImageUrl = contextPath + "static/img/notChoose.png";
+var invalidImageUrl = contextPath + "static/img/invalid.png";
+var notLoginImageUrl = contextPath + "static/img/notLogin.png";
+var notUploadImageUrl = contextPath + "static/img/notUpload.png";
 // Response code
 var CODE_SUCCESS = 0;
 var CODE_INFO = 1;
@@ -66,7 +66,7 @@ function homePageDispatch(type) {
     if (USER_TYPE_STUDENT === userType || USER_TYPE_MONITOR === userType) {
         // Student home page
         $(".navbar-brand").attr("href", contextPath + "static/html/student.html");
-    } else if (USER_TYPE_HEAD_TEACHER === userType) {
+    } else if (USER_TYPE_HEAD_TEACHER === userType || USER_TYPE_GRADE_TEACHER === userType) {
         // Teacher home page
         $(".navbar-brand").attr("href", contextPath + "static/html/teacher.html");
     }

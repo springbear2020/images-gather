@@ -10,16 +10,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author Spring-_-Bear
- * @datetime 2022-08-11 22:42 Thursday
+ * @datetime 2022-08-13 08:54 Saturday
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = SpringConfiguration.class)
-public class PeopleMapperTest {
+public class GradeMapperTest {
     @Autowired
-    private PeopleMapper peopleMapper;
+    private GradeMapper gradeMapper;
 
     @Test
-    public void getPeopleByUserId() {
-        System.out.println(peopleMapper.getPeopleByUserId(311));
+    public void getClassesOfGrade() {
+        System.out.println(gradeMapper.getClassesOfGrade(1));
     }
 }

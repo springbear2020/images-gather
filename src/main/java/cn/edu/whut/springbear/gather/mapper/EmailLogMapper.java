@@ -13,6 +13,6 @@ public interface EmailLogMapper {
     /**
      * Save the verify code sent record
      */
-    @Insert("insert into log_email(email, code, datetime, user_id) values (#{email},#{code},#{datetime},#{userId})")
+    @Insert("insert into log_email(email, code, delivery_datetime, user_id) values (#{email},#{code},#{deliveryDatetime},#{userId})")
     int saveEmailLog(EmailLog emailLog);
 }

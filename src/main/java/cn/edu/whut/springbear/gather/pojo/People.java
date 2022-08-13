@@ -19,9 +19,10 @@ public class People implements Serializable {
     private String phone;
     private String email;
     private String className;
-    private String major;
     private String grade;
-    private String college;
     private String school;
     private Integer userId;
+    private Integer classId;
+    private Integer gradeId;
+    private Integer schoolId;
 }

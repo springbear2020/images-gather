@@ -55,8 +55,8 @@ $(function () {
                     // Student and monitor
                     if (USER_TYPE_STUDENT == userType || USER_TYPE_MONITOR == userType) {
                         window.location.href = contextPath + "static/html/student.html";
-                    } else if (USER_TYPE_HEAD_TEACHER == userType) {
-                        window.location.href = contextPath + "static/html/teacher.html"
+                    } else if (USER_TYPE_HEAD_TEACHER == userType || USER_TYPE_GRADE_TEACHER == userType) {
+                        window.location.href = contextPath + "static/html/teacher.html";
                     }
                 } else {
                     $(".error-msg").text(response.msg);

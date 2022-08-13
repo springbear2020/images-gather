@@ -56,7 +56,7 @@ public class UserController {
         }
         // Judge the user status
         if (User.STATUS_NORMAL != user.getUserStatus()) {
-            return Response.error("用户状态异常，禁止登录");
+            return Response.error("禁止登录，用户状态异常");
         }
         // Update user last login datetime
         if (!userService.updateLoginDatetime(user.getId(), new Date())) {
@@ -130,7 +130,7 @@ public class UserController {
         if (!userService.updateUserPassword(user.getId(), newPassword)) {
             return Response.error("密码修改失败");
         }
-        return Response.success("登录密码修改成功");
+        return Response.success("密码修改成功");
     }
 
     @GetMapping("/logout.do")

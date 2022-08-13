@@ -53,8 +53,10 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public boolean createStudentUploadToday(Integer userId) {
-        String unUploadUrl = "static/img/notUpload.png";
-        Upload upload = new Upload(Upload.STATUS_NOT_UPLOAD, new Date(), unUploadUrl, unUploadUrl, unUploadUrl, userId);
+        Upload upload = new Upload();
+        upload.setUploadStatus(Upload.STATUS_NOT_UPLOAD);
+        upload.setUploadDatetime(new Date());
+        upload.setUserId(userId);
         return uploadMapper.saveUpload(upload) == 1;
     }
 
@@ -88,8 +90,8 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public List<Upload> getUploadsOfClassWithName(String className, Integer uploadStatus, Date date) {
-        return uploadMapper.getUploadsOfClassWithName(className, uploadStatus, date);
+    public List<Upload> getUploadsOfClassWithName(Integer classId, Integer uploadStatus, Date date) {
+        return uploadMapper.getUploadsOfClassWithName(classId, uploadStatus, date);
     }
 
     @Override

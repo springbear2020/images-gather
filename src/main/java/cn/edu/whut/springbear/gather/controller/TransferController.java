@@ -41,7 +41,7 @@ public class TransferController {
                            HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user.getUserType() > User.TYPE_MONITOR) {
-            return Response.error("当前用户账号禁止上传两码一查图片");
+            return Response.error("当前用户账号禁止上传");
         }
         People people = user.getPeople();
 

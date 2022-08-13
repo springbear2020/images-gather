@@ -232,7 +232,7 @@ $(function () {
     var userType = parseInt(getUrlParam("type"));
     if (USER_TYPE_STUDENT === userType || USER_TYPE_MONITOR === userType) {
         getUploadHistoryPageData(1);
-    } else if (USER_TYPE_HEAD_TEACHER === userType) {
+    } else if (USER_TYPE_HEAD_TEACHER === userType || USER_TYPE_GRADE_TEACHER) {
         $(".personal-record-li").attr("style", "display: none;opacity 100%");
         getLoginLogPageData(1);
     }

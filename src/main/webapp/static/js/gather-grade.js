@@ -1,20 +1,9 @@
 $(function () {
     /*
      * =================================================================================================================
-     * Home page dispatch
-     * =================================================================================================================
-     */
-    homePageDispatch(getUrlParam("type"));
-
-    /*
-     * =================================================================================================================
      * Show history date before today
      * =================================================================================================================
      */
-    // After page loaded successfully, display the date ahead of today
-    $(".date-download").text(parseDate(new Date()));
-    buildTopHistoryDate(new Date(), 7);
-    buildLeftHistoryDate(new Date(), 14);
 
     // Build the date of the top navigation bar
     function buildTopHistoryDate(currentDate, days) {
@@ -31,11 +20,10 @@ $(function () {
 
         // Check the specified day history click event
         $(".nav-record-history").click(function () {
-            // TODO Hide the top nav on mobile device
-            $(".navbar-toggle").addClass("collapsed").attr("aria-expanded", false);
-            var $selectedDate = $(this).text();
-            $(".date-download").text($selectedDate);
-            getClassUploadRecord($selectedDate);
+            $(".left-date-li").removeClass("active");
+            var selectedDate = $(this).text();
+            $(".page-header").text(selectedDate);
+            getGradeUploadRecord(selectedDate);
         });
     }
 
@@ -59,22 +47,84 @@ $(function () {
         $(".left-record-history").click(function () {
             $(".left-date-li").removeClass("active");
             $(this).parent().addClass("active");
-            var $selectedDate = $(this).text();
-            $(".date-download").text($selectedDate);
-            getClassUploadRecord($selectedDate);
+            var selectedDate = $(this).text();
+            $(".page-header").text(selectedDate);
+            getGradeUploadRecord(selectedDate);
         });
     }
 
+    // After page loaded successfully, display the date ahead of today
+    $(".page-header").text(parseDate(new Date()));
+    buildTopHistoryDate(new Date(), 7);
+    buildLeftHistoryDate(new Date(), 14);
+
     /*
      * =================================================================================================================
-     * Display the upload data of class
+     * Class list of the grade
+     * =================================================================================================================
+     */
+
+    // Display the classes list of the grade, including class name and not completed people total numbers
+    function displayClassList(classList) {
+        // Container element
+        var $container = $(".div-container");
+        $container.empty();
+
+        // Not completed total list
+        var $total = $("<a></a>").attr("role", "button").addClass("list-group-item disabled").append("未完成人数").appendTo($container);
+        $("<span></span>").addClass("badge total-numbers").appendTo($total);
+
+        // Traverse the all class
+        var totalNumbers = 0;
+        $.each(classList, function (index, classInfo) {
+            totalNumbers += classInfo.notCompletedNums;
+            var $span = $("<span></span>").addClass("badge").append(classInfo.notCompletedNums);
+            $("<a></a>").attr("role", "button").addClass("list-group-item list-class").attr("classId", classInfo.id).append(classInfo.className).append($span).appendTo($container);
+        });
+
+        // Total numbers
+        $(".total-numbers").text(totalNumbers);
+    }
+
+    // Get the not upload record of the grade including classes
+    function getGradeUploadRecord(selectedDate) {
+        // Remove the class style selected
+        $(".list-class").removeClass("active");
+        // Hide the class upload details
+        $(".class-not-completed").attr("style", "display: none;")
+
+        // Get the grade not completed people numbers and each class not completed numbers
+        $.ajax({
+            url: contextPath + "record/grade.do",
+            dataType: "json",
+            data: "date=" + selectedDate,
+            async: false,
+            type: "get",
+            success: function (response) {
+                if (CODE_SUCCESS === response.code) {
+                    displayClassList(response.resultMap.list);
+                } else {
+                    showNoticeModal(response.code, response.msg);
+                }
+            },
+            error: function () {
+                showNoticeModal(CODE_WARN, "请求年级上传记录失败，请稍后重试");
+            }
+        });
+    }
+
+    getGradeUploadRecord($(".page-header").text());
+
+    /*
+     * =================================================================================================================
+     * Class details
      * =================================================================================================================
      */
 
     // Build the students list who not signed in the system
     function buildNotLoginStudentList(notLoginNames) {
         var nums = notLoginNames.length;
-        var $divContainer = $("#not-login-list");
+        var $divContainer = $(".not-login-list");
         $divContainer.empty();
         $divContainer.append("未登录人员名单【" + nums + "】");
 
@@ -86,7 +136,7 @@ $(function () {
     // Build the students list who signed in but not upload the images
     function buildNotUploadStudentList(notUploadNames) {
         var nums = notUploadNames.length;
-        var $divContainer = $("#not-upload-list");
+        var $divContainer = $(".not-upload-list");
         $divContainer.empty();
         $divContainer.append("未上传人员名单【" + nums + "】");
 
@@ -100,7 +150,7 @@ $(function () {
     function buildUploadedStudentsList(completedNames) {
         var nums = completedNames.length;
 
-        var $divContainer = $("#uploaded-list");
+        var $divContainer = $(".uploaded-list");
         $divContainer.empty();
         $divContainer.append("已完成人员名单【" + nums + "】");
 
@@ -177,12 +227,12 @@ $(function () {
         });
     }
 
-    // Get the upload record history of the class by specified date
-    function getClassUploadRecord(date) {
+    // Get the class upload details, including not login, not upload and complete name list
+    function getClassUploadRecord(selectedDate, classId) {
         $.ajax({
             url: contextPath + "record/class.do",
             dataType: "json",
-            data: "date=" + date,
+            data: "date=" + selectedDate + "&classId=" + classId,
             type: "get",
             success: function (response) {
                 if (CODE_SUCCESS === response.code) {
@@ -204,16 +254,16 @@ $(function () {
         });
     }
 
-    // After page loaded successfully, get today class upload record as default behavior
-    getClassUploadRecord(parseDate(new Date()));
-
-    /*
-     * =================================================================================================================
-     * Class upload files download
-     * =================================================================================================================
-     */
-    $(".date-download").click(function () {
-        var selectedDate = $(this).text();
-        window.location.href = contextPath + "transfer.do?date=" + selectedDate;
+    // Class change click event
+    $(".list-class").click(function () {
+        // Remove the class style selected
+        $(".list-class").removeClass("active");
+        // Display the class upload details
+        $(".class-not-completed").attr("style", "display: block;")
+        // Highlight current element
+        $(this).addClass("active");
+        var selectedDate = $(".page-header").text();
+        var classId = $(this).attr("classId");
+        getClassUploadRecord(selectedDate, classId);
     });
 });

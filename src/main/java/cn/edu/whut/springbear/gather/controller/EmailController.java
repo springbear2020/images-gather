@@ -45,13 +45,13 @@ public class EmailController {
         if (emailVerifyCode == null) {
             return Response.error("服务器繁忙，验证码发送失败");
         } else if (emailVerifyCode.isEmpty()) {
-            return Response.info("邮箱服务暂不可用，请联系管理员");
+            return Response.info("邮箱服务不可用，请联系管理员");
         }
 
         // Save the email send log
         EmailLog emailLog = new EmailLog(email, emailVerifyCode, new Date(), user.getId());
         if (!recordService.saveEmailLog(emailLog)) {
-            return Response.error("验证码邮件发送记录保存失败");
+            return Response.error("验证码发送记录保存失败");
         }
 
         // TODO Use redis to replace with session 10min
