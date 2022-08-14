@@ -46,4 +46,9 @@ public interface TransferService {
      * @return Null or compress file absolute path
      */
     String compressDirectory(String realPath, String dateStr, People people);
+
+    /**
+     * Save the class data excel file
+     */
+    String saveExcelFile(String realPath, MultipartFile excelFile);
 }

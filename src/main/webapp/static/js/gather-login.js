@@ -57,6 +57,8 @@ $(function () {
                         window.location.href = contextPath + "static/html/student.html";
                     } else if (USER_TYPE_HEAD_TEACHER == userType || USER_TYPE_GRADE_TEACHER == userType) {
                         window.location.href = contextPath + "static/html/teacher.html";
+                    } else if (USER_TYPE_ADMIN == userType) {
+                        window.location.href = contextPath + "static/html/admin.html";
                     }
                 } else {
                     $(".error-msg").text(response.msg);

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @datetime 2022-08-11 01:27 Thursday
  */
 @Service
-@PropertySource("classpath:properties/email.properties")
+@PropertySource("classpath:email.properties")
 public class EmailServiceImpl implements EmailService {
     @Value("${email.emailService}")
     private Boolean emailService;

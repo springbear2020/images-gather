@@ -146,7 +146,7 @@ $(function () {
                     }
                 },
                 error: function () {
-                    showNoticeModal(CODE_WARN, "请求更新个人信息失败，请稍后重试");
+                    showNoticeModal(CODE_WARN, "请求更新信息失败，请稍后重试");
                 }
             })
         });

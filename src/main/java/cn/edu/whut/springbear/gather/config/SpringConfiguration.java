@@ -22,7 +22,7 @@ import java.util.Properties;
  * @datetime 2022-08-10 22:17 Wednesday
  */
 @Configuration
-@PropertySource("classpath:properties/jdbc.properties")
+@PropertySource("classpath:jdbc.properties")
 @ComponentScan(basePackages = {"cn.edu.whut.springbear.gather.mapper", "cn.edu.whut.springbear.gather.service.impl"})
 public class SpringConfiguration {
     /**

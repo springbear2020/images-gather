@@ -35,6 +35,12 @@ public class Upload {
      */
     private String name;
 
+    public Upload(Integer uploadStatus, Date uploadDatetime, Integer userId) {
+        this.uploadStatus = uploadStatus;
+        this.uploadDatetime = uploadDatetime;
+        this.userId = userId;
+    }
+
     public Upload(Integer uploadStatus, Date uploadDatetime, String localHealthUrl, String localScheduleUrl, String localClosedUrl, Integer userId) {
         this.uploadStatus = uploadStatus;
         this.uploadDatetime = uploadDatetime;

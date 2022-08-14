@@ -19,15 +19,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User queryUser(String username, String password) {
-        return userMapper.getUserByUsernameAndPassword(username, password);
+        return userMapper.queryUser(username, password);
     }
 
     @Override
     public boolean updateLoginDatetime(Integer userId, Date date) {
-        User user = new User();
-        user.setId(userId);
-        user.setLastLoginDatetime(date);
-        return userMapper.updateUserById(user) == 1;
+        return userMapper.updateUserById(new User(userId, date)) == 1;
     }
 
     @Override
@@ -37,18 +34,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updateUserPassword(Integer userId, String newPassword) {
-        User user = new User();
-        user.setId(userId);
-        user.setPassword(newPassword);
-        return userMapper.updateUserById(user) == 1;
+        return userMapper.updateUserById(new User(userId, newPassword)) == 1;
     }
 
     @Override
     public boolean updateUserEmailAndPhone(String newEmail, String newPhone, Integer userId) {
-        User user = new User();
-        user.setId(userId);
-        user.setEmail(newEmail);
-        user.setPhone(newPhone);
-        return userMapper.updateUserById(user) == 1;
+        return userMapper.updateUserById(new User(userId, newPhone, newEmail)) == 1;
     }
 }

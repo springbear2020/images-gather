@@ -1,6 +1,7 @@
 package cn.edu.whut.springbear.gather.mapper;
 
 import cn.edu.whut.springbear.gather.pojo.People;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PeopleMapper {
     /**
-     * TODO table?
      * Get people info by the user id
      */
     @Select("select t_people.*, t_class.class_name, t_grade.grade, t_school.school " +
@@ -25,4 +25,10 @@ public interface PeopleMapper {
      * Update the people info if it not null
      */
     int updatePeople(People people);
+
+    /**
+     * Save people
+     */
+    @Insert("insert into t_people(number, name, sex, phone, email, user_id, class_id, grade_id, school_id) values (#{number},#{name},#{sex},#{phone},#{email},#{userId},#{classId},#{gradeId},#{schoolId})")
+    int savePeople(People people);
 }

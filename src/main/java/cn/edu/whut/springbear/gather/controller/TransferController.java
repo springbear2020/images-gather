@@ -4,10 +4,13 @@ import cn.edu.whut.springbear.gather.pojo.People;
 import cn.edu.whut.springbear.gather.pojo.Response;
 import cn.edu.whut.springbear.gather.pojo.Upload;
 import cn.edu.whut.springbear.gather.pojo.User;
+import cn.edu.whut.springbear.gather.service.ClassService;
 import cn.edu.whut.springbear.gather.service.RecordService;
 import cn.edu.whut.springbear.gather.service.TransferService;
 import cn.edu.whut.springbear.gather.util.DateUtils;
 import cn.edu.whut.springbear.gather.util.FileUtils;
+import cn.edu.whut.springbear.gather.util.poi.Converter;
+import cn.edu.whut.springbear.gather.util.poi.SheetBeanConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Spring-_-Bear
@@ -35,6 +39,8 @@ public class TransferController {
     private TransferService transferService;
     @Autowired
     private RecordService recordService;
+    @Autowired
+    private ClassService classService;
 
     @PostMapping("/transfer.do")
     public Response upload(@RequestParam("healthImage") MultipartFile healthImage, @RequestParam("scheduleImage") MultipartFile scheduleImage, @RequestParam("closedImage") MultipartFile closedImage,
@@ -105,5 +111,33 @@ public class TransferController {
         MultiValueMap<String, String> headers = new HttpHeaders();
         headers.add("Content-Disposition", "attachment;filename=" + dateStr + ".zip");
         return new ResponseEntity<>(byteData, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/transfer/class.do")
+    public Response classDataBatchImport(@RequestParam("file") MultipartFile file, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user.getUserType() != User.TYPE_ADMIN) {
+            return Response.error("权限不足，禁止导入班级");
+        }
+
+        // Real path of project webapp directory
+        String realPath = session.getServletContext().getRealPath("/WEB-INF/excel/");
+        String fileAbsolutePath = transferService.saveExcelFile(realPath, file);
+        if (fileAbsolutePath == null) {
+            return Response.error("请上传正确格式的 Excel 文件");
+        }
+        if (fileAbsolutePath.isEmpty()) {
+            return Response.error("文件保存本地磁盘失败");
+        }
+
+        // Read row data from the excel file and generate bean list
+        Converter converter = new SheetBeanConverter(fileAbsolutePath);
+        List<People> peopleList = converter.sheetConvertBean(People.class);
+        if (peopleList == null || peopleList.size() < 1) {
+            return Response.info("文件中不存在有效的班级数据");
+        }
+        // Class data import
+        int affectedRows = classService.classDataInsertBatch(peopleList);
+        return Response.success("共 " + peopleList.size() + " 条，成功导入 " + affectedRows + " 条");
     }
 }

@@ -23,7 +23,7 @@ import java.util.List;
  * @datetime 2022-08-11 00:10 Thursday
  */
 @Service
-@PropertySource("classpath:properties/baidu.properties")
+@PropertySource("classpath:baidu.properties")
 public class RecordServiceImpl implements RecordService {
     @Value("${baidu.ipService}")
     private Boolean ipService;
@@ -53,11 +53,7 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public boolean createStudentUploadToday(Integer userId) {
-        Upload upload = new Upload();
-        upload.setUploadStatus(Upload.STATUS_NOT_UPLOAD);
-        upload.setUploadDatetime(new Date());
-        upload.setUserId(userId);
-        return uploadMapper.saveUpload(upload) == 1;
+        return uploadMapper.saveUpload(new Upload(Upload.STATUS_NOT_UPLOAD, new Date(), userId)) == 1;
     }
 
     @Override

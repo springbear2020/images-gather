@@ -98,7 +98,6 @@ $(function () {
             url: contextPath + "record/grade.do",
             dataType: "json",
             data: "date=" + selectedDate,
-            async: false,
             type: "get",
             success: function (response) {
                 if (CODE_SUCCESS === response.code) {

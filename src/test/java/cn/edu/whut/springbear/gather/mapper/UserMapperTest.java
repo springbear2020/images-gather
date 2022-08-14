@@ -31,4 +31,16 @@ public class UserMapperTest {
         user.setLastLoginDatetime(new Date());
         System.out.println(userMapper.updateUserById(user));
     }
+
+    @Test
+    public void saveUser() {
+        User user = new User();
+        user.setUsername("123");
+        user.setPassword("123");
+        user.setEmail("123");
+        user.setPhone("123");
+        user.setLastLoginDatetime(new Date());
+        System.out.println(userMapper.saveUser(user));
+        System.out.println(user);
+    }
 }

@@ -4,7 +4,6 @@ import cn.edu.whut.springbear.gather.pojo.People;
 import cn.edu.whut.springbear.gather.pojo.Upload;
 import cn.edu.whut.springbear.gather.pojo.User;
 import cn.edu.whut.springbear.gather.service.ClassService;
-import cn.edu.whut.springbear.gather.service.PeopleService;
 import cn.edu.whut.springbear.gather.service.TransferService;
 import cn.edu.whut.springbear.gather.util.DateUtils;
 import cn.edu.whut.springbear.gather.util.FileUtils;
@@ -28,7 +27,7 @@ import java.util.List;
  * @datetime 2022-08-11 16:21 Thursday
  */
 @Service
-@PropertySource("classpath:properties/qiniu.properties")
+@PropertySource("classpath:qiniu.properties")
 public class TransferServiceImpl implements TransferService {
     @Value("${qiniu.qiniuService}")
     private boolean qiniuService;
@@ -144,5 +143,25 @@ public class TransferServiceImpl implements TransferService {
         // e.g: E:\images-gather\target\images-gather-1.0-SNAPSHOT\images-gather/武汉理工大学/2019/软件zy1901/2022-08-12.zip
         String zipFilePath = fileSaveDirectory + ".zip";
         return FileUtils.compressDirectory(fileSaveDirectory, zipFilePath) ? zipFilePath : null;
+    }
+
+    @Override
+    public String saveExcelFile(String realPath, MultipartFile excelFile) {
+        // Judge the format of the original file
+        String originalFilename = excelFile.getOriginalFilename();
+        assert originalFilename != null;
+        String suffix = originalFilename.substring(originalFilename.lastIndexOf('.'));
+        if (!(".xls".equals(suffix) || ".xlsx".equals(suffix))) {
+            return null;
+        }
+        String fileAbsolutePath = realPath + DateUtils.parseDatetimeNoHyphen(new Date()) + suffix;
+        try {
+            // Save file to disk
+            excelFile.transferTo(new File(fileAbsolutePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
+        return fileAbsolutePath;
     }
 }

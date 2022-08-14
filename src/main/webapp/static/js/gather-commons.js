@@ -16,10 +16,11 @@ var CODE_INFO = 1;
 var CODE_ERROR = 2;
 var CODE_WARN = 3;
 // User type
-var USER_TYPE_STUDENT = 0;
-var USER_TYPE_MONITOR = 1;
-var USER_TYPE_HEAD_TEACHER = 2;
-var USER_TYPE_GRADE_TEACHER = 3;
+var USER_TYPE_STUDENT = 1;
+var USER_TYPE_MONITOR = 2;
+var USER_TYPE_HEAD_TEACHER = 3;
+var USER_TYPE_GRADE_TEACHER = 4;
+var USER_TYPE_ADMIN = 5;
 // User status
 var USER_STATUS_NORMAL = 0;
 // Verify code length

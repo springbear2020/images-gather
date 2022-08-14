@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Management for root">
+    <meta name="author" content="Spring-_-Bear">
+    <link rel="icon" href="../img/favicon.png">
+
+    <title>两码一查</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../css/gather-class.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script charset="UTF-8" src="../js/html5shiv.min.js"></script>
+    <script charset="UTF-8" src="../js/respond.min.js">
+    <![endif]-->
+</head>
+<body>
+<!-- Modal of notice -->
+<div class="modal fade" id="div-notice-modal" tabindex="-1" role="dialog" aria-labelledby="modal-notice"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-header text-center">
+            <!-- Close modal button -->
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <!-- Data of notice -->
+            <h5 class="modal-title" id="h-notice-content">欢迎使用【两码一查】系统</h5>
+        </div>
+    </div>
+</div>
+
+<!-- Top header -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="admin.html">两码一查</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Main content container -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <!-- Left navigation bar(Only show on the computer) -->
+            <ul class="nav nav-sidebar">
+                <li class="li-management-item"><a role="button" class="manage-item">班级管理</a></li>
+                <li class="li-management-item"><a role="button" class="manage-item">用户管理</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li class="li-management-item"><a role="button" class="manage-item">上传记录</a></li>
+                <li class="li-management-item"><a role="button" class="manage-item">登录记录</a></li>
+                <li class="li-management-item"><a role="button" class="manage-item">邮件记录</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h2 class="page-header">班级管理</h2>
+            <!-- Content -->
+            <div class="row placeholders content-manage">
+                <label>
+                    <input type="file" name="file" class="excel-file" style="display: none;opacity: 100%;" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                    <a role="button" class="btn btn-lg btn-primary">导入班级</a>
+                </label>
+                <a class="btn btn-lg btn-info" href="../excel/class.xlsx">下载模板</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+  ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../../static/js/jquery-1.12.4.min.js" charset="utf-8"></script>
+<script>window.jQuery || document.write('<script src="../../static/js/jquery.min.js" charset="utf-8"><\/script>')</script>
+<script src="../../static/js/bootstrap.min.js" charset="utf-8" ></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../../static/js/ie10-viewport-bug-workaround.js" charset = "utf-8"></script>
+
+<!-- Custom JavaScript -->
+<script src="../js/gather-commons.js" charset="utf-8"></script>
+<script src="../js/gather-admin.js" charset="utf-8"></script>
+
+</body>
+</html>

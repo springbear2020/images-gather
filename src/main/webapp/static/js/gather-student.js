@@ -49,7 +49,7 @@ $(function () {
             var userType = response.resultMap.userType;
             USER_TYPE = userType;
             if (USER_TYPE_STUDENT === userType) {
-                $(".li-class").attr("style", "display: none");
+                $(".li-class").attr("style", "display: none;opacity: 100%");
             }
             // Task of today completed
             if (CODE_SUCCESS == response.code) {

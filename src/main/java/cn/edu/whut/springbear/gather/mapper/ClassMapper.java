@@ -1,6 +1,8 @@
 package cn.edu.whut.springbear.gather.mapper;
 
 import cn.edu.whut.springbear.gather.pojo.Class;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -36,4 +38,23 @@ public interface ClassMapper {
      */
     @Select("select * from t_class where id = #{classId}")
     Class getClassById(@Param("classId") Integer classId);
+
+    /**
+     * Save class
+     */
+    @Insert("insert into t_class(class_name) values (#{className})")
+    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
+    int saveClass(Class aClass);
+
+    /**
+     * Get class by name
+     */
+    @Select("select * from  t_class where class_name = #{className}")
+    Class getClassByName(@Param("className") String className);
+
+    /**
+     * Save the correspondence between grades and classes
+     */
+    @Insert("insert into r_grade_class(grade_id, class_id) values (#{gradeId},#{classId})")
+    int saveGradeClass(@Param("gradeId") Integer gradeId, @Param("classId") Integer classId);
 }

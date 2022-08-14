@@ -23,11 +23,6 @@ public class PeopleServiceImpl implements PeopleService {
 
     @Override
     public boolean updatePeopleInfo(String newSex, String newEmail, String newPhone, Integer id) {
-        People people = new People();
-        people.setId(id);
-        people.setSex(newSex);
-        people.setEmail(newEmail);
-        people.setPhone(newPhone);
-        return peopleMapper.updatePeople(people) == 1;
+        return peopleMapper.updatePeople(new People(id, newSex, newPhone, newEmail)) == 1;
     }
 }
