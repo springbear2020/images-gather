@@ -17,6 +17,7 @@
     <link href="../css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="../css/gather-class.css" rel="stylesheet">
+    <link href="../css/gather-admin.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -77,7 +78,56 @@
                     <input type="file" name="file" class="excel-file" style="display: none;opacity: 100%;" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                     <a role="button" class="btn btn-lg btn-primary">导入班级</a>
                 </label>
-                <a class="btn btn-lg btn-info" href="../excel/class.xlsx">下载模板</a>
+                <a class="btn btn-lg btn-primary" href="../excel/class.xlsx">下载模板</a>
+                <br/>
+                <ol class="breadcrumb info-select">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle school-query" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">学校 <span class="caret"></span></a>
+                        <ul class="dropdown-menu school-list">
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle grade-query" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">年级 <span class="caret"></span></a>
+                        <ul class="dropdown-menu grade-list">
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle class-query" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">班级 <span class="caret"></span></a>
+                        <ul class="dropdown-menu class-list">
+                        </ul>
+                    </li>
+                </ol>
+
+                <div class="table-responsive class-people-table">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>PID</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>学号</th>
+                            <th>电话</th>
+                            <th>邮箱</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody class="table-body">
+                        <tr>
+                            <td>1001</td>
+                            <td>张三</td>
+                            <td>女</td>
+                            <td>0121902324223</td>
+                            <td>15865482564</td>
+                            <td>zhangsan@163.com</td>
+                            <td>
+                                <a role="button"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                &nbsp;
+                                <a role="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -41,6 +41,7 @@ public class User implements Serializable {
     private String email;
     private Integer userStatus;
     private Integer userType;
+    private Date createDatetime;
 
     public User(Integer id, Date lastLoginDatetime) {
         this.id = id;
@@ -58,7 +59,7 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public User(String username, String password, Date lastLoginDatetime, String phone, String email, Integer userStatus, Integer userType) {
+    public User(String username, String password, Date lastLoginDatetime, String phone, String email, Integer userStatus, Integer userType, Date createDatetime) {
         this.username = username;
         this.password = password;
         this.lastLoginDatetime = lastLoginDatetime;
@@ -66,6 +67,7 @@ public class User implements Serializable {
         this.email = email;
         this.userStatus = userStatus;
         this.userType = userType;
+        this.createDatetime = createDatetime;
     }
 
     private People people;

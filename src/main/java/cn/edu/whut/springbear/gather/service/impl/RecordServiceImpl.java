@@ -53,7 +53,7 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public boolean createStudentUploadToday(Integer userId) {
-        return uploadMapper.saveUpload(new Upload(Upload.STATUS_NOT_UPLOAD, new Date(), userId)) == 1;
+        return uploadMapper.saveUpload(new Upload(Upload.STATUS_NOT_UPLOAD, new Date(), userId, new Date())) == 1;
     }
 
     @Override

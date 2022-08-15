@@ -11,7 +11,7 @@ $(function () {
         // Display the completed box
         $(".span-uploaded").text(name + "，今日【两码一查】已完成");
         $(".span-uploaded-datetime").text("上传时间：" + upload.uploadDatetime);
-        $(".div-completed").attr("style", "display: block");
+        $(".div-completed").attr("style", "display: block; opacity: 1");
 
         // Health image access url
         var localHealthUrl = upload.localHealthUrl == null ? "" : upload.localHealthUrl;

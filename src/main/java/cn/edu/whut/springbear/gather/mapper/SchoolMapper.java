@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author Spring-_-Bear
  * @datetime 2022-08-14 08:31 Sunday
@@ -25,4 +27,10 @@ public interface SchoolMapper {
      */
     @Select("select * from  t_school where school = #{schoolName}")
     School getSchoolByName(@Param("schoolName") String schoolName);
+
+    /**
+     * Get all schools
+     */
+    @Select("select * from t_school")
+    List<School> getAllSchools();
 }

@@ -1,11 +1,14 @@
 package cn.edu.whut.springbear.gather.mapper;
 
 import cn.edu.whut.springbear.gather.config.SpringConfiguration;
+import cn.edu.whut.springbear.gather.pojo.Grade;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 
 /**
@@ -21,5 +24,11 @@ public class GradeMapperTest {
     @Test
     public void getClassesOfGrade() {
         System.out.println(gradeMapper.getClassesOfGrade(1));
+    }
+
+    @Test
+    public void getGradesOfSchool() {
+        List<Grade> gradeList = gradeMapper.getGradesOfSchool(1);
+        gradeList.forEach(System.out::println);
     }
 }

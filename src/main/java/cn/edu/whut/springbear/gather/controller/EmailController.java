@@ -54,7 +54,7 @@ public class EmailController {
             return Response.error("验证码发送记录保存失败");
         }
 
-        // TODO Use redis to replace with session 10min
+        // TODO Redis to replace with session 10min
         session.setAttribute("emailVerifyCode", emailVerifyCode);
         return Response.success("邮箱验证码发送成功，请查收");
     }

@@ -1,10 +1,12 @@
 package cn.edu.whut.springbear.gather.pojo;
 
 import cn.edu.whut.springbear.gather.util.poi.annation.SheetColumnName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author Spring-_-Bear
@@ -36,6 +38,8 @@ public class People implements Serializable {
     private Integer classId;
     private Integer gradeId;
     private Integer schoolId;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createDatetime;
 
     @SheetColumnName("备注")
     private String comment;

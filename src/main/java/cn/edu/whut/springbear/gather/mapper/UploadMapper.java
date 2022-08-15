@@ -18,7 +18,7 @@ public interface UploadMapper {
     /**
      * Save upload of user
      */
-    @Insert("insert into t_upload(upload_status,upload_datetime,user_id) values (#{uploadStatus},#{uploadDatetime},#{userId})")
+    @Insert("insert into t_upload(upload_status,upload_datetime,user_id,create_datetime) values (#{uploadStatus},#{uploadDatetime},#{userId},#{createDatetime})")
     int saveUpload(Upload upload);
 
     /**

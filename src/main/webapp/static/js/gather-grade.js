@@ -84,6 +84,19 @@ $(function () {
 
         // Total numbers
         $(".total-numbers").text(totalNumbers);
+
+        // Class change click event
+        $(".list-class").click(function () {
+            // Remove the class style selected
+            $(".list-class").removeClass("active");
+            // Display the class upload details
+            $(".class-not-completed").attr("style", "display: block;opacity: 1;")
+            // Highlight current element
+            $(this).addClass("active");
+            var selectedDate = $(".page-header").text();
+            var classId = $(this).attr("classId");
+            getClassUploadRecord(selectedDate, classId);
+        });
     }
 
     // Get the not upload record of the grade including classes
@@ -252,17 +265,4 @@ $(function () {
             }
         });
     }
-
-    // Class change click event
-    $(".list-class").click(function () {
-        // Remove the class style selected
-        $(".list-class").removeClass("active");
-        // Display the class upload details
-        $(".class-not-completed").attr("style", "display: block;")
-        // Highlight current element
-        $(this).addClass("active");
-        var selectedDate = $(".page-header").text();
-        var classId = $(this).attr("classId");
-        getClassUploadRecord(selectedDate, classId);
-    });
 });

@@ -1,16 +1,23 @@
 package cn.edu.whut.springbear.gather.service;
 
 import cn.edu.whut.springbear.gather.pojo.Class;
+import cn.edu.whut.springbear.gather.pojo.Grade;
 import cn.edu.whut.springbear.gather.pojo.People;
+import cn.edu.whut.springbear.gather.pojo.School;
 
 import java.util.Date;
 import java.util.List;
 
 /**
  * @author Spring-_-Bear
- * @datetime 2022-08-13 08:59 Saturday
+ * @datetime 2022-08-13 09:18 Saturday
  */
-public interface ClassService {
+public interface SchoolService {
+    /**
+     * Get the three images not completed classes list with total numbers at specified date
+     */
+    List<Class> getNotCompletedClasses(Integer gradeId, Date specifiedDate);
+
     /**
      * Get the people name list who not sign in the system at specified date
      */
@@ -37,4 +44,24 @@ public interface ClassService {
      * Insert the class data in batch, and auto register user
      */
     int classDataInsertBatch(List<People> peopleList);
+
+    /**
+     * Get all schools
+     */
+    List<School> getAllSchools();
+
+    /**
+     * Get all grades of the school
+     */
+    List<Grade> getGradesOfSchool(Integer schoolId);
+
+    /**
+     * Get all classes of the school in specified grade
+     */
+    List<Class> getClassesOfSchool(Integer gradeId);
+
+    /**
+     * Get all people list in the specified class
+     */
+    List<People> getClassPeopleList(Integer classId);
 }

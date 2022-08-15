@@ -29,14 +29,21 @@ public interface GradeMapper {
     int saveGrade(Grade grade);
 
     /**
-     * Get grade by name
-     */
-    @Select("select * from  t_grade where grade = #{gradeName}")
-    Grade getGradeByName(@Param("gradeName") String gradeName);
-
-    /**
      * Save the correspondence between schools and grades
      */
     @Insert("insert into r_school_grade(school_id, grade_id) values (#{schoolId},#{gradeId})")
     int saveSchoolGrade(@Param("schoolId") Integer schoolId, @Param("gradeId") Integer gradeId);
+
+    /**
+     * Get the grade info from the school and grade relation table,
+     * to verify the existences of current grade about the school
+     */
+    @Select("select t_grade.* from t_grade, r_school_grade where id = grade_id and grade = #{gradeName} and school_id = #{schoolId}")
+    Grade getGradeOfSchool(@Param("gradeName") String gradeName, @Param("schoolId") Integer schoolId);
+
+    /**
+     * Get all grade list of the school
+     */
+    @Select("select * from t_grade where id in (select grade_id from r_school_grade WHERE school_id = #{schoolId})")
+    List<Grade> getGradesOfSchool(@Param("schoolId") Integer schoolId);
 }

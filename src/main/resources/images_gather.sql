@@ -11,7 +11,7 @@
  Target Server Version : 80028
  File Encoding         : 65001
 
- Date: 14/08/2022 09:01:12
+ Date: 15/08/2022 10:02:00
 */
 
 SET NAMES utf8mb4;
@@ -28,7 +28,7 @@ CREATE TABLE `log_email`  (
   `delivery_datetime` datetime NULL DEFAULT NULL COMMENT '发送时间',
   `user_id` int NULL DEFAULT NULL COMMENT '用户 ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of log_email
@@ -45,7 +45,7 @@ CREATE TABLE `log_login`  (
   `login_datetime` datetime NULL DEFAULT NULL COMMENT '上次登录时间',
   `user_id` int NULL DEFAULT NULL COMMENT '用户 ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1884 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of log_login
@@ -85,7 +85,7 @@ CREATE TABLE `t_class`  (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '班级 ID',
   `class_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '班级名称',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_class
@@ -120,8 +120,9 @@ CREATE TABLE `t_people`  (
   `class_id` int NULL DEFAULT NULL COMMENT '班级 ID',
   `grade_id` int NULL DEFAULT NULL COMMENT '年级 ID',
   `school_id` int NULL DEFAULT NULL COMMENT '学校 ID',
+  `create_datetime` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 312 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 53 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_people
@@ -135,7 +136,7 @@ CREATE TABLE `t_school`  (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '学校 ID',
   `school` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '学校名称',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_school
@@ -156,8 +157,9 @@ CREATE TABLE `t_upload`  (
   `cloud_schedule_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '云行程码地址',
   `cloud_closed_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '云密接查地址',
   `user_id` int NOT NULL COMMENT '用户 ID',
+  `create_datetime` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_upload
@@ -176,12 +178,13 @@ CREATE TABLE `t_user`  (
   `last_login_datetime` datetime NULL DEFAULT NULL COMMENT '上次登录时间',
   `user_type` int NULL DEFAULT NULL COMMENT '用户类型',
   `user_status` int NULL DEFAULT NULL COMMENT '用户状态',
+  `create_datetime` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES (1, 'root', 'root', '18327217494', 'springbear2020@163.com', '2022-06-02 00:00:00', 5, 0);
+INSERT INTO `t_user` VALUES (0, 'root', 'root', '18327217494', 'springbear2020@163.com', '2022-06-02 00:00:00', 5, 0, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

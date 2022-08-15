@@ -3,7 +3,7 @@ package cn.edu.whut.springbear.gather.service.impl;
 import cn.edu.whut.springbear.gather.pojo.People;
 import cn.edu.whut.springbear.gather.pojo.Upload;
 import cn.edu.whut.springbear.gather.pojo.User;
-import cn.edu.whut.springbear.gather.service.ClassService;
+import cn.edu.whut.springbear.gather.service.SchoolService;
 import cn.edu.whut.springbear.gather.service.TransferService;
 import cn.edu.whut.springbear.gather.util.DateUtils;
 import cn.edu.whut.springbear.gather.util.FileUtils;
@@ -41,7 +41,7 @@ public class TransferServiceImpl implements TransferService {
     private String cdnDomain;
 
     @Autowired
-    private ClassService classService;
+    private SchoolService schoolService;
 
     @Override
     public Upload saveImageFilesToDisk(User user, String realPath, String userTodayPath, MultipartFile healthImage, MultipartFile scheduleImage, MultipartFile closedImage) {
@@ -115,19 +115,19 @@ public class TransferServiceImpl implements TransferService {
         StringBuilder content = new StringBuilder(classInfo + "/" + dateStr + " 【两码一查】完成情况如下：");
         Integer classId = people.getClassId();
         // Not login people name list string
-        List<String> notLoginNames = classService.queryNotLoginNamesOfClass(classId, date);
+        List<String> notLoginNames = schoolService.queryNotLoginNamesOfClass(classId, date);
         content.append("\n\n    未登录人员名单【").append(notLoginNames.size()).append("】");
         for (String name : notLoginNames) {
             content.append(name).append(" ");
         }
         // Not upload people name list string
-        List<String> notUploadNames = classService.queryNotUploadNamesOfClass(classId, date);
+        List<String> notUploadNames = schoolService.queryNotUploadNamesOfClass(classId, date);
         content.append("\n    未上传人员名单【").append(notUploadNames.size()).append("】");
         for (String name : notUploadNames) {
             content.append(name).append(" ");
         }
         // Upload completely people name list string
-        List<String> completedNames = classService.queryCompletedNamesOfClass(classId, date);
+        List<String> completedNames = schoolService.queryCompletedNamesOfClass(classId, date);
         content.append("\n    已完成人员名单【").append(completedNames.size()).append("】");
         for (String name : completedNames) {
             content.append(name).append(" ");

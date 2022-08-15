@@ -161,6 +161,7 @@ body {
 
 .div-completed {
     display: none;
+    opacity: 0;
 }
 
 .error-msg {

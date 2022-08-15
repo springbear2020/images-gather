@@ -1,7 +1,7 @@
 $(function () {
     /*
      * =================================================================================================================
-     * Auto fill content from the cookies
+     * Auto fill username and password from cookie if exists
      * =================================================================================================================
      */
     // Auto fill text for the username and password input element from the cookie if exists
@@ -13,6 +13,16 @@ $(function () {
         // Set the text of the input text element
         $("#inputUsername").val(usernameFromCookie);
         $("#inputPassword").val(passwordFromCookie);
+
+        // Auto login after 1 minute later
+        let countingTime = 1;
+        let timer = setInterval(function () {
+            if (countingTime <= 0) {
+                login(usernameFromCookie, passwordFromCookie, true);
+                clearInterval(timer);
+            }
+            countingTime--;
+        }, 1000)
     }
 
     // Status change event of the readme me element
@@ -20,8 +30,8 @@ $(function () {
         var status = this.checked;
         // Not choose remember me, remove the cookies named username and password
         if (!status) {
-            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT;";
-            document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/static/html/login.html";
+            document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/static/html/login.html";
         }
     })
 
@@ -35,19 +45,12 @@ $(function () {
         return false;
     });
 
-    // User login button click event
-    $(".btn-block").click(function () {
-        // TODO MD5 password encode
-        var password = $("#inputPassword").val();
-        var params = "username=" + $("#inputUsername").val() + "&password=" + password;
-        var $rememberMe = $(".remember-me");
-        if ($rememberMe.is(':checked')) {
-            params = params + "&rememberMe=" + $rememberMe.val();
-        }
+    // User login
+    function login(username, password, rememberMe) {
         $.ajax({
             url: contextPath + "login.do",
             method: "get",
-            data: params,
+            data: "username=" + username + "&password=" + password + "&rememberMe=" + rememberMe,
             dataType: "json",
             success: function (response) {
                 if (CODE_SUCCESS == response.code) {
@@ -68,5 +71,23 @@ $(function () {
                 $(".error-msg").text("请求登录失败，请稍后重试");
             }
         });
+    }
+
+    // User login button click event
+    $(".btn-block").click(function () {
+        var username = $("#inputUsername").val();
+        var password = $("#inputPassword").val();
+        var rememberMe = false;
+        if ($(".remember-me").is(':checked')) {
+            rememberMe = true;
+        }
+        // Don't encrypt the password saved in the cookie
+        if (!(usernameFromCookie.length > 0 && passwordFromCookie.length > 0)) {
+            // Encrypt the password entered by user
+            password = hex_md5(password);
+            password = password.split('').reverse().join('');
+            password = hex_md5(password);
+        }
+        login(username, password, rememberMe);
     });
 });

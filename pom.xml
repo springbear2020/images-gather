@@ -6,7 +6,7 @@
 
     <groupId>cn.edu.whut.springbear</groupId>
     <artifactId>images-gather</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>5.0</version>
     <packaging>war</packaging>
 
     <properties>

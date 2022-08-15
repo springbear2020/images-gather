@@ -6,6 +6,7 @@ import cn.edu.whut.springbear.gather.pojo.Response;
 import cn.edu.whut.springbear.gather.pojo.User;
 import cn.edu.whut.springbear.gather.service.PeopleService;
 import cn.edu.whut.springbear.gather.service.RecordService;
+import cn.edu.whut.springbear.gather.service.SchoolService;
 import cn.edu.whut.springbear.gather.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -28,6 +30,8 @@ public class PeopleController {
     private PeopleService peopleService;
     @Autowired
     private RecordService recordService;
+    @Autowired
+    private SchoolService schoolService;
 
     @GetMapping("/people.do")
     public Response getPeopleWithUser(HttpSession session) {
@@ -72,5 +76,18 @@ public class PeopleController {
         user.setPeople(people);
         session.setAttribute("user", user);
         return Response.success("个人信息更新成功").put("item", user.getUserType());
+    }
+
+    @GetMapping("/people/all.do")
+    public Response getClassPeopleList(@RequestParam("classId") Integer classId, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user.getUserType() != User.TYPE_ADMIN) {
+            return Response.error("权限不足，禁止查看班级人员信息");
+        }
+        List<People> peopleList = schoolService.getClassPeopleList(classId);
+        if (peopleList == null || peopleList.size() == 0) {
+            return Response.info("班级中暂无人员信息");
+        }
+        return Response.success("查询班级人员信息成功").put("list", peopleList);
     }
 }

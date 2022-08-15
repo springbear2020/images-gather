@@ -86,6 +86,8 @@ $(function () {
             return;
         }
 
+        // TODO Image verify code
+
         var $btn = $(this);
         $btn.attr("disabled", 'disabled');
         isObtainButtonClicked = true;
@@ -157,11 +159,18 @@ $(function () {
             return false;
         }
 
+        var username = $("#reset-username").val();
+        var email = $("#reset-email").val();
+        // Encrypt the password
+        var newPassword = hex_md5(password);
+        newPassword = newPassword.split('').reverse().join('');
+        newPassword = hex_md5(newPassword);
+
         // Send an request to the server for update user password
         $.ajax({
             url: contextPath + "reset.do",
             type: "post",
-            data: "_method=put&" + $("#form-reset-password").serialize(),
+            data: "_method=put&username=" + username + "&newPassword=" + newPassword + "&email=" + email + "&verifyCode=" + verifyCode,
             dataType: "json",
             success: function (response) {
                 showNoticeModal(response.code, response.msg);

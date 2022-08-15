@@ -2,8 +2,7 @@ package cn.edu.whut.springbear.gather.controller;
 
 import cn.edu.whut.springbear.gather.pojo.*;
 import cn.edu.whut.springbear.gather.pojo.Class;
-import cn.edu.whut.springbear.gather.service.ClassService;
-import cn.edu.whut.springbear.gather.service.GradeService;
+import cn.edu.whut.springbear.gather.service.SchoolService;
 import cn.edu.whut.springbear.gather.service.PeopleService;
 import cn.edu.whut.springbear.gather.service.RecordService;
 import cn.edu.whut.springbear.gather.util.DateUtils;
@@ -28,9 +27,7 @@ public class RecordController {
     @Autowired
     private RecordService recordService;
     @Autowired
-    private ClassService classService;
-    @Autowired
-    private GradeService gradeService;
+    private SchoolService schoolService;
 
     @GetMapping("/record/upload/today.do")
     public Response getUserUploadToday(HttpSession session) {
@@ -94,11 +91,11 @@ public class RecordController {
             classId = people.getClassId();
         }
         // Get the class student list someone who not sign in the system
-        List<String> notLoginNames = classService.queryNotLoginNamesOfClass(classId, specifiedDate);
+        List<String> notLoginNames = schoolService.queryNotLoginNamesOfClass(classId, specifiedDate);
         // Get the class student list someone who sign in the system but not upload the images
-        List<String> notUploadNames = classService.queryNotUploadNamesOfClass(classId, specifiedDate);
+        List<String> notUploadNames = schoolService.queryNotUploadNamesOfClass(classId, specifiedDate);
         // Get the class student list someone who upload the three images successfully
-        List<String> completedNames = classService.queryCompletedNamesOfClass(classId, specifiedDate);
+        List<String> completedNames = schoolService.queryCompletedNamesOfClass(classId, specifiedDate);
         // Get the class upload list with student name someone upload three images successfully
         List<Upload> uploadedList = recordService.getUploadsOfClassWithName(classId, Upload.STATUS_COMPLETED, specifiedDate);
         return Response.success("查询班级上传记录成功").put("notLoginNames", notLoginNames).put("notUploadNames", notUploadNames)
@@ -120,7 +117,7 @@ public class RecordController {
         }
 
         // Get the classes list of current grade with class not completed total numbers
-        List<Class> classList = gradeService.getNotCompletedClasses(people.getGradeId(), specifiedDate);
+        List<Class> classList = schoolService.getNotCompletedClasses(people.getGradeId(), specifiedDate);
         if (classList == null || classList.size() == 0) {
             return Response.info("暂无您的年级上传记录");
         }

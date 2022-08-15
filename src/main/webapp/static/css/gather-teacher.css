@@ -84,3 +84,8 @@ body {
         margin-top: 20px;
     }
 }
+
+.error-msg {
+    margin-bottom: 10px;
+    color: #a94442;
+}

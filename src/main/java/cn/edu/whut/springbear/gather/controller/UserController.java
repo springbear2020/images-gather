@@ -40,12 +40,14 @@ public class UserController {
         }
 
         // Remember me, tell the browser save the cookie info for one week
-        if ("yes".equals(rememberMe)) {
+        if ("true".equals(rememberMe)) {
             Cookie usernameCookie = new Cookie("username", username);
             usernameCookie.setMaxAge(60 * 60 * 24 * 7);
+            usernameCookie.setPath("/static/html/login.html");
             response.addCookie(usernameCookie);
             Cookie passwordCookie = new Cookie("password", password);
             passwordCookie.setMaxAge(60 * 60 * 24 * 7);
+            passwordCookie.setPath("/static/html/login.html");
             response.addCookie(passwordCookie);
         }
 

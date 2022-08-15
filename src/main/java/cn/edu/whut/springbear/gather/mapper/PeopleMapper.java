@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 /**
  * @author Spring-_-Bear
@@ -29,6 +31,13 @@ public interface PeopleMapper {
     /**
      * Save people
      */
-    @Insert("insert into t_people(number, name, sex, phone, email, user_id, class_id, grade_id, school_id) values (#{number},#{name},#{sex},#{phone},#{email},#{userId},#{classId},#{gradeId},#{schoolId})")
+    @Insert("insert into t_people(number, name, sex, phone, email, user_id, class_id, grade_id, school_id, create_datetime) values (#{number},#{name},#{sex},#{phone},#{email},#{userId},#{classId},#{gradeId},#{schoolId},#{createDatetime})")
     int savePeople(People people);
+
+    /**
+     * TODO Students, monitor, head and grade teacher?
+     * Get all people list in the specified class
+     */
+    @Select("select * from t_people where class_id = #{classId}")
+    List<People> getClassPeopleList(@Param("classId") Integer classId);
 }

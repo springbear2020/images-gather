@@ -34,7 +34,7 @@ public interface UserMapper {
     /**
      * Save user and return the generated auto increment key value
      */
-    @Insert("insert into t_user(username, password, phone, email, last_login_datetime, user_type, user_status) values (#{username},#{password},#{phone},#{email},#{lastLoginDatetime},#{userType},#{userStatus})")
+    @Insert("insert into t_user(username, password, phone, email, last_login_datetime, user_type, user_status, create_datetime) values (#{username},#{password},#{phone},#{email},#{lastLoginDatetime},#{userType},#{userStatus},#{createDatetime})")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     int saveUser(User user);
 }

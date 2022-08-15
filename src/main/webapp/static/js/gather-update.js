@@ -55,11 +55,18 @@ $(function () {
             $errorMsg.text("");
         }
 
+        // Encrypt the password
+        oldPassword = hex_md5(oldPassword);
+        oldPassword = oldPassword.split('').reverse().join('');
+        oldPassword = hex_md5(oldPassword);
+        newPassword = hex_md5(newPassword);
+        newPassword = newPassword.split('').reverse().join('');
+        newPassword = hex_md5(newPassword);
         // Send an ajax request to ask server for updating the password of user
         $.ajax({
             url: contextPath + "update.do",
             method: "POST",
-            data: "_method=PUT&" + $("#form-update-password").serialize(),
+            data: "_method=PUT&oldPassword=" + oldPassword + "&newPassword=" + newPassword,
             dataType: "json",
             success: function (response) {
                 if (CODE_SUCCESS == response.code) {

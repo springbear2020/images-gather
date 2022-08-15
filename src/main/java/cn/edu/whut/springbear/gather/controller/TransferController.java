@@ -4,8 +4,8 @@ import cn.edu.whut.springbear.gather.pojo.People;
 import cn.edu.whut.springbear.gather.pojo.Response;
 import cn.edu.whut.springbear.gather.pojo.Upload;
 import cn.edu.whut.springbear.gather.pojo.User;
-import cn.edu.whut.springbear.gather.service.ClassService;
 import cn.edu.whut.springbear.gather.service.RecordService;
+import cn.edu.whut.springbear.gather.service.SchoolService;
 import cn.edu.whut.springbear.gather.service.TransferService;
 import cn.edu.whut.springbear.gather.util.DateUtils;
 import cn.edu.whut.springbear.gather.util.FileUtils;
@@ -40,7 +40,7 @@ public class TransferController {
     @Autowired
     private RecordService recordService;
     @Autowired
-    private ClassService classService;
+    private SchoolService schoolService;
 
     @PostMapping("/transfer.do")
     public Response upload(@RequestParam("healthImage") MultipartFile healthImage, @RequestParam("scheduleImage") MultipartFile scheduleImage, @RequestParam("closedImage") MultipartFile closedImage,
@@ -65,6 +65,8 @@ public class TransferController {
             return Response.error("图片文件保存本地磁盘失败");
         }
 
+        // TODO Python images identify
+
         // Upload the image files to the Qiniu cloud
         upload = transferService.pushImagesToQiniu(upload, realPath);
 
@@ -73,7 +75,7 @@ public class TransferController {
             return Response.error("更新上传记录失败");
         }
 
-        return Response.success(people.getName() + "，今日【两码一查】已上传");
+        return Response.success("今日【两码一查】已上传");
     }
 
     @GetMapping("/transfer.do")
@@ -114,14 +116,14 @@ public class TransferController {
     }
 
     @PostMapping("/transfer/class.do")
-    public Response classDataBatchImport(@RequestParam("file") MultipartFile file, HttpSession session) {
+    public Response classDataBatchInsert(@RequestParam("file") MultipartFile file, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user.getUserType() != User.TYPE_ADMIN) {
             return Response.error("权限不足，禁止导入班级");
         }
 
         // Real path of project webapp directory
-        String realPath = session.getServletContext().getRealPath("/WEB-INF/excel/");
+        String realPath = session.getServletContext().getRealPath("/WEB-INF/excel-class-upload/");
         String fileAbsolutePath = transferService.saveExcelFile(realPath, file);
         if (fileAbsolutePath == null) {
             return Response.error("请上传正确格式的 Excel 文件");
@@ -137,7 +139,7 @@ public class TransferController {
             return Response.info("文件中不存在有效的班级数据");
         }
         // Class data import
-        int affectedRows = classService.classDataInsertBatch(peopleList);
+        int affectedRows = schoolService.classDataInsertBatch(peopleList);
         return Response.success("共 " + peopleList.size() + " 条，成功导入 " + affectedRows + " 条");
     }
 }

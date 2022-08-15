@@ -47,14 +47,21 @@ public interface ClassMapper {
     int saveClass(Class aClass);
 
     /**
-     * Get class by name
-     */
-    @Select("select * from  t_class where class_name = #{className}")
-    Class getClassByName(@Param("className") String className);
-
-    /**
      * Save the correspondence between grades and classes
      */
     @Insert("insert into r_grade_class(grade_id, class_id) values (#{gradeId},#{classId})")
     int saveGradeClass(@Param("gradeId") Integer gradeId, @Param("classId") Integer classId);
+
+    /**
+     * Get the class info from the grade and class relation table,
+     * to verify the existences of current class about the grade
+     */
+    @Select("select t_class.* from t_class, r_grade_class where id = class_id and class_name = #{className} and grade_id = #{gradeId}")
+    Class getClassOfGrade(@Param("className") String className, @Param("gradeId") Integer gradeId);
+
+    /**
+     * Get all classes list of the grade
+     */
+    @Select("select * from t_class where id in (select class_id  from r_grade_class WHERE grade_id = #{gradeId})")
+    List<Class> getClassesOfSchool(@Param("gradeId") Integer gradeId);
 }
