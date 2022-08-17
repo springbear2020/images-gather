@@ -3,6 +3,7 @@ package cn.edu.whut.springbear.gather.service;
 import cn.edu.whut.springbear.gather.pojo.User;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Spring-_-Bear
@@ -33,4 +34,19 @@ public interface UserService {
      * Update the email and phone number of the user
      */
     boolean updateUserEmailAndPhone(String newEmail, String newPhone, Integer userId);
+
+    /**
+     * Get user by user id
+     */
+    User queryUser(Integer userId);
+
+    /**
+     * Update the user type of user
+     */
+    boolean updateUserType(Integer userId, Integer userType);
+
+    /**
+     * Save user
+     */
+    boolean saveUser(User user);
 }

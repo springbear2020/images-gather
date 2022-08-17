@@ -141,4 +141,25 @@ public class UserController {
         session.invalidate();
         return Response.success("注销登录成功");
     }
+
+    @GetMapping("/user.do")
+    public Response getUser(@RequestParam("userId") Integer userId) {
+        User user = userService.queryUser(userId);
+        if (user == null) {
+            return Response.info("用户信息不存在");
+        }
+        return Response.success("查询用户信息成功").put("item", user);
+    }
+
+    @PutMapping("/user.do")
+    public Response updateUserType(@RequestParam("userId") Integer userId, @RequestParam("userType") Integer userType, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user.getUserType() != User.TYPE_ADMIN) {
+            return Response.error("权限不足，禁止修改用户类型");
+        }
+        if (!userService.updateUserType(userId, userType)) {
+            return Response.error("修改用户类型失败");
+        }
+        return Response.success("更新用户类型成功");
+    }
 }

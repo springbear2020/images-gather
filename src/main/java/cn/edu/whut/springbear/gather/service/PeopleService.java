@@ -17,4 +17,9 @@ public interface PeopleService {
      * Update the info of the people, including sex, email and phone number
      */
     boolean updatePeopleInfo(String newSex, String newEmail, String newPhone, Integer id);
+
+    /**
+     * Save head teacher
+     */
+    boolean saveHeadTeacher(People people);
 }

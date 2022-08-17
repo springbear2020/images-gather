@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+
 /**
  * @author Spring-_-Bear
  * @datetime 2022-08-10 23:57 Wednesday
@@ -37,4 +38,10 @@ public interface UserMapper {
     @Insert("insert into t_user(username, password, phone, email, last_login_datetime, user_type, user_status, create_datetime) values (#{username},#{password},#{phone},#{email},#{lastLoginDatetime},#{userType},#{userStatus},#{createDatetime})")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     int saveUser(User user);
+
+    /**
+     * Get user by user id
+     */
+    @Select("select * from t_user where id = #{userId}")
+    User getUserById(@Param("userId") Integer userId);
 }

@@ -8,21 +8,20 @@ $(function () {
     var usernameFromCookie = getCookieByKey("username");
     var passwordFromCookie = getCookieByKey("password");
     if (usernameFromCookie.length > 0 && passwordFromCookie.length > 0) {
-        // Check the remember me checkbox
+        // Check the remember me checkbox and auto fill text
         $("input[type='checkbox']").attr("checked", true);
-        // Set the text of the input text element
         $("#inputUsername").val(usernameFromCookie);
         $("#inputPassword").val(passwordFromCookie);
 
-        // Auto login after 1 minute later
-        let countingTime = 1;
-        let timer = setInterval(function () {
-            if (countingTime <= 0) {
-                login(usernameFromCookie, passwordFromCookie, true);
-                clearInterval(timer);
-            }
-            countingTime--;
-        }, 1000)
+        // TODO Auto login after 1 minute later
+        // let countingTime = 1;
+        // let timer = setInterval(function () {
+        //     if (countingTime <= 0) {
+        //         login(usernameFromCookie, passwordFromCookie, true);
+        //         clearInterval(timer);
+        //     }
+        //     countingTime--;
+        // }, 1000)
     }
 
     // Status change event of the readme me element
@@ -30,10 +29,32 @@ $(function () {
         var status = this.checked;
         // Not choose remember me, remove the cookies named username and password
         if (!status) {
+            usernameFromCookie = "";
+            passwordFromCookie = "";
+            $("#inputUsername").val("");
+            $("#inputPassword").val("");
             document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/static/html/login.html";
             document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/static/html/login.html";
         }
-    })
+    });
+
+    // Don't remember if the username and password changed
+    $("#inputUsername").change(function () {
+        $("input[type='checkbox']").attr("checked", false);
+        usernameFromCookie = "";
+        passwordFromCookie = "";
+        document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/static/html/login.html";
+        document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/static/html/login.html";
+
+    });
+    $("#inputPassword").change(function () {
+        $("input[type='checkbox']").attr("checked", false);
+        usernameFromCookie = "";
+        passwordFromCookie = "";
+        document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/static/html/login.html";
+        document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/static/html/login.html";
+
+    });
 
     /*
      * =================================================================================================================
@@ -88,6 +109,8 @@ $(function () {
             password = password.split('').reverse().join('');
             password = hex_md5(password);
         }
-        login(username, password, rememberMe);
+        if (username.length > 0 && password.length > 0) {
+            login(username, password, rememberMe);
+        }
     });
 });

@@ -6,3 +6,7 @@
     display: none;
     opacity: 0;
 }
+
+.people-table {
+    margin-top: 20px;
+}

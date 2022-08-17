@@ -26,6 +26,94 @@
     <![endif]-->
 </head>
 <body>
+
+<!-- Modal of add grade teacher -->
+<div class="modal fade" id="grade-teacher-add" tabindex="-1" role="dialog" aria-labelledby="modal-add-teacher">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <!-- Title -->
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">年级主任</h4>
+            </div>
+            <div class="modal-body text-center">
+                <form id="form-add-grade-teacher">
+                    <div class="form-group">
+                        <label for="input-number" class="control-label sr-only"></label>
+                        <input type="text" id="input-number" class="form-control" name="number" required placeholder="学号">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-name" class="control-label sr-only"></label>
+                        <input type="text" id="input-name" class="form-control" name="name" required placeholder="姓名">
+                    </div>
+                    <div class="form-group">
+                        <label class="radio-inline">
+                            <input type="radio" name="sex" value="男" checked> 男
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="sex" value="女"> 女
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-phone" class="control-label sr-only"></label>
+                        <input type="tel" id="input-phone" class="form-control" name="phone" required placeholder="电话">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-email" class="control-label sr-only"></label>
+                        <input type="email" id="input-email" class="form-control" name="email" required placeholder="邮箱">
+                    </div>
+                    <div class="form-group">
+                        <label for="school-select"></label>
+                        <select class="form-control" id="school-select">
+                            <option schoolId="1">武汉大学</option>
+                            <option schoolId="2">华中科技大学</option>
+                            <option schoolId="3">武汉理工大学</option>
+                        </select>
+                        <label for="grade-select"></label>
+                        <select class="form-control" id="grade-select">
+                            <option>2019级</option>
+                            <option>2020级</option>
+                            <option>2021级</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal of people info -->
+<div class="modal fade" tabindex="-1" id="people-info-modal" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title people-name">班级角色</h4>
+            </div>
+            <div class="modal-body text-center">
+                <label class="radio-inline">
+                    <input type="radio" name="role-manage" id="people-student" value="1"> 学生
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="role-manage" id="people-monitor" value="2"> 班长
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="role-manage" id="people-head-teacher" value="3"> 班主任
+                </label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary save-people-role">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Modal of notice -->
 <div class="modal fade" id="div-notice-modal" tabindex="-1" role="dialog" aria-labelledby="modal-notice"
      aria-hidden="true">
@@ -44,7 +132,8 @@
     <div class="container-fluid">
         <!-- Logo -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -76,10 +165,12 @@
             <div class="row placeholders content-manage">
                 <label>
                     <input type="file" name="file" class="excel-file" style="display: none;opacity: 100%;" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                    <a class="btn btn-lg btn-primary" href="../excel/class.xlsx">下载模板</a>
                     <a role="button" class="btn btn-lg btn-primary">导入班级</a>
                 </label>
-                <a class="btn btn-lg btn-primary" href="../excel/class.xlsx">下载模板</a>
-                <br/>
+                <a class="btn btn-lg btn-primary grade-teacher-manage">年级主任</a>
+
+                <!-- School, grade and class choose -->
                 <ol class="breadcrumb info-select">
                     <li class="dropdown">
                         <a class="dropdown-toggle school-query" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">学校 <span class="caret"></span></a>
@@ -92,17 +183,20 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle class-query" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">班级 <span class="caret"></span></a>
+                        <a class="dropdown-toggle class-query" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">班级 <span class="caret"></span></a>
                         <ul class="dropdown-menu class-list">
                         </ul>
                     </li>
                 </ol>
 
+                <!-- Class people list table -->
                 <div class="table-responsive class-people-table">
-                    <table class="table table-striped">
+                    <table class="table table-hover">
                         <thead>
                         <tr>
                             <th>PID</th>
+                            <th>UID</th>
                             <th>姓名</th>
                             <th>性别</th>
                             <th>学号</th>
@@ -114,15 +208,14 @@
                         <tbody class="table-body">
                         <tr>
                             <td>1001</td>
+                            <td>1003</td>
                             <td>张三</td>
                             <td>女</td>
                             <td>0121902324223</td>
                             <td>15865482564</td>
                             <td>zhangsan@163.com</td>
                             <td>
-                                <a role="button"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                                &nbsp;
-                                <a role="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                <a role="button" class="people-edit"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
                             </td>
                         </tr>
                         </tbody>
@@ -138,13 +231,17 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="../../static/js/jquery-1.12.4.min.js" charset="utf-8"></script>
 <script>window.jQuery || document.write('<script src="../../static/js/jquery.min.js" charset="utf-8"><\/script>')</script>
-<script src="../../static/js/bootstrap.min.js" charset="utf-8" ></script>
+<script src="../../static/js/bootstrap.min.js" charset="utf-8"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="../../static/js/ie10-viewport-bug-workaround.js" charset = "utf-8"></script>
+<script src="../../static/js/ie10-viewport-bug-workaround.js" charset="utf-8"></script>
 
 <!-- Custom JavaScript -->
 <script src="../js/gather-commons.js" charset="utf-8"></script>
 <script src="../js/gather-admin.js" charset="utf-8"></script>
+<script>
+    $(function () {
 
+    });
+</script>
 </body>
 </html>

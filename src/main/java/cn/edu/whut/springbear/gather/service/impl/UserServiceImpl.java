@@ -41,4 +41,19 @@ public class UserServiceImpl implements UserService {
     public boolean updateUserEmailAndPhone(String newEmail, String newPhone, Integer userId) {
         return userMapper.updateUserById(new User(userId, newPhone, newEmail)) == 1;
     }
+
+    @Override
+    public User queryUser(Integer userId) {
+        return userMapper.getUserById(userId);
+    }
+
+    @Override
+    public boolean updateUserType(Integer userId, Integer userType) {
+        return userMapper.updateUserById(new User(userId, userType)) == 1;
+    }
+
+    @Override
+    public boolean saveUser(User user) {
+        return userMapper.saveUser(user) == 1;
+    }
 }

@@ -70,5 +70,10 @@ public class User implements Serializable {
         this.createDatetime = createDatetime;
     }
 
+    public User(Integer id, Integer userType) {
+        this.id = id;
+        this.userType = userType;
+    }
+
     private People people;
 }

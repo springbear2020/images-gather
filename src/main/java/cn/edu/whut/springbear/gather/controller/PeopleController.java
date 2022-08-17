@@ -8,13 +8,13 @@ import cn.edu.whut.springbear.gather.service.PeopleService;
 import cn.edu.whut.springbear.gather.service.RecordService;
 import cn.edu.whut.springbear.gather.service.SchoolService;
 import cn.edu.whut.springbear.gather.service.UserService;
+import cn.edu.whut.springbear.gather.util.DateUtils;
+import cn.edu.whut.springbear.gather.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -78,7 +78,7 @@ public class PeopleController {
         return Response.success("个人信息更新成功").put("item", user.getUserType());
     }
 
-    @GetMapping("/people/all.do")
+    @GetMapping("/people/class.do")
     public Response getClassPeopleList(@RequestParam("classId") Integer classId, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user.getUserType() != User.TYPE_ADMIN) {
@@ -89,5 +89,19 @@ public class PeopleController {
             return Response.info("班级中暂无人员信息");
         }
         return Response.success("查询班级人员信息成功").put("list", peopleList);
+    }
+
+    @PostMapping("/people.do")
+    public Response saveHeadTeacher(People people, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user.getUserType() != User.TYPE_ADMIN) {
+            return Response.error("权限不足，禁止新增年级主任");
+        }
+        people.setClassId(0);
+        // Save people information
+        if (!peopleService.saveHeadTeacher(people)) {
+            return Response.error("保存人员信息失败");
+        }
+        return Response.success("新增年级主任成功");
     }
 }

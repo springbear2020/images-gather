@@ -36,7 +36,7 @@ $(function () {
         var newPassword = $("#input-new-password").val();
         var newPasswordAgain = $("#input-new-password-again").val();
         if (newPassword !== newPasswordAgain) {
-            $errorMsg.text("两次输入的新密码不一致，请检查后重新输入");
+            $errorMsg.text("两次输入的密码不一致，请重新输入");
             return false;
         }
 
