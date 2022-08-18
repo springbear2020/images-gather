@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.whut.springbear.gather.mapper.UploadMapper">
-    <!-- int updateUploadImagesUrl(Upload upload); -->
-    <update id="updateUploadImagesUrl" parameterType="upload">
+    <!-- int updateUpload(Upload upload); -->
+    <update id="updateUpload" parameterType="upload">
         update t_upload
         <set>
             <if test="uploadStatus != null">
@@ -30,6 +30,9 @@
             </if>
             <if test="cloudClosedUrl != null">
                 cloud_closed_url = #{cloudClosedUrl},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
             </if>
         </set>
         where user_id = #{userId} and DATE_FORMAT(upload_datetime,'%Y-%m-%d') = #{uploadDatetime,jdbcType=DATE}

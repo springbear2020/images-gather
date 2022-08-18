@@ -1,6 +1,6 @@
 package cn.edu.whut.springbear.gather.mapper;
 
-import cn.edu.whut.springbear.gather.pojo.EmailLog;
+import cn.edu.whut.springbear.gather.pojo.Email;
 import org.apache.ibatis.annotations.Insert;
 import org.springframework.stereotype.Repository;
 
@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
  * @datetime 2022-08-11 01:37 Thursday
  */
 @Repository
-public interface EmailLogMapper {
+public interface EmailMapper {
     /**
-     * Save the verify code sent record
+     * Save the email verify code send log
      */
     @Insert("insert into log_email(email, code, delivery_datetime, user_id) values (#{email},#{code},#{deliveryDatetime},#{userId})")
-    int saveEmailLog(EmailLog emailLog);
+    int saveEmailLog(Email email);
 }

@@ -1,10 +1,10 @@
 package cn.edu.whut.springbear.gather.service.impl;
 
-import cn.edu.whut.springbear.gather.mapper.EmailLogMapper;
-import cn.edu.whut.springbear.gather.mapper.LoginLogMapper;
+import cn.edu.whut.springbear.gather.mapper.EmailMapper;
+import cn.edu.whut.springbear.gather.mapper.LoginMapper;
 import cn.edu.whut.springbear.gather.mapper.UploadMapper;
-import cn.edu.whut.springbear.gather.pojo.EmailLog;
-import cn.edu.whut.springbear.gather.pojo.LoginLog;
+import cn.edu.whut.springbear.gather.pojo.Email;
+import cn.edu.whut.springbear.gather.pojo.Login;
 import cn.edu.whut.springbear.gather.pojo.Upload;
 import cn.edu.whut.springbear.gather.service.RecordService;
 import cn.edu.whut.springbear.gather.util.WebUtils;
@@ -30,15 +30,15 @@ public class RecordServiceImpl implements RecordService {
     @Value("${baidu.parseUrl}")
     private String parseUrl;
 
-    private static final int PAGE_DATA_ROWS = 10;
-    private static final int PAGE_NAVIGATIONS = 7;
+    public static final int PAGE_DATA_ROWS = 10;
+    public static final int PAGE_NAVIGATIONS = 7;
 
     @Autowired
-    private LoginLogMapper loginLogMapper;
+    private LoginMapper loginMapper;
     @Autowired
     private UploadMapper uploadMapper;
     @Autowired
-    private EmailLogMapper emailLogMapper;
+    private EmailMapper emailMapper;
 
     @Override
     public boolean saveLoginLog(String ip, Integer userId) {
@@ -47,51 +47,51 @@ public class RecordServiceImpl implements RecordService {
         if (ipService && !"127.0.0.1".equals(ip)) {
             location = WebUtils.parseIpLocation(parseUrl + ip);
         }
-        LoginLog loginLog = new LoginLog(ip, location, new Date(), userId);
-        return loginLogMapper.saveLoginLog(loginLog) == 1;
+        return loginMapper.saveLoginLog(new Login(ip, location, new Date(), userId)) == 1;
     }
 
     @Override
-    public boolean createStudentUploadToday(Integer userId) {
-        return uploadMapper.saveUpload(new Upload(Upload.STATUS_NOT_UPLOAD, new Date(), userId, new Date())) == 1;
+    public boolean createUserUploadToday(Integer userId) {
+        String empty = "";
+        return uploadMapper.saveUpload(new Upload(Upload.STATUS_NOT_UPLOAD, new Date(), empty, empty, empty, empty, empty, empty, userId, new Date())) == 1;
     }
 
     @Override
-    public boolean saveEmailLog(EmailLog emailLog) {
-        return emailLogMapper.saveEmailLog(emailLog) == 1;
+    public boolean saveEmailLog(Email email) {
+        return emailMapper.saveEmailLog(email) == 1;
     }
 
     @Override
-    public Upload getStudentUpload(Integer userId, Date date, Integer uploadStatus) {
-        return uploadMapper.getUploadOfUser(userId, uploadStatus, date);
+    public Upload getUserUpload(Integer userId, Date date, Integer uploadStatus) {
+        return uploadMapper.getUpload(userId, uploadStatus, date);
     }
 
     @Override
-    public boolean updateUploadImagesUrl(Upload upload) {
-        return uploadMapper.updateUploadImagesUrl(upload) == 1;
+    public boolean updateUpload(Upload upload) {
+        return uploadMapper.updateUpload(upload) == 1;
     }
 
     @Override
-    public PageInfo<LoginLog> getUserLoginLogPageData(Integer userId, Integer pageNum) {
+    public PageInfo<Login> listUserLoginLogPageData(Integer userId, Integer pageNum) {
         PageHelper.startPage(pageNum, PAGE_DATA_ROWS);
-        List<LoginLog> loginList = loginLogMapper.getUserLoginLogs(userId);
+        List<Login> loginList = loginMapper.listLoginLogsOfUser(userId);
         return new PageInfo<>(loginList, PAGE_NAVIGATIONS);
     }
 
     @Override
-    public PageInfo<Upload> getUserUploadPageData(Integer userId, Integer uploadStatus, Integer pageNum) {
+    public PageInfo<Upload> listUserUploadPageData(Integer userId, Integer uploadStatus, Integer pageNum) {
         PageHelper.startPage(pageNum, PAGE_DATA_ROWS);
-        List<Upload> uploadList = uploadMapper.getUserUploads(userId, uploadStatus);
+        List<Upload> uploadList = uploadMapper.listUploadsOfUser(userId, uploadStatus);
         return new PageInfo<>(uploadList, PAGE_NAVIGATIONS);
     }
 
     @Override
-    public List<Upload> getUploadsOfClassWithName(Integer classId, Integer uploadStatus, Date date) {
-        return uploadMapper.getUploadsOfClassWithName(classId, uploadStatus, date);
+    public List<Upload> listUploadsOfClass(Integer classId, Integer uploadStatus, Date date) {
+        return uploadMapper.listUploadsOfClassWithName(classId, uploadStatus, date);
     }
 
     @Override
-    public LoginLog getUserLatestLoginLog(Integer userId) {
-        return loginLogMapper.getUserLatestLoginLog(userId);
+    public Login getUserLatestLoginLog(Integer userId) {
+        return loginMapper.getUserLatestLoginLog(userId);
     }
 }

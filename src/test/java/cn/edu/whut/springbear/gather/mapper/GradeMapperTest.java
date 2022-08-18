@@ -23,12 +23,12 @@ public class GradeMapperTest {
 
     @Test
     public void getClassesOfGrade() {
-        System.out.println(gradeMapper.getClassesOfGrade(1));
+        System.out.println(gradeMapper.listClassIdsOfGrade(1));
     }
 
     @Test
     public void getGradesOfSchool() {
-        List<Grade> gradeList = gradeMapper.getGradesOfSchool(1);
+        List<Grade> gradeList = gradeMapper.listGradesOfSchool(1);
         gradeList.forEach(System.out::println);
     }
 }

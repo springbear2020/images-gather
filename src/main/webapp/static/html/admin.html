@@ -40,7 +40,7 @@
                 <form id="form-add-grade-teacher">
                     <div class="form-group">
                         <label for="input-number" class="control-label sr-only"></label>
-                        <input type="text" id="input-number" class="form-control" name="number" required placeholder="学号">
+                        <input type="text" id="input-number" class="form-control" name="username" required placeholder="学号">
                     </div>
                     <div class="form-group">
                         <label for="input-name" class="control-label sr-only"></label>
@@ -165,10 +165,10 @@
             <div class="row placeholders content-manage">
                 <label>
                     <input type="file" name="file" class="excel-file" style="display: none;opacity: 100%;" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-                    <a class="btn btn-lg btn-primary" href="../excel/class.xlsx">下载模板</a>
                     <a role="button" class="btn btn-lg btn-primary">导入班级</a>
                 </label>
                 <a class="btn btn-lg btn-primary grade-teacher-manage">年级主任</a>
+                <a class="btn btn-lg btn-primary" href="../excel/class.xlsx">下载模板</a>
 
                 <!-- School, grade and class choose -->
                 <ol class="breadcrumb info-select">
@@ -195,7 +195,6 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th>PID</th>
                             <th>UID</th>
                             <th>姓名</th>
                             <th>性别</th>
@@ -208,7 +207,6 @@
                         <tbody class="table-body">
                         <tr>
                             <td>1001</td>
-                            <td>1003</td>
                             <td>张三</td>
                             <td>女</td>
                             <td>0121902324223</td>

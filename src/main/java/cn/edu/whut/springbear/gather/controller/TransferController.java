@@ -1,12 +1,11 @@
 package cn.edu.whut.springbear.gather.controller;
 
-import cn.edu.whut.springbear.gather.pojo.People;
-import cn.edu.whut.springbear.gather.pojo.Response;
+import cn.edu.whut.springbear.gather.pojo.entity.Response;
 import cn.edu.whut.springbear.gather.pojo.Upload;
 import cn.edu.whut.springbear.gather.pojo.User;
 import cn.edu.whut.springbear.gather.service.RecordService;
-import cn.edu.whut.springbear.gather.service.SchoolService;
 import cn.edu.whut.springbear.gather.service.TransferService;
+import cn.edu.whut.springbear.gather.service.UserService;
 import cn.edu.whut.springbear.gather.util.DateUtils;
 import cn.edu.whut.springbear.gather.util.FileUtils;
 import cn.edu.whut.springbear.gather.util.poi.Converter;
@@ -40,46 +39,48 @@ public class TransferController {
     @Autowired
     private RecordService recordService;
     @Autowired
-    private SchoolService schoolService;
+    private UserService userService;
 
+    /**
+     * Student, monitor
+     */
     @PostMapping("/transfer.do")
-    public Response upload(@RequestParam("healthImage") MultipartFile healthImage, @RequestParam("scheduleImage") MultipartFile scheduleImage, @RequestParam("closedImage") MultipartFile closedImage,
-                           HttpSession session) {
+    public Response uploadThreeImages(@RequestParam("healthImage") MultipartFile healthImage, @RequestParam("scheduleImage") MultipartFile scheduleImage, @RequestParam("closedImage") MultipartFile closedImage, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user.getUserType() > User.TYPE_MONITOR) {
-            return Response.error("当前用户账号禁止上传");
+            return Response.info("当前用户账号无需上传两码一查");
         }
-        People people = user.getPeople();
 
         // Real path of webapp directory
         String realPath = session.getServletContext().getRealPath("/");
-        // images-gather/school/grade/class/2022-08-11
-        String userTodayDirectoryPath = "images-gather/" + people.getSchool() + "/" + people.getGrade() + "/" + people.getClassName() + "/" + DateUtils.parseDate(new Date()) + "/";
+        // e.g: images-gather/school/grade/class/2022-08-11/
+        String userTodayDirectoryPath = "images-gather/" + user.getSchool() + "/" + user.getGrade() + "/" + user.getClassName() + "/" + DateUtils.parseDate(new Date()) + "/";
         if (!FileUtils.createDirectory(realPath + userTodayDirectoryPath)) {
             return Response.error("今日图片保存目录创建失败");
         }
-
         // Save the image files to the physical disk
         Upload upload = transferService.saveImageFilesToDisk(user, realPath, userTodayDirectoryPath, healthImage, scheduleImage, closedImage);
         if (upload == null) {
             return Response.error("图片文件保存本地磁盘失败");
         }
-
-        // TODO Python images identify
-
         // Upload the image files to the Qiniu cloud
         upload = transferService.pushImagesToQiniu(upload, realPath);
 
         // Update the upload record of the user
-        if (!recordService.updateUploadImagesUrl(upload)) {
+        if (!recordService.updateUpload(upload)) {
             return Response.error("更新上传记录失败");
         }
 
+        // TODO Python images identify
         return Response.success("今日【两码一查】已上传");
     }
 
+    /**
+     * >= Monitor
+     */
     @GetMapping("/transfer.do")
-    public ResponseEntity<byte[]> classUploadFilesDownload(@RequestParam("date") String dateStr, HttpSession session) {
+    @SuppressWarnings("all")
+    public ResponseEntity<byte[]> classUploadZipFileDownload(@RequestParam("date") String dateStr, HttpSession session) {
         User user = (User) session.getAttribute("user");
         // Student don't have the privilege to download the files
         if (user.getUserType() < User.TYPE_MONITOR) {
@@ -89,11 +90,11 @@ public class TransferController {
         // e.g: E:\images-gather\target\images-gather-1.0-SNAPSHOT\
         String realPath = session.getServletContext().getRealPath("/");
         // Create new file named README.txt contains the student list (unLogin, unUpload, completed)
-        if (!transferService.createReadmeFile(realPath, dateStr, user.getPeople())) {
+        if (!transferService.createReadmeFile(realPath, dateStr, user)) {
             return new ResponseEntity<>(null, null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         // Compress the file user needed from the specified directory
-        String compressFilePath = transferService.compressDirectory(realPath, dateStr, user.getPeople());
+        String compressFilePath = transferService.compressDirectory(realPath, dateStr, user);
         if (compressFilePath == null) {
             return new ResponseEntity<>(null, null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -115,31 +116,34 @@ public class TransferController {
         return new ResponseEntity<>(byteData, headers, HttpStatus.OK);
     }
 
+    /**
+     * Admin
+     */
     @PostMapping("/transfer/class.do")
-    public Response classDataBatchInsert(@RequestParam("file") MultipartFile file, HttpSession session) {
+    public Response classUsersBatchInsert(@RequestParam("file") MultipartFile file, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user.getUserType() != User.TYPE_ADMIN) {
-            return Response.error("权限不足，禁止导入班级");
+            return Response.error("权限不足，禁止批量导入用户");
         }
 
-        // Real path of project webapp directory
+        // e.g: E:\images-gather\target\images-gather-5.0\WEB-INF\excel-class-upload\
         String realPath = session.getServletContext().getRealPath("/WEB-INF/excel-class-upload/");
-        String fileAbsolutePath = transferService.saveExcelFile(realPath, file);
+        String fileAbsolutePath = transferService.saveUploadExcelFile(realPath, file);
         if (fileAbsolutePath == null) {
             return Response.error("请上传正确格式的 Excel 文件");
         }
         if (fileAbsolutePath.isEmpty()) {
-            return Response.error("文件保存本地磁盘失败");
+            return Response.error("Excel 文件保存本地磁盘失败");
         }
 
         // Read row data from the excel file and generate bean list
         Converter converter = new SheetBeanConverter(fileAbsolutePath);
-        List<People> peopleList = converter.sheetConvertBean(People.class);
-        if (peopleList == null || peopleList.size() < 1) {
-            return Response.info("文件中不存在有效的班级数据");
+        List<User> userList = converter.sheetConvertBean(User.class);
+        if (userList == null || userList.size() < 1) {
+            return Response.info("文件中不存在有效的用户数据");
         }
         // Class data import
-        int affectedRows = schoolService.classDataInsertBatch(peopleList);
-        return Response.success("共 " + peopleList.size() + " 条，成功导入 " + affectedRows + " 条");
+        int affectedRows = userService.saveUsersBatch(userList);
+        return Response.success("共 " + userList.size() + " 条用户数据，成功导入 " + affectedRows + " 条");
     }
 }

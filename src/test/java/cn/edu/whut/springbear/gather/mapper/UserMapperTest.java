@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -29,7 +30,7 @@ public class UserMapperTest {
         user.setEmail("123");
         user.setPhone("123");
         user.setLastLoginDatetime(new Date());
-        System.out.println(userMapper.updateUserById(user));
+        System.out.println(userMapper.updateUser(user));
     }
 
     @Test
@@ -42,5 +43,11 @@ public class UserMapperTest {
         user.setLastLoginDatetime(new Date());
         System.out.println(userMapper.saveUser(user));
         System.out.println(user);
+    }
+
+    @Test
+    public void listUsersOfClass() {
+        List<User> userList = userMapper.listUsersOfClass(1);
+        userList.forEach(System.out::println);
     }
 }

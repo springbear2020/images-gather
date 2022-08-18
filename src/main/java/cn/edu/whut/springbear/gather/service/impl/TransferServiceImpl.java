@@ -1,6 +1,5 @@
 package cn.edu.whut.springbear.gather.service.impl;
 
-import cn.edu.whut.springbear.gather.pojo.People;
 import cn.edu.whut.springbear.gather.pojo.Upload;
 import cn.edu.whut.springbear.gather.pojo.User;
 import cn.edu.whut.springbear.gather.service.SchoolService;
@@ -45,12 +44,11 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public Upload saveImageFilesToDisk(User user, String realPath, String userTodayPath, MultipartFile healthImage, MultipartFile scheduleImage, MultipartFile closedImage) {
-        People people = user.getPeople();
         String datetimeNow = DateUtils.parseDatetimeNoHyphen(new Date());
         // images-gather/school/grade/class/name-健康码-20220811162311.png
-        String healthKey = userTodayPath + people.getName() + "-" + "健康码-" + datetimeNow + ".png";
-        String scheduleKey = userTodayPath + people.getName() + "-" + "行程码-" + datetimeNow + ".png";
-        String closedKey = userTodayPath + people.getName() + "-" + "密接查-" + datetimeNow + ".png";
+        String healthKey = userTodayPath + user.getName() + "-" + "健康码-" + datetimeNow + ".png";
+        String scheduleKey = userTodayPath + user.getName() + "-" + "行程码-" + datetimeNow + ".png";
+        String closedKey = userTodayPath + user.getName() + "-" + "密接查-" + datetimeNow + ".png";
 
         try {
             // Save the health, schedule and closed image files to the disk
@@ -69,7 +67,7 @@ public class TransferServiceImpl implements TransferService {
             return upload;
         }
 
-        // Three images' access path
+        // Three images' access key
         String healthKey = upload.getLocalHealthUrl();
         String scheduleKey = upload.getLocalScheduleUrl();
         String closedKey = upload.getLocalClosedUrl();
@@ -94,14 +92,14 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public boolean createReadmeFile(String realPath, String dateStr, People people) {
+    public boolean createReadmeFile(String realPath, String dateStr, User user) {
         // Error parameter
         Date date = DateUtils.parseString(dateStr);
         if (date == null) {
             return false;
         }
         // e.g: 武汉理工大学/2019/软件zy1901
-        String classInfo = people.getSchool() + "/" + people.getGrade() + "/" + people.getClassName();
+        String classInfo = user.getSchool() + "/" + user.getGrade() + "/" + user.getClassName();
         // e.g: E:\images-gather\target\images-gather-1.0-SNAPSHOT\images-gather/武汉理工大学/2019/软件zy1901/2022-08-12
         String fileSaveDirectory = realPath + "/images-gather/" + classInfo + "/" + dateStr;
         // Create the README.txt file save directory
@@ -112,22 +110,22 @@ public class TransferServiceImpl implements TransferService {
         // e.g: E:\images-gather\target\images-gather-1.0-SNAPSHOT\images-gather/school/grade/class/2022-08-12/README.txt
         String readmeFilePath = fileSaveDirectory + "/README.txt";
         // e.g: 武汉理工大学/2019/软件zy1901/2022-08-12 【两码一查】完成情况如下：
-        StringBuilder content = new StringBuilder(classInfo + "/" + dateStr + " 【两码一查】完成情况如下：");
-        Integer classId = people.getClassId();
+        StringBuilder content = new StringBuilder(classInfo + "/" + dateStr + " 完成情况如下：");
+        Integer classId = user.getClassId();
         // Not login people name list string
-        List<String> notLoginNames = schoolService.queryNotLoginNamesOfClass(classId, date);
+        List<String> notLoginNames = schoolService.listNotLoginNamesOfClass(classId, date);
         content.append("\n\n    未登录人员名单【").append(notLoginNames.size()).append("】");
         for (String name : notLoginNames) {
             content.append(name).append(" ");
         }
         // Not upload people name list string
-        List<String> notUploadNames = schoolService.queryNotUploadNamesOfClass(classId, date);
+        List<String> notUploadNames = schoolService.listNotUploadNamesOfClass(classId, date);
         content.append("\n    未上传人员名单【").append(notUploadNames.size()).append("】");
         for (String name : notUploadNames) {
             content.append(name).append(" ");
         }
         // Upload completely people name list string
-        List<String> completedNames = schoolService.queryCompletedNamesOfClass(classId, date);
+        List<String> completedNames = schoolService.listCompletedNamesOfClass(classId, date);
         content.append("\n    已完成人员名单【").append(completedNames.size()).append("】");
         for (String name : completedNames) {
             content.append(name).append(" ");
@@ -137,16 +135,16 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public String compressDirectory(String realPath, String dateStr, People people) {
+    public String compressDirectory(String realPath, String dateStr, User user) {
         // e.g: E:\images-gather\target\images-gather-1.0-SNAPSHOT\images-gather/武汉理工大学/2019/软件zy1901/2022-08-12
-        String fileSaveDirectory = realPath + "/images-gather/" + people.getSchool() + "/" + people.getGrade() + "/" + people.getClassName() + "/" + dateStr;
+        String fileSaveDirectory = realPath + "/images-gather/" + user.getSchool() + "/" + user.getGrade() + "/" + user.getClassName() + "/" + dateStr;
         // e.g: E:\images-gather\target\images-gather-1.0-SNAPSHOT\images-gather/武汉理工大学/2019/软件zy1901/2022-08-12.zip
         String zipFilePath = fileSaveDirectory + ".zip";
         return FileUtils.compressDirectory(fileSaveDirectory, zipFilePath) ? zipFilePath : null;
     }
 
     @Override
-    public String saveExcelFile(String realPath, MultipartFile excelFile) {
+    public String saveUploadExcelFile(String realPath, MultipartFile excelFile) {
         // Judge the format of the original file
         String originalFilename = excelFile.getOriginalFilename();
         assert originalFilename != null;

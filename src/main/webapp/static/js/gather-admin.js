@@ -148,24 +148,23 @@ $(function () {
     // Display all people list in selected class name
     function displayClassPeopleList(classId) {
         $.ajax({
-            url: contextPath + "people/class.do",
+            url: contextPath + "user/class.do",
             type: "get",
             data: "classId=" + classId,
             dataType: "json",
             success: function (response) {
-                var peopleList = response.resultMap.list;
+                var userList = response.resultMap.list;
                 var $ancestor = $(".table-body");
                 $ancestor.empty();
                 // Traverse the people list and create element to display it
-                $.each(peopleList, function (index, people) {
+                $.each(userList, function (index, user) {
                     var $tr = $("<tr></tr>").appendTo($ancestor);
-                    $("<td></td>").append(people.id).appendTo($tr);
-                    $("<td></td>").append(people.userId).appendTo($tr);
-                    $("<td></td>").append(people.name).appendTo($tr);
-                    $("<td></td>").append(people.sex).appendTo($tr);
-                    $("<td></td>").append(people.number).appendTo($tr);
-                    $("<td></td>").append(people.phone).appendTo($tr);
-                    $("<td></td>").append(people.email).appendTo($tr);
+                    $("<td></td>").append(user.id).appendTo($tr);
+                    $("<td></td>").append(user.name).appendTo($tr);
+                    $("<td></td>").append(user.sex).appendTo($tr);
+                    $("<td></td>").append(user.username).appendTo($tr);
+                    $("<td></td>").append(user.phone).appendTo($tr);
+                    $("<td></td>").append(user.email).appendTo($tr);
                     var $td = $("<td></td>").appendTo($tr);
                     var $editIcon = $("<span></span>").addClass("glyphicon glyphicon-user").attr("aria-hidden", true);
                     $("<a></a>").attr("role", "button").addClass("people-edit").append($editIcon).appendTo($td);
@@ -198,16 +197,15 @@ $(function () {
         // Edit people role
         $(".people-edit").click(function () {
             var $tr = $(this).parent().parent().children();
-            var name = $tr.eq(2).text();
-            var userId = $tr.eq(1).text();
+            var name = $tr.eq(1).text();
+            var userId = $tr.eq(0).text();
             // Set user id for radio button
             $("input[type=radio][name=role-manage]").attr("userId", userId);
 
             // Get user information
             $.ajax({
-                url: contextPath + "user.do",
+                url: contextPath + "user/" + userId + ".do",
                 type: "get",
-                data: "userId=" + userId,
                 dataType: "json",
                 success: function (response) {
                     if (CODE_SUCCESS == response.code) {
@@ -248,9 +246,9 @@ $(function () {
 
             //  Ask server to save the user type
             $.ajax({
-                url: contextPath + "user.do",
+                url: contextPath + "user/" + userId + ".do",
                 type: "post",
-                data: "_method=put&userId=" + userId + "&userType=" + userType,
+                data: "_method=put&newUserType=" + userType,
                 dataType: "json",
                 success: function (response) {
                     if (CODE_SUCCESS == response.code) {
@@ -352,11 +350,14 @@ $(function () {
 
         // Save grade teacher and register user
         $.ajax({
-            url: contextPath + "people.do",
+            url: contextPath + "user.do",
             type: "post",
             data: params,
             dataType: "json",
             success: function (response) {
+                if (CODE_SUCCESS == response.code) {
+                    $("#grade-teacher-add").modal('hide');
+                }
                 showNoticeModal(response.code, response.msg);
             },
             error: function () {

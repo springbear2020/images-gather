@@ -1,6 +1,6 @@
 package cn.edu.whut.springbear.gather.util.poi;
 
-import cn.edu.whut.springbear.gather.pojo.People;
+import cn.edu.whut.springbear.gather.pojo.User;
 import org.junit.Test;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class ConverterTest {
     @Test
     public void sheetConvertBean() {
         Converter converter = new SheetBeanConverter("C:/Users/Admin/Desktop/2019.xlsx");
-        List<People> peopleList = converter.sheetConvertBean(People.class);
-        peopleList.forEach(System.out::println);
+        List<User> userList = converter.sheetConvertBean(User.class);
+        userList.forEach(System.out::println);
     }
 }

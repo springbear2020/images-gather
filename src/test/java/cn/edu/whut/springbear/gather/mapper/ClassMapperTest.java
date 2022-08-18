@@ -24,13 +24,18 @@ public class ClassMapperTest {
 
     @Test
     public void getNotLoginNamesOfClass() {
-        List<String> strings = classMapper.getNotLoginNamesOfClass(4, new Date(), User.TYPE_MONITOR);
+        List<String> strings = classMapper.listNotLoginNamesOfClass(4, new Date(), User.TYPE_MONITOR);
         System.out.println(strings.size());
         System.out.println(strings);
     }
 
     @Test
     public void getNotUploadNamesOfClass() {
-        System.out.println(classMapper.getNamesOfClassByUploadStatus(4, new Date(), Upload.STATUS_NOT_UPLOAD));
+        System.out.println(classMapper.listUploadNamesOfClass(4, new Date(), Upload.STATUS_NOT_UPLOAD));
+    }
+
+    @Test
+    public void getClassNameById() {
+        System.out.println(classMapper.getClassNameById(1));
     }
 }

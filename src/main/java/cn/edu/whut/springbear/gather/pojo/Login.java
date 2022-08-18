@@ -13,7 +13,7 @@ import java.util.Date;
  */
 @Data
 @NoArgsConstructor
-public class LoginLog implements Serializable {
+public class Login implements Serializable {
     private static final long serialVersionUID = -7095349991287590023L;
 
     private Integer id;
@@ -23,7 +23,7 @@ public class LoginLog implements Serializable {
     private Date loginDatetime;
     private Integer userId;
 
-    public LoginLog(String ip, String location, Date loginDatetime, Integer userId) {
+    public Login(String ip, String location, Date loginDatetime, Integer userId) {
         this.ip = ip;
         this.location = location;
         this.loginDatetime = loginDatetime;

@@ -13,7 +13,7 @@ $(function () {
         $("#inputUsername").val(usernameFromCookie);
         $("#inputPassword").val(passwordFromCookie);
 
-        // TODO Auto login after 1 minute later
+        // Auto login after 1 minute later
         // let countingTime = 1;
         // let timer = setInterval(function () {
         //     if (countingTime <= 0) {

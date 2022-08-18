@@ -1,5 +1,6 @@
 package cn.edu.whut.springbear.gather.service.impl;
 
+import cn.edu.whut.springbear.gather.pojo.Email;
 import cn.edu.whut.springbear.gather.service.EmailService;
 import cn.edu.whut.springbear.gather.util.EmailUtils;
 import cn.edu.whut.springbear.gather.util.NumberUtils;
@@ -23,25 +24,19 @@ public class EmailServiceImpl implements EmailService {
     @Value("${email.smtpHost}")
     private String smtpHost;
 
-    /**
-     * Length of the email verify code
-     */
-    private static final int CODE_LEN = 6;
-
     @Override
     public String sendEmail(String receiver) {
         if (!emailService) {
-            return "";
+            return null;
         }
         // Generate the verify code in length randomly
-        String verifyCode = NumberUtils.generateDigitalCode(CODE_LEN);
-
+        String verifyCode = NumberUtils.digitalCodeString(Email.CODE_LENGTH);
         try {
             // try to send the email to the email address of the receiver
             EmailUtils.sendEmail(sender, password, smtpHost, receiver, verifyCode);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return "";
         }
         return verifyCode;
     }

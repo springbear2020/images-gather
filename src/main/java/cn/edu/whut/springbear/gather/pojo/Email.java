@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @Data
 @NoArgsConstructor
-public class EmailLog implements Serializable {
+public class Email implements Serializable {
     private static final long serialVersionUID = -7702847140100066460L;
 
     private Integer id;
@@ -21,7 +21,9 @@ public class EmailLog implements Serializable {
     private Date deliveryDatetime;
     private Integer userId;
 
-    public EmailLog(String email, String code, Date deliveryDatetime, Integer userId) {
+    public static final int CODE_LENGTH = 6;
+
+    public Email(String email, String code, Date deliveryDatetime, Integer userId) {
         this.email = email;
         this.code = code;
         this.deliveryDatetime = deliveryDatetime;

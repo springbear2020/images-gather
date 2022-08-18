@@ -1,4 +1,4 @@
-package cn.edu.whut.springbear.gather.pojo;
+package cn.edu.whut.springbear.gather.pojo.entity;
 
 import lombok.Data;
 

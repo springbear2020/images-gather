@@ -1,12 +1,21 @@
 package cn.edu.whut.springbear.gather.service.impl;
 
+import cn.edu.whut.springbear.gather.mapper.ClassMapper;
+import cn.edu.whut.springbear.gather.mapper.GradeMapper;
+import cn.edu.whut.springbear.gather.mapper.SchoolMapper;
 import cn.edu.whut.springbear.gather.mapper.UserMapper;
+import cn.edu.whut.springbear.gather.pojo.Class;
+import cn.edu.whut.springbear.gather.pojo.Grade;
+import cn.edu.whut.springbear.gather.pojo.School;
 import cn.edu.whut.springbear.gather.pojo.User;
 import cn.edu.whut.springbear.gather.service.UserService;
+import cn.edu.whut.springbear.gather.util.DateUtils;
+import cn.edu.whut.springbear.gather.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Spring-_-Bear
@@ -16,44 +25,95 @@ import java.util.Date;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private SchoolMapper schoolMapper;
+    @Autowired
+    private GradeMapper gradeMapper;
+    @Autowired
+    private ClassMapper classMapper;
 
     @Override
-    public User queryUser(String username, String password) {
-        return userMapper.queryUser(username, password);
+    public User getUser(String condition, String password) {
+        return userMapper.getUser(condition, password);
     }
 
     @Override
-    public boolean updateLoginDatetime(Integer userId, Date date) {
-        return userMapper.updateUserById(new User(userId, date)) == 1;
+    public boolean updateUser(User user) {
+        return userMapper.updateUser(user) == 1;
     }
 
     @Override
-    public User queryUserByUsernameAndEmail(String username, String email) {
+    public User getUserByUsernameAndEmail(String username, String email) {
         return userMapper.getUserByUsernameAndEmail(username, email);
     }
 
     @Override
-    public boolean updateUserPassword(Integer userId, String newPassword) {
-        return userMapper.updateUserById(new User(userId, newPassword)) == 1;
+    public int saveUsersBatch(List<User> userList) {
+        User userOne = userList.get(1);
+        // Verify the existences of the school, grade and class
+        School school = schoolMapper.getSchool(userOne.getSchool());
+        if (school == null) {
+            // Create school, return the generated auto increment key
+            school = new School();
+            school.setSchool(userOne.getSchool());
+            schoolMapper.saveSchool(school);
+        }
+        Grade grade = gradeMapper.getGradeOfSchool(userOne.getGrade(), school.getId());
+        if (grade == null) {
+            // Create grade and save the correspond relation between school and grade
+            grade = new Grade();
+            grade.setGrade(userOne.getGrade());
+            gradeMapper.saveGrade(grade);
+            gradeMapper.saveSchoolGrade(school.getId(), grade.getId());
+        }
+        Class classObj = classMapper.getClassOfGrade(userOne.getClassName(), grade.getId());
+        if (classObj == null) {
+            // Create class  and save correspond relation between grade and class
+            classObj = new Class();
+            classObj.setClassName(userOne.getClassName());
+            classMapper.saveClass(classObj);
+            classMapper.saveGradeClass(grade.getId(), classObj.getId());
+        }
+
+        int affectedRows = 0;
+        // Traverse the all people list TODO Transactional?
+        for (User user : userList) {
+            // Register user, encrypt the password
+            user.setPassword(MD5Utils.md5Encrypt(user.getUsername()));
+            user.setClassId(classObj.getId());
+            user.setGradeId(grade.getId());
+            user.setSchoolId(school.getId());
+            user.setUserType(User.TYPE_STUDENT);
+            user.setUserStatus(User.STATUS_NORMAL);
+            user.setCreateDatetime(new Date());
+            user.setLastLoginDatetime(DateUtils.parseString("1970-01-01"));
+            if (userMapper.saveUser(user) == 1) {
+                affectedRows++;
+            }
+        }
+        return affectedRows;
     }
 
-    @Override
-    public boolean updateUserEmailAndPhone(String newEmail, String newPhone, Integer userId) {
-        return userMapper.updateUserById(new User(userId, newPhone, newEmail)) == 1;
-    }
 
     @Override
-    public User queryUser(Integer userId) {
-        return userMapper.getUserById(userId);
-    }
-
-    @Override
-    public boolean updateUserType(Integer userId, Integer userType) {
-        return userMapper.updateUserById(new User(userId, userType)) == 1;
+    public List<User> listUsersOfClass(Integer classId) {
+        return userMapper.listUsersOfClass(classId);
     }
 
     @Override
     public boolean saveUser(User user) {
+        user.setClassId(0);
+        user.setPassword(MD5Utils.md5Encrypt(user.getUsername()));
+        user.setUserType(User.TYPE_GRADE_TEACHER);
+        user.setUserType(User.TYPE_GRADE_TEACHER);
+        user.setUserStatus(User.STATUS_NORMAL);
+        user.setCreateDatetime(new Date());
+        user.setLastLoginDatetime(DateUtils.parseString("1970-01-01"));
         return userMapper.saveUser(user) == 1;
+    }
+
+    @Override
+    public User getUser(Integer userId) {
+        return userMapper.getUserById(userId);
     }
 }

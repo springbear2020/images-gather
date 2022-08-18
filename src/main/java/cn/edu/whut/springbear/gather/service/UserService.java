@@ -2,7 +2,6 @@ package cn.edu.whut.springbear.gather.service;
 
 import cn.edu.whut.springbear.gather.pojo.User;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,42 +10,37 @@ import java.util.List;
  */
 public interface UserService {
     /**
-     * Verify the correctness of user by username and password
+     * Verify the correctness of user by password and (username,phone,email)
      */
-    User queryUser(String username, String password);
+    User getUser(String condition, String password);
 
     /**
-     * Update the login datetime of the user
+     * Update user's information of the field is not null
      */
-    boolean updateLoginDatetime(Integer userId, Date date);
+    boolean updateUser(User user);
 
     /**
      * Get user by username and email
      */
-    User queryUserByUsernameAndEmail(String username, String email);
+    User getUserByUsernameAndEmail(String username, String email);
 
     /**
-     * Update the login password of the user by user id
+     * Save users in batch
      */
-    boolean updateUserPassword(Integer userId, String newPassword);
+    int saveUsersBatch(List<User> userList);
 
     /**
-     * Update the email and phone number of the user
+     * Get all user list of the class
      */
-    boolean updateUserEmailAndPhone(String newEmail, String newPhone, Integer userId);
-
-    /**
-     * Get user by user id
-     */
-    User queryUser(Integer userId);
-
-    /**
-     * Update the user type of user
-     */
-    boolean updateUserType(Integer userId, Integer userType);
+    List<User> listUsersOfClass(Integer classId);
 
     /**
      * Save user
      */
     boolean saveUser(User user);
+
+    /**
+     * Get user by id
+     */
+    User getUser(Integer userId);
 }

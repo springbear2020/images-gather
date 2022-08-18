@@ -1,6 +1,5 @@
 package cn.edu.whut.springbear.gather.service;
 
-import cn.edu.whut.springbear.gather.pojo.People;
 import cn.edu.whut.springbear.gather.pojo.Upload;
 import cn.edu.whut.springbear.gather.pojo.User;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,32 +11,32 @@ import org.springframework.web.multipart.MultipartFile;
 public interface TransferService {
     /**
      * Save the the three image files to the local physical disk,
-     * if save all images save successfully then return a Upload object contains the images' access url or return null
+     * if save all images save successfully then return a Upload object contains the images' access url
      *
-     * @param userWithStudent User info with student
-     * @param realPath        The real path of '/' parse by the server(context path)
-     * @param healthImage     Health image file
-     * @param scheduleImage   Schedule image file
-     * @param closedImage     Closed image file
+     * @param user          User
+     * @param realPath      The real path of '/' parse by the server(webapp)
+     * @param healthImage   Health image file
+     * @param scheduleImage Schedule image file
+     * @param closedImage   Closed image file
      * @return Upload or null
      */
-    Upload saveImageFilesToDisk(User userWithStudent, String realPath, String userTodayPath, MultipartFile healthImage, MultipartFile scheduleImage, MultipartFile closedImage);
+    Upload saveImageFilesToDisk(User user, String realPath, String userTodayPath, MultipartFile healthImage, MultipartFile scheduleImage, MultipartFile closedImage);
 
     /**
-     * Save the three image files to the Qiniu cloud,
+     * Upload the three image files to the Qiniu cloud,
      * if all images upload successfully to the Qiniu cloud server then return Upload
-     * which the cloud images' access url from the Qiniu cloud or return original Upload object
+     * which including the cloud images' access url from the Qiniu cloud
      *
      * @param upload   Upload created by edu.whut.springbear.gather.service.TransferService#saveImageFilesToDisk(...)
-     * @param realPath The real path of '/' parse by the server(context path)
+     * @param realPath The real path of '/' parse by the server(webapp)
      * @return Upload
      */
     Upload pushImagesToQiniu(Upload upload, String realPath);
 
     /**
-     * Create a new file named README.txt contains the student list (unLogin, unUpload, completed),
+     * Create a new file named README.txt contains the user list (unLogin, unUpload, completed)
      */
-    boolean createReadmeFile(String realPath, String dateStr, People people);
+    boolean createReadmeFile(String realPath, String dateStr, User user);
 
     /**
      * Compress the specified directory, if process something going wrong then return null
@@ -45,10 +44,10 @@ public interface TransferService {
      *
      * @return Null or compress file absolute path
      */
-    String compressDirectory(String realPath, String dateStr, People people);
+    String compressDirectory(String realPath, String dateStr, User user);
 
     /**
-     * Save the class data excel file
+     * Save the user list excel file uploaded by admin
      */
-    String saveExcelFile(String realPath, MultipartFile excelFile);
+    String saveUploadExcelFile(String realPath, MultipartFile excelFile);
 }

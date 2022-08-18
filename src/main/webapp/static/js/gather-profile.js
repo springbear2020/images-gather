@@ -13,15 +13,15 @@ $(function () {
      */
 
     // Display the information of the user
-    function displayPersonalProfile(user, people) {
+    function displayPersonalProfile(user) {
         // Class info
-        $(".li-school").text(people.school == null ? "" : people.school);
-        $(".li-grade").text(people.grade == null ? "" : people.grade);
-        $(".li-class").text(people.className == null ? "" : people.className);
+        $(".li-school").text(user.school);
+        $(".li-grade").text(user.grade);
+        $(".li-class").text(user.className);
 
         // Personal info
-        $(".div-student-name").text(people.name)
-        var sex = people.sex;
+        $(".div-student-name").text(user.name)
+        var sex = user.sex;
         if ("男" == sex) {
             $("#personal-sex-man").attr("checked", true);
         } else if ("女" == sex) {
@@ -29,8 +29,8 @@ $(function () {
         } else {
             $("#personal-sex-secret").attr("checked", true);
         }
-        $("#personal-phone").val(people.phone == null ? "" : people.phone);
-        $("#personal-email").val(people.email == null ? "" : people.email);
+        $("#personal-phone").val(user.phone);
+        $("#personal-email").val(user.email);
 
         // User info
         $(".div-username").text(user.username);
@@ -54,12 +54,12 @@ $(function () {
     }
 
     $.ajax({
-        url: contextPath + "people.do",
+        url: contextPath + "user.do",
         type: "get",
         dataType: "json",
         success: function (response) {
             if (CODE_SUCCESS == response.code) {
-                displayPersonalProfile(response.resultMap.item, response.resultMap.item.people);
+                displayPersonalProfile(response.resultMap.item);
             } else {
                 showNoticeModal(response.code, response.msg);
             }
@@ -127,7 +127,7 @@ $(function () {
 
             // Ask the server to update the user's personal info
             $.ajax({
-                url: contextPath + "people.do",
+                url: contextPath + "user.do",
                 type: "post",
                 data: "_method=put&newSex=" + newSex + "&newPhone=" + newPhone + "&newEmail=" + newEmail,
                 dataType: "json",

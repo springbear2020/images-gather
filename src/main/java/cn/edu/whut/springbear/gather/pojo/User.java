@@ -1,9 +1,9 @@
 package cn.edu.whut.springbear.gather.pojo;
 
+import cn.edu.whut.springbear.gather.util.poi.annation.SheetColumnName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,7 +13,6 @@ import java.util.Date;
  * @datetime 2022-08-10 23:58 Wednesday
  */
 @Data
-@NoArgsConstructor
 public class User implements Serializable {
     private static final long serialVersionUID = -4649863508706693629L;
 
@@ -30,50 +29,42 @@ public class User implements Serializable {
     public static final int TYPE_HEAD_TEACHER = 3;
     public static final int TYPE_GRADE_TEACHER = 4;
     public static final int TYPE_ADMIN = 5;
+    /**
+     * User sex
+     */
+    public static final int SEX_MALE = 0;
+    public static final int SEX_FEMALE = 1;
+    public static final int SEX_SECRET = 2;
 
     private Integer id;
+    @SheetColumnName("学号")
     private String username;
     @JsonIgnore
     private String password;
+    @SheetColumnName("电话")
+    private String phone;
+    @SheetColumnName("邮箱")
+    private String email;
+    @SheetColumnName("姓名")
+    private String name;
+    @SheetColumnName("性别")
+    private String sex;
+    private Integer schoolId;
+    private Integer gradeId;
+    private Integer classId;
+    private Integer userType;
+    private Integer userStatus;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastLoginDatetime;
-    private String phone;
-    private String email;
-    private Integer userStatus;
-    private Integer userType;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createDatetime;
 
-    public User(Integer id, Date lastLoginDatetime) {
-        this.id = id;
-        this.lastLoginDatetime = lastLoginDatetime;
-    }
-
-    public User(Integer id, String password) {
-        this.id = id;
-        this.password = password;
-    }
-
-    public User(Integer id, String phone, String email) {
-        this.id = id;
-        this.phone = phone;
-        this.email = email;
-    }
-
-    public User(String username, String password, Date lastLoginDatetime, String phone, String email, Integer userStatus, Integer userType, Date createDatetime) {
-        this.username = username;
-        this.password = password;
-        this.lastLoginDatetime = lastLoginDatetime;
-        this.phone = phone;
-        this.email = email;
-        this.userStatus = userStatus;
-        this.userType = userType;
-        this.createDatetime = createDatetime;
-    }
-
-    public User(Integer id, Integer userType) {
-        this.id = id;
-        this.userType = userType;
-    }
-
-    private People people;
+    @SheetColumnName("学校")
+    private String school;
+    @SheetColumnName("年级")
+    private String grade;
+    @SheetColumnName("班级")
+    private String className;
+    @SheetColumnName("备注")
+    private String comment;
 }

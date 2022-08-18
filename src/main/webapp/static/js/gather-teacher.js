@@ -15,7 +15,7 @@ $(function () {
     }
 
     $.ajax({
-        url: contextPath + "people.do",
+        url: contextPath + "user.do",
         method: "get",
         dataType: "json",
         async: false,
@@ -24,7 +24,7 @@ $(function () {
                 // Type of user
                 USER_TYPE = response.resultMap.item.userType;
                 // Welcome user
-                $(".welcome-teacher").text(response.resultMap.item.people.name);
+                $(".welcome-teacher").text(response.resultMap.item.name);
                 // Latest login data
                 setLatestLoginData(response.resultMap.loginLog);
             }

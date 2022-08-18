@@ -16,10 +16,10 @@ import java.util.List;
 @Repository
 public interface GradeMapper {
     /**
-     * Get the all class number id of current grade
+     * Get the all class number ids of current grade
      */
     @Select("select class_id from r_grade_class where grade_id = #{gradeId}")
-    List<Integer> getClassesOfGrade(@Param("gradeId") Integer gradeId);
+    List<Integer> listClassIdsOfGrade(@Param("gradeId") Integer gradeId);
 
     /**
      * Save grade
@@ -29,21 +29,26 @@ public interface GradeMapper {
     int saveGrade(Grade grade);
 
     /**
-     * Save the correspondence between schools and grades
+     * Save the correspondence between school and grade
      */
     @Insert("insert into r_school_grade(school_id, grade_id) values (#{schoolId},#{gradeId})")
     int saveSchoolGrade(@Param("schoolId") Integer schoolId, @Param("gradeId") Integer gradeId);
 
     /**
-     * Get the grade info from the school and grade relation table,
-     * to verify the existences of current grade about the school
+     * Get the grade information from the school and grade relation table
      */
-    @Select("select t_grade.* from t_grade, r_school_grade where id = grade_id and grade = #{gradeName} and school_id = #{schoolId}")
+    @Select("select t_grade.* from t_grade, r_school_grade where grade = #{gradeName} and id = grade_id and school_id = #{schoolId}")
     Grade getGradeOfSchool(@Param("gradeName") String gradeName, @Param("schoolId") Integer schoolId);
 
     /**
-     * Get all grade list of the school
+     * Get all grades of the school
      */
     @Select("select * from t_grade where id in (select grade_id from r_school_grade WHERE school_id = #{schoolId})")
-    List<Grade> getGradesOfSchool(@Param("schoolId") Integer schoolId);
+    List<Grade> listGradesOfSchool(@Param("schoolId") Integer schoolId);
+
+    /**
+     * Get grade name by grade id
+     */
+    @Select("select grade from t_grade where id = #{gradeId}")
+    String getGradeNameById(@Param("gradeId") Integer gradeId);
 }

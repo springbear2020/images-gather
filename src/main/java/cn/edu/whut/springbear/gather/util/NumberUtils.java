@@ -10,7 +10,7 @@ public class NumberUtils {
     /**
      * Generate the digital code string in length
      */
-    public static String generateDigitalCode(int len) {
+    public static String digitalCodeString(int len) {
         int[] nums = new int[]{1, 7, 9, 3, 5, 0, 6, 8, 2, 4};
         StringBuilder sb = new StringBuilder();
         for (int j = 1; j <= len; j++) {

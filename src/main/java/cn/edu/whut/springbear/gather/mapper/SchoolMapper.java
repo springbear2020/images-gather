@@ -26,11 +26,17 @@ public interface SchoolMapper {
      * Get school by name
      */
     @Select("select * from  t_school where school = #{schoolName}")
-    School getSchoolByName(@Param("schoolName") String schoolName);
+    School getSchool(@Param("schoolName") String schoolName);
 
     /**
      * Get all schools
      */
     @Select("select * from t_school")
-    List<School> getAllSchools();
+    List<School> listSchools();
+
+    /**
+     * Get school name by id
+     */
+    @Select("select school from t_school where id = #{schoolId}")
+    String getSchoolNameById(@Param("schoolId") Integer schoolId);
 }

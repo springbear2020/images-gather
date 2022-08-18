@@ -1,8 +1,8 @@
 package cn.edu.whut.springbear.gather.service;
 
 
-import cn.edu.whut.springbear.gather.pojo.EmailLog;
-import cn.edu.whut.springbear.gather.pojo.LoginLog;
+import cn.edu.whut.springbear.gather.pojo.Email;
+import cn.edu.whut.springbear.gather.pojo.Login;
 import cn.edu.whut.springbear.gather.pojo.Upload;
 import com.github.pagehelper.PageInfo;
 
@@ -15,47 +15,47 @@ import java.util.List;
  */
 public interface RecordService {
     /**
-     * Save the login log of the user
+     * Save login log of the user
      */
     boolean saveLoginLog(String ip, Integer userId);
 
     /**
-     * Create the upload record of student on today
+     * Create the upload of user on today
      */
-    boolean createStudentUploadToday(Integer userId);
+    boolean createUserUploadToday(Integer userId);
 
     /**
-     * Save the verify code sent record
+     * Save verify code send log
      */
-    boolean saveEmailLog(EmailLog emailLog);
+    boolean saveEmailLog(Email email);
 
     /**
-     * Get the upload record of the student filter by date and status of upload
+     * Get the upload of the user filter by date and status
      */
-    Upload getStudentUpload(Integer userId, Date date, Integer uploadStatus);
+    Upload getUserUpload(Integer userId, Date date, Integer uploadStatus);
 
     /**
-     * Update the upload record of user, including uploadStatus, uploadDateTime, three images' local and cloud access url
+     * Update the upload of user, including uploadStatus, uploadDateTime, three images' local and cloud access url
      */
-    boolean updateUploadImagesUrl(Upload upload);
+    boolean updateUpload(Upload upload);
 
     /**
      * Get the login page data of user
      */
-    PageInfo<LoginLog> getUserLoginLogPageData(Integer userId, Integer pageNum);
+    PageInfo<Login> listUserLoginLogPageData(Integer userId, Integer pageNum);
 
     /**
-     * Get the upload record history page data of the user
+     * Get the upload page data of user
      */
-    PageInfo<Upload> getUserUploadPageData(Integer userId, Integer uploadStatus, Integer pageNum);
+    PageInfo<Upload> listUserUploadPageData(Integer userId, Integer uploadStatus, Integer pageNum);
 
     /**
-     * Get the upload list of class contains the relevant people name at specified date
+     * Get the upload list of class contains the relevant user real name on specified date
      */
-    List<Upload> getUploadsOfClassWithName(Integer classId, Integer uploadStatus, Date date);
+    List<Upload> listUploadsOfClass(Integer classId, Integer uploadStatus, Date date);
 
     /**
      * Get the latest login log data of the user
      */
-    LoginLog getUserLatestLoginLog(Integer userId);
+    Login getUserLatestLoginLog(Integer userId);
 }

@@ -9,7 +9,7 @@ public interface EmailService {
      * Send an email to the email address of the receiver
      *
      * @param receiver Email address of the receiver
-     * @return If email send successfully then return the email verify code or return null
+     * @return null: Email service is off;    "": email sent failed;    codeString: email send successfully
      */
     String sendEmail(String receiver);
 }

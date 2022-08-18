@@ -24,7 +24,7 @@ public class UploadMapperTest {
 
     @Test
     public void getUploadsOfClassWithName() {
-        List<Upload> uploadList = uploadMapper.getUploadsOfClassWithName(4, Upload.STATUS_COMPLETED, new Date());
+        List<Upload> uploadList = uploadMapper.listUploadsOfClassWithName(4, Upload.STATUS_COMPLETED, new Date());
         uploadList.forEach(System.out::println);
     }
 }

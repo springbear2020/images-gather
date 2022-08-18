@@ -32,13 +32,19 @@ public class Upload {
     private Date createDatetime;
 
     /**
-     * Name of people
+     * User real name of current upload record
      */
     private String name;
 
-    public Upload(Integer uploadStatus, Date uploadDatetime, Integer userId, Date createDatetime) {
+    public Upload(Integer uploadStatus, Date uploadDatetime, String localHealthUrl, String localScheduleUrl, String localClosedUrl, String cloudHealthUrl, String cloudScheduleUrl, String cloudClosedUrl, Integer userId, Date createDatetime) {
         this.uploadStatus = uploadStatus;
         this.uploadDatetime = uploadDatetime;
+        this.localHealthUrl = localHealthUrl;
+        this.localScheduleUrl = localScheduleUrl;
+        this.localClosedUrl = localClosedUrl;
+        this.cloudHealthUrl = cloudHealthUrl;
+        this.cloudScheduleUrl = cloudScheduleUrl;
+        this.cloudClosedUrl = cloudClosedUrl;
         this.userId = userId;
         this.createDatetime = createDatetime;
     }
