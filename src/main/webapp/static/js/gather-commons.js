@@ -4,8 +4,8 @@
  * =====================================================================================================================
  */
 // TODO Replace the context path when environment changed
-// var contextPath = "http://192.168.0.16:8686/";
-var contextPath = "https://whut.springbear2020.cn/";
+var contextPath = "http://192.168.0.16:8686/";
+// var contextPath = "https://whut.springbear2020.cn/";
 // Images' url
 var notChooseImageUrl = contextPath + "static/img/notChoose.png";
 var invalidImageUrl = contextPath + "static/img/invalid.png";

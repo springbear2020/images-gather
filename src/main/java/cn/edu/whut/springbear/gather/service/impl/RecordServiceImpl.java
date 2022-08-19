@@ -63,7 +63,7 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public Upload getUserUpload(Integer userId, Date date, Integer uploadStatus) {
-        return uploadMapper.getUpload(userId, uploadStatus, date);
+        return uploadMapper.getUploadOfUser(userId, uploadStatus, date);
     }
 
     @Override

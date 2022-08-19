@@ -86,8 +86,6 @@ $(function () {
             return;
         }
 
-        // TODO Image verify code
-
         var $btn = $(this);
         $btn.attr("disabled", 'disabled');
         isObtainButtonClicked = true;

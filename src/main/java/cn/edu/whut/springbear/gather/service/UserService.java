@@ -35,7 +35,7 @@ public interface UserService {
     List<User> listUsersOfClass(Integer classId);
 
     /**
-     * Save user
+     * Save grade teacher
      */
-    boolean saveUser(User user);
+    boolean saveGradeTeacher(User user);
 }

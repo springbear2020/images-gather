@@ -103,10 +103,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean saveUser(User user) {
+    public boolean saveGradeTeacher(User user) {
         user.setClassId(0);
         user.setPassword(MD5Utils.md5Encrypt(user.getUsername()));
-        user.setUserType(User.TYPE_GRADE_TEACHER);
         user.setUserType(User.TYPE_GRADE_TEACHER);
         user.setUserStatus(User.STATUS_NORMAL);
         user.setCreateDatetime(new Date());

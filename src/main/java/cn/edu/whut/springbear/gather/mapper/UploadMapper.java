@@ -27,7 +27,7 @@ public interface UploadMapper {
      * filter the result by the upload status
      */
     @Select("select * from t_upload where user_id = #{userId} and upload_status = #{uploadStatus} and DATE_FORMAT(upload_datetime,'%Y-%m-%d') = #{uploadDatetime,jdbcType=DATE}")
-    Upload getUpload(@Param("userId") Integer userId, @Param("uploadStatus") Integer uploadStatus, @Param("uploadDatetime") Date uploadDatetime);
+    Upload getUploadOfUser(@Param("userId") Integer userId, @Param("uploadStatus") Integer uploadStatus, @Param("uploadDatetime") Date uploadDatetime);
 
     /**
      * Update upload if the field is not null

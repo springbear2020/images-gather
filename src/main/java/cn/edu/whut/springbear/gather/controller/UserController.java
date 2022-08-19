@@ -181,7 +181,6 @@ public class UserController {
         // Save the email send log
         recordService.saveEmailLog(new Email(email, code, new Date(), user.getId()));
 
-        // TODO Redis to replace with session 10min
         session.setAttribute("emailVerifyCode", code);
         return Response.success("邮箱验证码发送成功，请查收");
     }
@@ -263,7 +262,7 @@ public class UserController {
         if (admin.getUserType() != User.TYPE_ADMIN) {
             return Response.error("权限不足，禁止新增年级主任");
         }
-        if (!userService.saveUser(user)) {
+        if (!userService.saveGradeTeacher(user)) {
             return Response.error("保存人员信息失败");
         }
         return Response.success("新增年级主任成功");

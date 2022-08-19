@@ -29,12 +29,6 @@ public class User implements Serializable {
     public static final int TYPE_HEAD_TEACHER = 3;
     public static final int TYPE_GRADE_TEACHER = 4;
     public static final int TYPE_ADMIN = 5;
-    /**
-     * User sex
-     */
-    public static final int SEX_MALE = 0;
-    public static final int SEX_FEMALE = 1;
-    public static final int SEX_SECRET = 2;
 
     private Integer id;
     @SheetColumnName("学号")

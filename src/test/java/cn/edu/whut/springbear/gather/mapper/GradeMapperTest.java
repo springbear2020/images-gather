@@ -31,4 +31,9 @@ public class GradeMapperTest {
         List<Grade> gradeList = gradeMapper.listGradesOfSchool(1);
         gradeList.forEach(System.out::println);
     }
+
+    @Test
+    public void getGradeNameById() {
+        System.out.println(gradeMapper.getGradeNameById(1));
+    }
 }

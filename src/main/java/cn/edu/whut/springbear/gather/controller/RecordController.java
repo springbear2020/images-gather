@@ -126,7 +126,7 @@ public class RecordController {
         // Get the classes list of current grade with class not completed total numbers
         List<Class> classList = schoolService.listNotCompletedClasses(user.getGradeId(), specifiedDate);
         if (classList == null || classList.size() == 0) {
-            return Response.info("当前账号下不存在班级信息");
+            return Response.info("当前年级下不存在班级信息");
         }
 
         return Response.success("查询年级上传记录成功").put("list", classList);

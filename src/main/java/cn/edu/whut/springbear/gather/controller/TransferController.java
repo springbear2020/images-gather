@@ -71,7 +71,6 @@ public class TransferController {
             return Response.error("更新上传记录失败");
         }
 
-        // TODO Python images identify
         return Response.success("今日【两码一查】已上传");
     }
 
@@ -144,6 +143,6 @@ public class TransferController {
         }
         // Class data import
         int affectedRows = userService.saveUsersBatch(userList);
-        return Response.success("共 " + userList.size() + " 条用户数据，成功导入 " + affectedRows + " 条");
+        return Response.success("共 " + userList.size() + " 条数据，成功导入 " + affectedRows + " 条");
     }
 }
