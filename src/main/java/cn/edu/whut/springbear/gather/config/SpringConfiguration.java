@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -22,8 +24,9 @@ import java.util.Properties;
  * @datetime 2022-08-10 22:17 Wednesday
  */
 @Configuration
+@EnableTransactionManagement
 @PropertySource("classpath:jdbc.properties")
-@ComponentScan(basePackages = {"cn.edu.whut.springbear.gather.mapper", "cn.edu.whut.springbear.gather.service.impl"})
+@ComponentScan(basePackages = {"cn.edu.whut.springbear.gather.mapper", "cn.edu.whut.springbear.gather.service.impl", "cn.edu.whut.springbear.gather.interceptor"})
 public class SpringConfiguration {
     /**
      * Druid data source
@@ -72,6 +75,14 @@ public class SpringConfiguration {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setBasePackage("cn.edu.whut.springbear.gather.mapper");
         return mapperScannerConfigurer;
+    }
+
+    /**
+     * Transaction manager
+     */
+    @Bean
+    public DataSourceTransactionManager getDataSourceTransactionManager(DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 }
 

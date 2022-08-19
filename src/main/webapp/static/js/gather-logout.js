@@ -10,7 +10,7 @@ $(function () {
             type: "get",
             dataType: "json",
             success: function (response) {
-                window.location.href = contextPath + "static/html/login.html";
+                window.location.href = contextPath;
             },
             error: function () {
                 showNoticeModal(CODE_WARN, "请求注销登录失败，请稍后重试");

@@ -51,11 +51,5 @@ public interface UserMapper {
      * Get user by username and email
      */
     @Select("select * from t_user where username = #{username} and email = #{email}")
-    User getUserByUsernameAndEmail(@Param("username") String username, @Param("password") String password);
-
-    /**
-     * Get user by user id
-     */
-    @Select("select * from t_user where id = #{userId}")
-    User getUserById(@Param("userId") Integer userId);
+    User getUserByUsernameAndEmail(@Param("username") String username, @Param("email") String email);
 }

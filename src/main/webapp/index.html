@@ -1,10 +1,74 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="User login page">
+    <meta name="author" content="Spring-_-Bear">
+    <link rel="icon" href="static/img/favicon.png">
+
     <title>两码一查</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../webapp/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../webapp/static/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../webapp/static/css/gather-login.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script charset="UTF-8" src="../webapp/static/js/html5shiv.min.js"></script>
+    <script charset="UTF-8" src="../webapp/static/js/respond.min.js">
+    <![endif]-->
 </head>
 <body>
-<h1>两码一查</h1>
+<div class="container">
+    <!-- Form for user login -->
+    <form class="form-signin">
+        <!-- Title -->
+        <h2 class="form-signin-heading text-center">欢迎登录</h2>
+        <!-- Login notice message -->
+        <div class="error-msg"></div>
+        <!-- Username -->
+        <label for="inputUsername" class="sr-only">用户名</label>
+        <input type="text" id="inputUsername" name="username" class="form-control" placeholder="用户名 / 手机号 / 邮箱" required autofocus>
+        <!-- Password -->
+        <label for="inputPassword" class="sr-only">密码</label>
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="密码" required>
+        <!-- Remember me -->
+        <div class="checkbox">
+            <label><input class="remember-me" type="checkbox" name="rememberMe" value="yes">记住我</label>
+            <a class="forget-password" href="../webapp/static/html/reset.html">忘记密码？</a>
+        </div>
+        <!-- Login button -->
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登&nbsp;&nbsp;&nbsp;录</button>
+    </form>
+
+    <!-- Copyright -->
+    <footer class="form-signin text-center copyright">
+        <p>&copy; 2022 Spring-_-Bear</p>
+        <p id="runtime"></p>
+    </footer>
+</div>
+
+<!-- Bootstrap core JavaScript
+  ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="static/js/jquery-1.12.4.min.js" charset="utf-8"></script>
+<script>window.jQuery || document.write('<script src="static/js/jquery.min.js" charset="utf-8"><\/script>')</script>
+<script src="static/js/bootstrap.min.js" charset="utf-8" ></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="static/js/ie10-viewport-bug-workaround.js" charset = "utf-8"></script>
+
+<!-- Custom JavaScript -->
+<script src="../webapp/static/js/md5.js" charset="utf-8"></script>
+<script src="../webapp/static/js/gather-commons.js" charset="utf-8"></script>
+<script src="../webapp/static/js/gather-utils.js" charset="utf-8"></script>
+<script src="../webapp/static/js/gather-runtime.js" charset="utf-8"></script>
+<script src="../webapp/static/js/gather-login.js" charset="utf-8"></script>
+
 </body>
 </html>

@@ -182,18 +182,18 @@ $(function () {
         // Traverser the images have uploaded list
         $.each(uploadedList, function (index, upload) {
             // Health image access url
-            var localHealthUrl = upload.localHealthUrl == null ? "" : upload.localHealthUrl;
-            var cloudHealthUrl = upload.cloudHealthUrl == null ? "" : upload.cloudHealthUrl;
+            var localHealthUrl = upload.localHealthUrl;
+            var cloudHealthUrl = upload.cloudHealthUrl;
             var healthAccessUrl = cloudHealthUrl.length == 0 ? contextPath + localHealthUrl : cloudHealthUrl;
             healthAccessUrl = healthAccessUrl == contextPath ? invalidImageUrl : healthAccessUrl;
             // Schedule image access url
-            var localScheduleUrl = upload.localScheduleUrl == null ? "" : upload.localScheduleUrl;
-            var cloudScheduleUrl = upload.cloudScheduleUrl == null ? "" : upload.cloudScheduleUrl;
+            var localScheduleUrl = upload.localScheduleUrl;
+            var cloudScheduleUrl = upload.cloudScheduleUrl;
             var scheduleAccessUrl = cloudScheduleUrl.length == 0 ? contextPath + localScheduleUrl : cloudScheduleUrl;
             scheduleAccessUrl = scheduleAccessUrl == contextPath ? invalidImageUrl : scheduleAccessUrl;
             // Closed image access url
-            var localClosedUrl = upload.localClosedUrl == null ? "" : upload.localClosedUrl;
-            var cloudClosedUrl = upload.cloudClosedUrl == null ? "" : upload.cloudClosedUrl;
+            var localClosedUrl = upload.localClosedUrl;
+            var cloudClosedUrl = upload.cloudClosedUrl;
             var closedAccessUrl = cloudClosedUrl.length == 0 ? contextPath + localClosedUrl : cloudClosedUrl;
             closedAccessUrl = closedAccessUrl == contextPath ? invalidImageUrl : closedAccessUrl;
 

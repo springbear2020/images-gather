@@ -13,6 +13,7 @@ import cn.edu.whut.springbear.gather.util.DateUtils;
 import cn.edu.whut.springbear.gather.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -48,6 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int saveUsersBatch(List<User> userList) {
         User userOne = userList.get(1);
         // Verify the existences of the school, grade and class
@@ -76,7 +78,7 @@ public class UserServiceImpl implements UserService {
         }
 
         int affectedRows = 0;
-        // Traverse the all people list TODO Transactional?
+        // Traverse the all people list
         for (User user : userList) {
             // Register user, encrypt the password
             user.setPassword(MD5Utils.md5Encrypt(user.getUsername()));
@@ -110,10 +112,5 @@ public class UserServiceImpl implements UserService {
         user.setCreateDatetime(new Date());
         user.setLastLoginDatetime(DateUtils.parseString("1970-01-01"));
         return userMapper.saveUser(user) == 1;
-    }
-
-    @Override
-    public User getUser(Integer userId) {
-        return userMapper.getUserById(userId);
     }
 }

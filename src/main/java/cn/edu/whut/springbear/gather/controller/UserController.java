@@ -24,6 +24,7 @@ import java.util.List;
  * @datetime 2022-08-10 23:23 Wednesday
  */
 @RestController
+@CrossOrigin
 public class UserController {
     @Autowired
     private UserService userService;
@@ -47,11 +48,11 @@ public class UserController {
         if ("true".equals(rememberMe)) {
             Cookie usernameCookie = new Cookie("username", username);
             usernameCookie.setMaxAge(60 * 60 * 24 * 7);
-            usernameCookie.setPath("/static/html/login.html");
+            usernameCookie.setPath("/");
             response.addCookie(usernameCookie);
             Cookie passwordCookie = new Cookie("password", password);
             passwordCookie.setMaxAge(60 * 60 * 24 * 7);
-            passwordCookie.setPath("/static/html/login.html");
+            passwordCookie.setPath("/");
             response.addCookie(passwordCookie);
         }
 
@@ -194,22 +195,6 @@ public class UserController {
         // Get the latest login log of the user
         Login login = recordService.getUserLatestLoginLog(user.getId());
         return Response.success("查询个人信息成功").put("item", user).put("loginLog", login);
-    }
-
-    /**
-     * Admin
-     */
-    @GetMapping("/user/{userId}.do")
-    public Response getUserById(@PathVariable("userId")Integer userId, HttpSession session) {
-        User admin = (User) session.getAttribute("user");
-        if (admin.getUserType() != User.TYPE_ADMIN) {
-            return Response.error("权限不足，禁止查看用户信息");
-        }
-        User user = userService.getUser(userId);
-        if (user == null) {
-            return Response.info("用户信息不存在");
-        }
-        return Response.success("查询用户信息成功").put("item", user);
     }
 
     /**

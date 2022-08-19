@@ -179,7 +179,7 @@ $(function () {
                     let countingTime = 3;
                     let timer = setInterval(function () {
                         if (countingTime <= 0) {
-                            location.href = contextPath + "static/html/login.html";
+                            location.href = contextPath;
                             clearInterval(timer);
                         }
                         countingTime--;

@@ -33,8 +33,8 @@ $(function () {
             passwordFromCookie = "";
             $("#inputUsername").val("");
             $("#inputPassword").val("");
-            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/static/html/login.html";
-            document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/static/html/login.html";
+            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+            document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
         }
     });
 
@@ -43,16 +43,16 @@ $(function () {
         $("input[type='checkbox']").attr("checked", false);
         usernameFromCookie = "";
         passwordFromCookie = "";
-        document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/static/html/login.html";
-        document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/static/html/login.html";
+        document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 
     });
     $("#inputPassword").change(function () {
         $("input[type='checkbox']").attr("checked", false);
         usernameFromCookie = "";
         passwordFromCookie = "";
-        document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/static/html/login.html";
-        document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/static/html/login.html";
+        document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 
     });
 

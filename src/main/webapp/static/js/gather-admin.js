@@ -160,6 +160,22 @@ $(function () {
                 $.each(userList, function (index, user) {
                     var $tr = $("<tr></tr>").appendTo($ancestor);
                     $("<td></td>").append(user.id).appendTo($tr);
+                    var userTypeStr = "";
+                    switch (user.userType) {
+                        case USER_TYPE_STUDENT:
+                            userTypeStr = "学生";
+                            break;
+                        case USER_TYPE_MONITOR:
+                            userTypeStr = "班长";
+                            break;
+                        case USER_TYPE_HEAD_TEACHER:
+                            userTypeStr = "班主任";
+                            break;
+                        case USER_TYPE_GRADE_TEACHER:
+                            userTypeStr = "年级主任";
+                            break;
+                    }
+                    $("<td></td>").append(userTypeStr).attr("userType", user.userType).appendTo($tr);
                     $("<td></td>").append(user.name).appendTo($tr);
                     $("<td></td>").append(user.sex).appendTo($tr);
                     $("<td></td>").append(user.username).appendTo($tr);
@@ -197,44 +213,26 @@ $(function () {
         // Edit people role
         $(".people-edit").click(function () {
             var $tr = $(this).parent().parent().children();
-            var name = $tr.eq(1).text();
             var userId = $tr.eq(0).text();
+            var userType = $tr.eq(1).attr("userType");
+            var name = $tr.eq(2).text();
+            $(".people-name").text(name);
             // Set user id for radio button
             $("input[type=radio][name=role-manage]").attr("userId", userId);
-
-            // Get user information
-            $.ajax({
-                url: contextPath + "user/" + userId + ".do",
-                type: "get",
-                dataType: "json",
-                success: function (response) {
-                    if (CODE_SUCCESS == response.code) {
-                        // Set people name for modal title
-                        $(".people-name").text(name);
-                        // Check different role according to the user type
-                        var userType = response.resultMap.item.userType;
-                        switch (userType) {
-                            case USER_TYPE_STUDENT:
-                                $("#people-student").attr("checked", true);
-                                break;
-                            case USER_TYPE_MONITOR:
-                                $("#people-monitor").attr("checked", true);
-                                break;
-                            case USER_TYPE_HEAD_TEACHER:
-                                $("#people-head-teacher").attr("checked", true);
-                                break;
-                        }
-                        // Open the modal
-                        $("#people-info-modal").modal({
-                            backdrop: "static"
-                        });
-                    } else {
-                        showNoticeModal(response.code, response.msg);
-                    }
-                },
-                error: function () {
-                    showNoticeModal(CODE_WARN, "请求查询用户信息失败，请稍后重试");
-                }
+            switch (parseInt(userType)) {
+                case USER_TYPE_STUDENT:
+                    $("#people-student").attr("checked", true);
+                    break;
+                case USER_TYPE_MONITOR:
+                    $("#people-monitor").attr("checked", true);
+                    break;
+                case USER_TYPE_HEAD_TEACHER:
+                    $("#people-head-teacher").attr("checked", true);
+                    break;
+            }
+            // Open the modal
+            $("#people-info-modal").modal({
+                backdrop: "static"
             });
         });
 

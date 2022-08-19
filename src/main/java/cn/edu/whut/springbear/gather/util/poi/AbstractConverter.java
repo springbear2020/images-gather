@@ -44,7 +44,7 @@ public abstract class AbstractConverter {
                 // Sheet column name corresponding to the current field
                 String columnName = fieldAnnotation.value();
                 if (columnName.length() > 0) {
-                    // TODO same columnName on different fields caused null problems
+                    // TODO Same columnName on different fields caused null problems
                     validFieldMap.put(columnName, field);
                 }
             }

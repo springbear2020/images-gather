@@ -38,9 +38,4 @@ public interface UserService {
      * Save user
      */
     boolean saveUser(User user);
-
-    /**
-     * Get user by id
-     */
-    User getUser(Integer userId);
 }
