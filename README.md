@@ -3,6 +3,21 @@
 
 # 一、快速开始
 
+1. 克隆仓库：使用 Git 克隆仓库或直接下载仓库压缩包到您的计算机
+2. 打开工程：使用 `IntelliJ IDEA`  打开克隆的仓库或解压的工程文件，而后使用 `Maven` 工具更新工程依赖
+3. 创建数据库和表：
+   - 登录 MySQL ，创建 `images_gather` 数据库
+   - 将 `src/main/resources/images_gather.sql` 文件中的数据库表导入 images_gather 数据库中
+4. 修改配置信息：
+
+   - 修改 `src/main/webapp/static/js/gather-common.js` 中的 `contextPath` 变量值，此为前端请求路径
+
+   - 修改 `src/main/resources/jdbc.properties` 中的数据库连接信息，设置你自己的用户名和密码
+   - 修改 `src/main/resources/qiniu.properties` 中的七牛云配置信息，设置你自己的 [七牛云](https://www.qiniu.com/) 账号信息
+   - 修改 `src/main/resources/email.properties` 中的邮箱配置信息，设置你自己的邮箱账号信息（[smtp 开启](https://blog.csdn.net/smilehappiness/article/details/108145215)）
+   - 修改 `src/main/resources/baidu.properties` 中的百度地图 IP 解析配置信息，设置你自己的 [百度地图](https://lbsyun.baidu.com/) IP 解析 URL
+5. 部署访问：在 IntelliJ IDEA 中配置 `Tomcat`，即可访问两码一查首页
+
 
 # 二、背景调查
 

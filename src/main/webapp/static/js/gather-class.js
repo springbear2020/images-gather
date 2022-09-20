@@ -31,7 +31,6 @@ $(function () {
 
         // Check the specified day history click event
         $(".nav-record-history").click(function () {
-            // TODO Hide the top nav on mobile device
             $(".navbar-toggle").addClass("collapsed").attr("aria-expanded", false);
             var $selectedDate = $(this).text();
             $(".date-download").text($selectedDate);
