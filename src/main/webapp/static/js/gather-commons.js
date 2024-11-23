@@ -3,7 +3,7 @@
  * Constants
  * =====================================================================================================================
  */
-var contextPath = "http://localhost:8080/";
+var contextPath = "/images-gather/";
 // Images' url
 var notChooseImageUrl = contextPath + "static/img/notChoose.png";
 var invalidImageUrl = contextPath + "static/img/invalid.png";

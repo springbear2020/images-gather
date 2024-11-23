@@ -139,6 +139,7 @@
     </dependencies>
 
     <build>
+        <finalName>images-gather</finalName>
         <plugins>
             <!-- Fix the problem Error assembling WAR: web.xml attribute is required -->
             <plugin>
